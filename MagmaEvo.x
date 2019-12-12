@@ -48,6 +48,9 @@ static void forceLayerUpdate(NSArray *layers) {
 			if (sublayer.backgroundColor != nil) sublayer.backgroundColor = sublayer.backgroundColor;
 			if (sublayer.borderColor != nil) sublayer.borderColor = sublayer.borderColor;
 			if (sublayer.contentsMultiplyColor != nil) sublayer.contentsMultiplyColor = sublayer.contentsMultiplyColor;
+
+			// Fix dark mode toggle being always white
+			if (sublayer.filters != nil && [sublayer.name isEqual:@"outer"]) sublayer.filters = nil;
 		}
 
 		forceLayerUpdate(sublayer.sublayers);
@@ -86,18 +89,9 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [UIColor.magentaColor CGColor];
 			} else {
 				// Default white
-				return [[UIColor colorWithRed:1.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
+				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 		}
-		// else if ([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)]) {
-		// 	// ((UIView*)currentLayer.delegate).backgroundColor = [UIColor blackColor];
-		// 	if ([((CCUILabeledRoundButtonViewController*)controller) isEnabled]) {
-		// 		return [UIColor.magentaColor CGColor];
-		// 	} else {
-		// 		// Default white
-		// 		return [[UIColor colorWithRed:1.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
-		// 	}
-		// }
 	}
 
 	return originalColor;
