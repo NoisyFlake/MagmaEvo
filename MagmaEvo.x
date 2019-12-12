@@ -39,6 +39,16 @@
 	}
 %end
 
+%hook _UIStatusBar
+	-(UIColor *)foregroundColor {
+		if ([self.containerView._viewControllerForAncestor isMemberOfClass:%c(CCUIModularControlCenterOverlayViewController)]) {
+			return [UIColor greenColor];
+		} else {
+			return %orig;
+		}
+	}
+%end
+
 static void forceLayerUpdate(NSArray *layers) {
 	for (CALayer *sublayer in layers) {
 		if ([sublayer isMemberOfClass:%c(CAShapeLayer)]) {

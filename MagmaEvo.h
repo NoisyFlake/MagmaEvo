@@ -21,6 +21,10 @@
 -(CCUIToggleModule *)module;
 @end
 
+@interface _UIStatusBar : UIView
+@property (nonatomic,readonly) UIView * containerView;
+@end
+
 @interface CAFilter : NSObject
 @property (copy) NSString * name;
 @end
