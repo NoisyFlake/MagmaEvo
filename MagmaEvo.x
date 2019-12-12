@@ -21,7 +21,7 @@
 	}
 
 	-(void)setContentsMultiplyColor:(CGColorRef)arg1 {
-		// Need to set overwriteEmpty to true in order to color App Launchers
+		// Need to set overwriteEmpty to true in order to color the (regularly uncolored) App Launchers
 		%orig(getColorForLayer(self, arg1, YES));
 	}
 %end
@@ -35,8 +35,6 @@
 %hook CCUIButtonModuleView
 	-(void)setGlyphState:(NSString *)arg1 {
 		%orig;
-		HBLogWarn(@"Forcing Layer Update");
-
 		forceLayerUpdate(self.layer.sublayers);
 	}
 %end
@@ -57,7 +55,13 @@ static void forceLayerUpdate(NSArray *layers) {
 }
 
 static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOOL overwriteEmpty) {
-	if (!overwriteEmpty && (originalColor == nil || (CGColorGetNumberOfComponents(originalColor) >= 4 && CGColorGetComponents(originalColor)[3] == 0))) {
+	if (!overwriteEmpty &&
+		(
+			   originalColor == nil
+			|| ([layer.compositingFilter isMemberOfClass:%c(CAFilter)] && [((CAFilter*)layer.compositingFilter).name isEqual:@"subtractS"]) // Fixes the dark mode toggle (name of the layer: half)
+			|| (CGColorGetNumberOfComponents(originalColor) >= 4 && CGColorGetComponents(originalColor)[3] == 0)
+		)
+	) {
 		return originalColor;
 	}
 
@@ -69,20 +73,32 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 	if ([currentLayer.delegate respondsToSelector:@selector(_viewControllerForAncestor)]) {
 		UIViewController *controller = [((UIView*)currentLayer.delegate) _viewControllerForAncestor];
 		// NSString *description = [controller description];
+		// if ([controller isMemberOfClass:%c(CCUIToggleViewController)]) {
+		// 	CCUIToggleModule *module = ((CCUIToggleViewController *)controller).module;
+		// 	description = [module description];
+		// }
 		// HBLogWarn(@"Controller: %@", description);
 
-		if ([controller isKindOfClass:%c(CCUIAppLauncherViewController)]) {
+		if (([controller isKindOfClass:%c(HUCCModuleContentViewController)] || [controller isKindOfClass:%c(CCUIAppLauncherViewController)]) && layer.contents != nil) {
 			return [UIColor.yellowColor CGColor];
 		} else if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)]) {
 			if ([((CCUIButtonModuleViewController*)controller) isSelected]) {
 				return [UIColor.magentaColor CGColor];
 			} else {
 				// Default white
-				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
+				return [[UIColor colorWithRed:1.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
 			}
 		}
+		// else if ([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)]) {
+		// 	// ((UIView*)currentLayer.delegate).backgroundColor = [UIColor blackColor];
+		// 	if ([((CCUILabeledRoundButtonViewController*)controller) isEnabled]) {
+		// 		return [UIColor.magentaColor CGColor];
+		// 	} else {
+		// 		// Default white
+		// 		return [[UIColor colorWithRed:1.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
+		// 	}
+		// }
 	}
-
 
 	return originalColor;
 }
