@@ -5,13 +5,21 @@
 @interface CCUIButtonModuleView : UIControl
 @end
 
+@interface CCUICAPackageView : UIView
+@end
+
+@interface CCUIRoundButton : UIControl
+@property (nonatomic,retain) UIView * normalStateBackgroundView;
+@property (nonatomic,retain) UIImageView * selectedGlyphView;
+@property (nonatomic,retain) CCUICAPackageView * glyphPackageView;
+@end
+
 @interface CCUIButtonModuleViewController : UIViewController
 @property (assign,getter=isSelected,nonatomic) BOOL selected;
 @end
 
 @interface CCUILabeledRoundButtonViewController : UIViewController
 @property (assign,getter=isEnabled,nonatomic) BOOL enabled;
-@property (nonatomic,retain) UIColor * highlightColor;
 @end
 
 @interface CCUIToggleModule : NSObject
@@ -34,5 +42,6 @@
 @property (retain) CAFilter *compositingFilter;
 @end
 
-static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOOL overwriteEmpty);
-static void forceLayerUpdate(NSArray *layers);
+BOOL prefBool(NSString *key);
+NSString* prefValue(NSString *key);
+void forceLayerUpdate(NSArray *layers);
