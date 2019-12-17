@@ -79,18 +79,9 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
-		}	else if([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)] && prefBool(@"connectivityGlyphOnly")) {
-			// Connectivity Glyphs
-			if ([((CCUILabeledRoundButtonViewController*)controller) isEnabled]) {
-				return [UIColor.magentaColor CGColor];
-			} else {
-				if (![layer.name isEqual:@"disabled"] && ![layer.name isEqual:@"bluetoothdisabled"]) {
-					layer.opacity = 1;
-					return [UIColor.redColor CGColor];
-				} else {
-					layer.opacity = 0;
-				}
-			}
+		} else if([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)]) {
+			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
+			return getConnectivityColor((CCUILabeledRoundButtonViewController*)controller);
 		}
 
 	}

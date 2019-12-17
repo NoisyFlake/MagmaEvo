@@ -28,7 +28,7 @@
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOConnectivity</string>
+				<key>detail</key>                   <string>MEVOConnectivityController</string>
 				<key>icon</key>                     <string>icons/connectivity</string>
 				<key>label</key>                    <string>Connectivity</string>
 		</dict>

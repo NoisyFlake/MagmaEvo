@@ -20,6 +20,11 @@ NSString* prefValue(NSString *key) {
 	return [prefs objectForKey:key] ?: [defaultPrefs objectForKey:key];
 }
 
+BOOL prefValueEquals(NSString *key, NSString *value) {
+	id ret = [prefs objectForKey:key] ?: [defaultPrefs objectForKey:key];
+	return [ret isEqual:value];
+}
+
 static void initPreferences() {
 	// Copy the default preferences file if the actual preference file doesn't exist
 	NSString *path = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";

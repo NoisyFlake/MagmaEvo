@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>                          <string>PSSwitchCell</string>
+			<key>default</key>                       <true/>
+			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                           <string>connectivityHideContainer</string>
+			<key>label</key>                         <string>Hide Container Background</string>
+		</dict>
+
+		<dict>
+				<key>cell</key>                     <string>PSGroupCell</string>
+				<key>label</key>                    <string>State: Enabled</string>
+		</dict>
+		<dict>
+			<key>cell</key>                          <string>PSSegmentCell</string>
+			<key>default</key>                       <string>regular</string>
+			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
+			<key>label</key>                         <string>Mode</string>
+			<key>key</key>                           <string>connectivityMode</string>
+			<key>validTitles</key>
+				<array>
+					<string>Regular</string>
+					<string>Glyph only</string>
+				</array>
+			<key>validValues</key>
+				<array>
+					<string>regular</string>
+					<string>glyphOnly</string>
+				</array>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityAirDropViewControllerEnabled</string>
+				<key>label</key>                    <string>AirDrop</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityAirplaneViewControllerEnabled</string>
+				<key>label</key>                    <string>Airplane Mode</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityBluetoothViewControllerEnabled</string>
+				<key>label</key>                    <string>Bluetooth</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityCellularDataViewControllerEnabled</string>
+				<key>label</key>                    <string>Cellular Data</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerEnabled</string>
+				<key>label</key>                    <string>Hotspot</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityWifiViewControllerEnabled</string>
+				<key>label</key>                    <string>WiFi</string>
+		</dict>
+
+		<dict>
+				<key>cell</key>                     <string>PSGroupCell</string>
+				<key>label</key>                    <string>State Disabled State</string>
+		</dict>
+		<dict>
+			<key>cell</key>                          <string>PSSegmentCell</string>
+			<key>default</key>                       <string>regular</string>
+			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
+			<key>label</key>                         <string>Mode</string>
+			<key>key</key>                           <string>connectivityModeDisabled</string>
+			<key>validTitles</key>
+				<array>
+					<string>Regular</string>
+					<string>Glyph only</string>
+				</array>
+			<key>validValues</key>
+				<array>
+					<string>regular</string>
+					<string>glyphOnly</string>
+				</array>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityAirDropViewControllerDisabled</string>
+				<key>label</key>                    <string>AirDrop</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityAirplaneViewControllerDisabled</string>
+				<key>label</key>                    <string>Airplane Mode</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityBluetoothViewControllerDisabled</string>
+				<key>label</key>                    <string>Bluetooth</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityCellularDataViewControllerDisabled</string>
+				<key>label</key>                    <string>Cellular Data</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerDisabled</string>
+				<key>label</key>                    <string>Hotspot</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>CCUIConnectivityWifiViewControllerDisabled</string>
+				<key>label</key>                    <string>WiFi</string>
+		</dict>
+	</array>
+	<key>title</key>                             <string>Connectivity</string>
+</dict>
+</plist>

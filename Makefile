@@ -10,7 +10,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = MagmaEvo
 
-MagmaEvo_FILES = $(wildcard source/*.x)
+MagmaEvo_FILES = $(wildcard source/*.x source/*.m)
 MagmaEvo_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk

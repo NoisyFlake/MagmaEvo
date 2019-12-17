@@ -1,5 +1,18 @@
+#import "UIColor+MagmaEvo.h"
+
 @interface UIView (MagmaEvo)
 -(id)_viewControllerForAncestor;
+@end
+
+@interface MTMaterialView : UIView
+@end
+
+@interface CCUIContentModuleContainerViewController : UIViewController
+@property (nonatomic,copy) NSString * moduleIdentifier;
+@end
+
+@interface CCUIContentModuleContentContainerView : UIView
+@property (nonatomic,readonly) MTMaterialView * moduleMaterialView;
 @end
 
 @interface CCUIButtonModuleView : UIControl
@@ -44,4 +57,7 @@
 
 BOOL prefBool(NSString *key);
 NSString* prefValue(NSString *key);
+BOOL prefValueEquals(NSString *key, NSString *value);
 void forceLayerUpdate(NSArray *layers);
+
+CGColorRef getConnectivityColor(CCUILabeledRoundButtonViewController *controller);
