@@ -6,6 +6,7 @@
 	<array>
 		<dict>
 			<key>cell</key>                          <string>PSSwitchCell</string>
+			<key>cellClass</key>                     <string>MEVOToggle</string>
 			<key>default</key>                       <true/>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>enabled</string>
@@ -16,13 +17,6 @@
 				<key>cell</key>                     <string>PSGroupCell</string>
 				<key>label</key>                    <string>Modules</string>
 		</dict>
-		<!-- <dict>
-			<key>cell</key>                          <string>PSSwitchCell</string>
-			<key>default</key>                       <true/>
-			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                           <string>connectivityGlyphOnly</string>
-			<key>label</key>                         <string>Connectivity Glyph Only</string>
-		</dict> -->
 
 		<!-- https://github.com/srolfe/fancier/blob/master/fanciersettings/HeaderCell.mm -->
 		<dict>
@@ -37,7 +31,7 @@
 				<key>isController</key>             <true/>
 				<key>detail</key>                   <string>MEVOToggles</string>
 				<key>icon</key>                     <string>icons/toggles</string>
-				<key>label</key>                    <string>Toggles</string>
+				<key>label</key>                    <string>Toggles &amp; Buttons</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -46,6 +40,52 @@
 				<key>icon</key>                     <string>icons/applaunchers</string>
 				<key>label</key>                    <string>App Launchers</string>
 		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>isController</key>             <true/>
+				<key>detail</key>                   <string>MEVOMediaControls</string>
+				<key>icon</key>                     <string>icons/mediacontrols</string>
+				<key>label</key>                    <string>Media Controls</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>isController</key>             <true/>
+				<key>detail</key>                   <string>MEVOSliders</string>
+				<key>icon</key>                     <string>icons/sliders</string>
+				<key>label</key>                    <string>Sliders</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>isController</key>             <true/>
+				<key>detail</key>                   <string>MEVOMisc</string>
+				<key>icon</key>                     <string>icons/misc</string>
+				<key>label</key>                    <string>Miscellaneous</string>
+		</dict>
+
+		<dict>
+				<key>cell</key>                     <string>PSGroupCell</string>
+				<key>label</key>                    <string>Settings</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>icon</key>                     <string>icons/import</string>
+				<key>label</key>                    <string>Import</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>icon</key>                     <string>icons/export</string>
+				<key>label</key>                    <string>Export</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>icon</key>                     <string>icons/reset</string>
+				<key>label</key>                    <string>Reset</string>
+		</dict>
+		<dict>
+    		<key>cell</key>                     <string>PSGroupCell</string>
+        <key>footerText</key> 				      <string>Developed with ♥ by NoisyFlake</string>
+				<key>footerAlignment</key> 			    <string>1</string>
+    </dict>
 	</array>
 	<key>title</key>                             <string></string>
 </dict>

@@ -52,11 +52,9 @@
 		%orig;
 
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
-		HBLogWarn(@"MagmaEvo Got module: %@", module);
 
 		if ([module isEqual:@"com.apple.control-center.FlashlightModule"]) {
 			/* self.moduleMaterialView.alpha = 0; */
-			HBLogWarn(@"MagmaEvo Disabled");
 		}
 
 	}
