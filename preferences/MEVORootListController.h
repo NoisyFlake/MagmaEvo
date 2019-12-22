@@ -7,6 +7,20 @@
 @property (assign,nonatomic) UINavigationBar * navigationBar;
 @end
 
+@interface CCSModuleSettingsProvider : NSObject
++(id)sharedProvider;
+-(id)orderedUserEnabledModuleIdentifiers;
+@end
+
+@interface CCSModuleMetadata : NSObject
+@property (nonatomic,copy,readonly) NSURL* moduleBundleURL;
+@end
+
+@interface CCSModuleRepository : NSObject
++(id)repositoryWithDefaults;
+-(CCSModuleMetadata *)moduleMetadataForModuleIdentifier:(id)arg1;
+@end
+
 @interface MEVOBaseController : PSListController
 @end
 
@@ -14,4 +28,7 @@
 @end
 
 @interface MEVOConnectivityController : MEVOBaseController
+@end
+
+@interface MEVOToggles : MEVOBaseController
 @end

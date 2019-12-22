@@ -2,26 +2,22 @@
 
 %hook CCUILabeledRoundButtonViewController
 	-(id)initWithGlyphImage:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
-
-		if (prefValueEquals(@"connectivityMode", @"glyphOnly")) {
-			arg2 = [UIColor clearColor];
-		} else {
-			NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self class])];
-			if (prefValue(prefKey)) arg2 = [UIColor RGBAColorFromHexString:prefValue(prefKey)];
-		}
-
-		return %orig;
+		return %orig(arg1, [self evoGetToggleColor:arg2], arg3);
 	}
 	-(id)initWithGlyphPackageDescription:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
+		return %orig(arg1, [self evoGetToggleColor:arg2], arg3);
+	}
 
+	%new
+	-(UIColor *)evoGetToggleColor:(UIColor *)color {
 		if (prefValueEquals(@"connectivityMode", @"glyphOnly")) {
-			arg2 = [UIColor clearColor];
+			color = [UIColor clearColor];
 		} else {
 			NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self class])];
-			if (prefValue(prefKey)) arg2 = [UIColor RGBAColorFromHexString:prefValue(prefKey)];
+			if (prefValue(prefKey)) color = [UIColor RGBAColorFromHexString:prefValue(prefKey)];
 		}
 
-		return %orig;
+		return color;
 	}
 %end
 
@@ -49,20 +45,19 @@
 
 %hook CCUIContentModuleContentContainerView
 	-(void)_configureModuleMaterialViewIfNecessary {
-		%orig;
 
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
-
-		if ([module isEqual:@"com.apple.control-center.FlashlightModule"]) {
-			/* self.moduleMaterialView.alpha = 0; */
+		if (module == nil || (prefBool(@"connectivityHideContainer") && [module isEqual:@"com.apple.control-center.ConnectivityModule"])) {
+			return;
 		}
 
+		%orig;
 	}
 %end
 
 CGColorRef getConnectivityColor(CCUILabeledRoundButtonViewController *controller) {
 	NSString *prefKey = [NSString stringWithFormat:@"%@%@", NSStringFromClass([controller class]), [controller isEnabled] ? @"Enabled" : @"Disabled"];
-	UIColor *color = [UIColor RGBAColorFromHexString:prefValue(prefKey)];
+	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor RGBAColorFromHexString:prefValue(prefKey)] : nil;
 
 	if (prefValueEquals(@"connectivityMode", @"glyphOnly") || ![controller isEnabled]) {
 		if (color != nil) return [color CGColor];

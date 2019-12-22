@@ -3,7 +3,7 @@
 @implementation UIColor (MagmaEvo)
 
 +(UIColor *)RGBAColorFromHexString:(NSString *)string {
-    if(string.length == 0) {
+    if(string == nil || string.length == 0) {
         return nil;
     }
 

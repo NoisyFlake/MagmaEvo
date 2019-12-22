@@ -8,7 +8,7 @@ include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = MagmaEvo
 
-MagmaEvo_FILES = $(wildcard *.m CustomCells/*.m ../source/UIColor+MagmaEvo.m)
+MagmaEvo_FILES = $(wildcard *.m *.xm CustomCells/*.m ../source/UIColor+MagmaEvo.m)
 MagmaEvo_INSTALL_PATH = /Library/PreferenceBundles
 MagmaEvo_FRAMEWORKS = UIKit
 MagmaEvo_PRIVATE_FRAMEWORKS = Preferences

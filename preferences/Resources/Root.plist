@@ -31,15 +31,15 @@
 				<key>isController</key>             <true/>
 				<key>detail</key>                   <string>MEVOToggles</string>
 				<key>icon</key>                     <string>icons/toggles</string>
-				<key>label</key>                    <string>Toggles &amp; Buttons</string>
+				<key>label</key>                    <string>Launchers &amp; Toggles</string>
 		</dict>
-		<dict>
+		<!-- <dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
 				<key>detail</key>                   <string>MEVOAppLaunchers</string>
 				<key>icon</key>                     <string>icons/applaunchers</string>
 				<key>label</key>                    <string>App Launchers</string>
-		</dict>
+		</dict> -->
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
@@ -83,7 +83,7 @@
 		</dict>
 		<dict>
     		<key>cell</key>                     <string>PSGroupCell</string>
-        <key>footerText</key> 				      <string>Developed with ♥ by NoisyFlake</string>
+        <key>footerText</key> 				      <string>Version 1.0.1 - NoisyFlake</string>
 				<key>footerAlignment</key> 			    <string>1</string>
     </dict>
 	</array>

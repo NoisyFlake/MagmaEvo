@@ -57,7 +57,7 @@
 -(void)displayAlert {
     NSString *color = [self previewColor];
     if (color == nil) {
-        color = @"#FFFFFF:1.00";
+        color = @"#FF0000:1.00";
     }
 
     UIColor *startColor = [UIColor RGBAColorFromHexString:color];

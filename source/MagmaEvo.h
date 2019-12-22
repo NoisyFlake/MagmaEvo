@@ -1,6 +1,7 @@
 #import "UIColor+MagmaEvo.h"
 
 @interface UIView (MagmaEvo)
+@property (nonatomic,readonly) UIView * _ui_superview; 
 -(id)_viewControllerForAncestor;
 @end
 
@@ -27,15 +28,26 @@
 @property (nonatomic,retain) CCUICAPackageView * glyphPackageView;
 @end
 
-@interface CCUIButtonModuleViewController : UIViewController
-@property (assign,getter=isSelected,nonatomic) BOOL selected;
-@end
-
 @interface CCUILabeledRoundButtonViewController : UIViewController
 @property (assign,getter=isEnabled,nonatomic) BOOL enabled;
+-(UIColor *)evoGetToggleColor:(UIColor *)color;
+@end
+
+@interface CCUIContentModuleContext : NSObject
+@property (nonatomic,copy,readonly) NSString * moduleIdentifier;
+@end
+
+@interface CCUIButtonModuleViewController : UIViewController
+@property (assign,getter=isSelected,nonatomic) BOOL selected;
+@property (assign,getter=isExpanded,nonatomic) BOOL expanded;
+-(CCUIContentModuleContext *)contentModuleContext;
+@end
+
+@interface CCUIMenuModuleViewController : CCUIButtonModuleViewController
 @end
 
 @interface CCUIToggleModule : NSObject
+-(CCUIContentModuleContext *)contentModuleContext;
 @end
 
 @interface CCUIToggleViewController : CCUIButtonModuleViewController

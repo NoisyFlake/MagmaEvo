@@ -7,7 +7,7 @@
 		<dict>
 			<key>cell</key>                          <string>PSSwitchCell</string>
 			<key>cellClass</key>                     <string>MEVOToggle</string>
-			<key>default</key>                       <true/>
+			<key>default</key>                       <false/>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>connectivityHideContainer</string>
 			<key>label</key>                         <string>Hide Container Background</string>
@@ -21,7 +21,6 @@
 			<key>cell</key>                          <string>PSSegmentCell</string>
 			<key>default</key>                       <string>regular</string>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
-			<key>label</key>                         <string>Mode</string>
 			<key>key</key>                           <string>connectivityMode</string>
 			<key>validTitles</key>
 				<array>
@@ -85,7 +84,6 @@
 			<key>cell</key>                          <string>PSSegmentCell</string>
 			<key>default</key>                       <string>regular</string>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
-			<key>label</key>                         <string>Mode</string>
 			<key>key</key>                           <string>connectivityModeDisabled</string>
 			<key>validTitles</key>
 				<array>

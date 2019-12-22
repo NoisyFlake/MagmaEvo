@@ -59,23 +59,45 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 	if ([currentLayer.delegate respondsToSelector:@selector(_viewControllerForAncestor)]) {
 		UIViewController *controller = [((UIView*)currentLayer.delegate) _viewControllerForAncestor];
-		/* NSString *description = [controller description]; */
-		// if ([controller isMemberOfClass:%c(CCUIToggleViewController)]) {
-		// 	CCUIToggleModule *module = ((CCUIToggleViewController *)controller).module;
-		// 	description = [module description];
-		// }
-		/* HBLogWarn(@"Controller: %@", description); */
 
-		if (([controller isKindOfClass:%c(HUCCModuleContentViewController)] || [controller isKindOfClass:%c(CCUIAppLauncherViewController)]) && layer.contents != nil) {
-			// App Launchers and Home Module
-			return [UIColor.yellowColor CGColor];
+		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] || [controller isKindOfClass:%c(HUCCModuleContentViewController)]) {
 
-		} else if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)]) {
-			// Toggle Modules
-			if ([((CCUIButtonModuleViewController*)controller) isSelected]) {
-				return [UIColor.magentaColor CGColor];
+			// Ugly fix for the expanded view of some modules
+			if ([controller respondsToSelector:@selector(isExpanded)] && [(CCUIButtonModuleViewController*)controller isExpanded]) {
+				if (((UIView*)currentLayer.delegate).backgroundColor != nil) return [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
+				if ([((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(CCUIMenuModuleItemView)]) return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00] CGColor];
+				return originalColor;
+			}
+
+			NSString *identifier = nil;
+			if ([controller isKindOfClass:%c(CCUIToggleViewController)]) {
+				CCUIToggleModule *module = ((CCUIToggleViewController *)controller).module;
+				CCUIContentModuleContext *context = [module contentModuleContext];
+				identifier = context.moduleIdentifier;
+			} else if ([controller isKindOfClass:%c(RPControlCenterModuleViewController)]) {
+				identifier = @"com.apple.replaykit.controlcenter.screencapture";
+			} else if ([controller isKindOfClass:%c(CCUIFlashlightModuleViewController)]) {
+				identifier = @"com.apple.control-center.FlashlightModule";
+			} else if ([controller isKindOfClass:%c(MTCCTimerViewController)]) {
+				identifier = @"com.apple.mobiletimer.controlcenter.timer";
+			} else if ([controller isKindOfClass:%c(HUCCModuleContentViewController)]) {
+				identifier = @"com.apple.Home.ControlCenter";
+			}else if([controller respondsToSelector:@selector(contentModuleContext)]) {
+				CCUIContentModuleContext *context = [(CCUIButtonModuleViewController *)controller contentModuleContext];
+				identifier = context.moduleIdentifier;
+			}
+
+			NSString *prefKey = nil;
+			if ([controller respondsToSelector:@selector(isSelected)]) {
+				prefKey = [NSString stringWithFormat:@"%@%@", identifier, [((CCUIButtonModuleViewController*)controller) isSelected] ? @"Enabled" : @"Disabled"];
 			} else {
-				// Default white
+				prefKey = [NSString stringWithFormat:@"%@%@", identifier, @"Disabled"];
+			}
+
+			if (prefValue(prefKey)) return [[UIColor RGBAColorFromHexString:prefValue(prefKey)] CGColor];
+
+			// Reset to white for off state if no other color was chosen
+			if (![controller respondsToSelector:@selector(isSelected)] || ![((CCUIButtonModuleViewController*)controller) isSelected]) {
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
