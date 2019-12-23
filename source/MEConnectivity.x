@@ -55,12 +55,19 @@
 	}
 %end
 
-CGColorRef getConnectivityColor(CCUILabeledRoundButtonViewController *controller) {
+CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller) {
 	NSString *prefKey = [NSString stringWithFormat:@"%@%@", NSStringFromClass([controller class]), [controller isEnabled] ? @"Enabled" : @"Disabled"];
 	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor RGBAColorFromHexString:prefValue(prefKey)] : nil;
 
 	if (prefValueEquals(@"connectivityMode", @"glyphOnly") || ![controller isEnabled]) {
 		if (color != nil) return [color CGColor];
+
+		if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#007AFF"] CGColor];
+		if ([prefKey isEqual:@"CCUIConnectivityAirplaneViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#FF9500"] CGColor];
+		if ([prefKey isEqual:@"CCUIConnectivityBluetoothViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#007AFF"] CGColor];
+		if ([prefKey isEqual:@"CCUIConnectivityCellularDataViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#4CD964"] CGColor];
+		if ([prefKey isEqual:@"CCUIConnectivityHotspotViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#4CD964"] CGColor];
+		if ([prefKey isEqual:@"CCUIConnectivityWifiViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#007AFF"] CGColor];
 	}	else if([controller isEnabled]) {
 		if (color != nil && [color isBrightColor]) return [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
 	}

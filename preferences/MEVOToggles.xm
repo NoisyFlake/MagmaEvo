@@ -11,11 +11,10 @@ BOOL enabledState = YES;
 
 		if (!enabledState) {
 			for (PSSpecifier *spec in appSpecifiers) {
-					HBLogWarn(@"MagmaEvo SPEC: %@", spec);
 				if ([spec.properties[@"key"] isEqual:@"togglesOverlayMode"]) {
 					[appSpecifiers removeObject:spec];
 				} else if ([spec.properties[@"key"] isEqual:@"state"]) {
-					spec.name = @"STATE: DISABLED";
+					spec.name = @"DISABLED STATE";
 				} else if ([spec.properties[@"key"] isEqual:@"switchState"]) {
 					spec.name = @"Switch to Enabled State";
 				}

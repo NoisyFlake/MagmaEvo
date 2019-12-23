@@ -11,15 +11,5 @@
 		<key>togglesHideContainer</key>              <false/>
 		<key>togglesOverlayMode</key>                <string>regular</string>
 
-		<key>com.apple.control-center.OrientationLockModuleEnabled</key>              <string>#FF5A63</string>
-		<key>com.apple.donotdisturb.DoNotDisturbModuleEnabled</key>                   <string>#5E67D6</string>
-		<key>com.apple.control-center.CarModeModuleEnabled</key>                      <string>#5E67D6</string>
-		<key>com.apple.control-center.LowPowerModuleEnabled</key>                     <string>#FFCC00</string>
-		<key>com.apple.replaykit.controlcenter.screencaptureEnabled</key>             <string>#FF0000</string>
-		<key>com.apple.control-center.FlashlightModuleEnabled</key>                   <string>#007AFF</string>
-		<key>com.apple.mediaremote.controlcenter.airplaymirroringEnabled</key>        <string>#007AFF</string>
-		<key>com.apple.control-center.AppearanceModuleEnabled</key>                   <string>#000000</string>
-		<key>com.apple.mobiletimer.controlcenter.timerEnabled</key>                   <string>#FF9500</string>
-
 	</dict>
 </plist>
