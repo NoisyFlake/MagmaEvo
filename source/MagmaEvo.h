@@ -21,6 +21,7 @@
 @end
 
 @interface CCUIButtonModuleView : UIControl
+@property (nonatomic,retain) UIColor * selectedGlyphColor;
 @end
 
 @interface CCUICAPackageView : UIView

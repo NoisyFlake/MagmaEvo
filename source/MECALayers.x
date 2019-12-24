@@ -69,7 +69,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			UIColor *toggleColor = getToggleColor(controller);
 
 			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
-				if (toggleColor == nil) toggleColor = [UIColor RGBAColorFromHexString:@"#007AFF"];
+				if (toggleColor == nil) toggleColor = [UIColor colorWithCGColor:originalColor];
 
 				if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
 					((MTMaterialView*)currentLayer.delegate).configuration = 1;

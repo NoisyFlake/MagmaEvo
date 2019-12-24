@@ -14,7 +14,7 @@
 						subview.hidden = YES;
 						break;
 					} else if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
-						subview.backgroundColor = [UIColor redColor]; // CALayer will handle it later, we just need to call the setter
+						subview.backgroundColor = self.selectedGlyphColor ?: [UIColor RGBAColorFromHexString:@"#007AFF"]; // CALayer will handle it later, we just need to call the setter
 						break;
 					}
 
