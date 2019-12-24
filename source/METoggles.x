@@ -23,6 +23,27 @@
 		}
 
 	}
+
+	-(void)layoutSubviews {
+		%orig;
+
+		// Seriously, fuck the stupid fucking piece of shit AirPlay label
+		UIViewController *controller = self._viewControllerForAncestor;
+		if ([controller isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
+			for (UIView *subview in controller.view.allSubviews) {
+				if ([subview isKindOfClass:%c(UILabel)] && ![subview._ui_superview isKindOfClass:%c(BSUIEmojiLabelView)]) {
+					UIColor *color = getToggleColor(controller);
+
+					if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [((CCUIButtonModuleViewController*)controller) isSelected]) {
+						((UILabel*)subview).textColor = [color isBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+					} else if (color != nil) {
+						((UILabel*)subview).textColor = color;
+					}
+				}
+			}
+		}
+
+	}
 %end
 
 %hook CCUIMenuModuleViewController

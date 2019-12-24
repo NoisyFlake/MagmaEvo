@@ -68,16 +68,16 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 			UIColor *toggleColor = getToggleColor(controller);
 
-				if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
-					if (toggleColor == nil) toggleColor = [UIColor RGBAColorFromHexString:@"#007AFF"];
+			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
+				if (toggleColor == nil) toggleColor = [UIColor RGBAColorFromHexString:@"#007AFF"];
 
-					if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
-						((MTMaterialView*)currentLayer.delegate).configuration = 1;
-						return [toggleColor CGColor];
-					} else {
-						return [toggleColor isBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
-					}
+				if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
+					((MTMaterialView*)currentLayer.delegate).configuration = 1;
+					return [toggleColor CGColor];
+				} else {
+					return [toggleColor isBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 				}
+			}
 
 			if (toggleColor != nil) return [toggleColor CGColor];
 
