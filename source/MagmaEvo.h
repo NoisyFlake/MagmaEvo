@@ -4,11 +4,17 @@
 @property (nonatomic,readonly) UIView * _ui_superview;
 @property (copy,readonly) NSArray * allSubviews;
 @property (assign,nonatomic) long long compositingMode;
+@property (nonatomic,readonly) id parentFocusEnvironment;
 -(id)_viewControllerForAncestor;
 @end
 
 @interface MTMaterialView : UIView
 @property (assign,nonatomic) long long configuration;
+@end
+
+@interface _MTBackdropView : UIView
+@property (nonatomic,copy) UIColor * colorAddColor;
+@property (assign,nonatomic) double brightness;
 @end
 
 @interface CCUIContentModuleContainerViewController : UIViewController
@@ -72,6 +78,8 @@
 @property (retain) CAFilter *compositingFilter;
 @end
 
+// --- Method list --- //
+
 BOOL prefBool(NSString *key);
 NSString* prefValue(NSString *key);
 BOOL prefValueEquals(NSString *key, NSString *value);
@@ -79,3 +87,7 @@ void forceLayerUpdate(NSArray *layers);
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller);
 UIColor *getToggleColor(UIViewController *controller);
+
+// --- Definitions --- //
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

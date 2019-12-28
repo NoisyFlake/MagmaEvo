@@ -76,8 +76,6 @@ BOOL enabledState = YES;
 									    cell:PSLinkCell
 									    edit:Nil];
 
-	/* [specifier setProperty:@YES forKey:@"alpha"]; */
-
 	NSString *key = [NSString stringWithFormat:@"%@%@", [info objectForKey:@"CFBundleIdentifier"], enabledState ? @"Enabled" : @"Disabled"];
 	[specifier setProperty:key forKey:@"key"];
 	[specifier setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];

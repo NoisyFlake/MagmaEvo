@@ -8,7 +8,8 @@
 
 		if (!prefValueEquals(@"togglesOverlayMode", @"regular")) {
 			for (UIView *subview in self.allSubviews) {
-				if ([subview isKindOfClass:%c(MTMaterialView)]) {
+				if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
+						(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
 
 					if (prefValueEquals(@"togglesOverlayMode", @"removeOverlay")) {
 						subview.hidden = YES;
@@ -39,8 +40,29 @@
 					} else if (color != nil) {
 						((UILabel*)subview).textColor = color;
 					}
+
 				}
 			}
+		}
+
+		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
+		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && prefBool(@"togglesHideContainer")) {
+				for (UIView *subview in self.allSubviews) {
+					if ([subview isKindOfClass:%c(MTMaterialView)]) {
+						subview.alpha = 0;
+						break;
+					}
+				}
+
+				if ([self._viewControllerForAncestor isKindOfClass:%c(HACCIconViewController)]) {
+					MTMaterialView *matView = self.parentFocusEnvironment;
+					for (UIView *subview in matView.allSubviews) {
+						if ([subview isKindOfClass:%c(_MTBackdropView)]) {
+							subview.alpha = 0;
+							break;
+						}
+					}
+				}
 		}
 
 	}
@@ -57,7 +79,15 @@
 	-(void)_configureModuleMaterialViewIfNecessary {
 
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
-		if (controller == nil || (prefBool(@"togglesHideContainer") && ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] || [controller isKindOfClass:%c(HUCCModuleContentViewController)]))) {
+		if (controller == nil ||
+			(prefBool(@"togglesHideContainer") && (
+				[controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
+				[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
+				[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
+				[controller isKindOfClass:%c(HACCModuleViewController)]
+				)
+			)
+		) {
 			return;
 		}
 
@@ -79,9 +109,22 @@ UIColor *getToggleColor(UIViewController *controller) {
 		identifier = @"com.apple.mobiletimer.controlcenter.timer";
 	} else if ([controller isKindOfClass:%c(HUCCModuleContentViewController)]) {
 		identifier = @"com.apple.Home.ControlCenter";
+	} else if ([controller isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
+		identifier = @"com.apple.mediaremote.controlcenter.airplaymirroring";
+	} else if ([controller isKindOfClass:%c(HACCIconViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.hearingdevices";
+	} else if ([controller isKindOfClass:%c(AXCCGuidedAccessModuleViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.guidedaccess";
+	} else if ([controller isKindOfClass:%c(AXCCShortcutModuleViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.general";
+	} else if ([controller isKindOfClass:%c(AXCCIconViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.text.size";
 	} else if([controller respondsToSelector:@selector(contentModuleContext)]) {
 		CCUIContentModuleContext *context = [(CCUIButtonModuleViewController *)controller contentModuleContext];
 		identifier = context.moduleIdentifier;
+	} else if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
+		// TV Remote on iOS 12 has no unique way to identify it, so let's assume this is it
+		identifier = @"com.apple.control-center.AppleTVRemoteModule";
 	}
 
 	NSString *prefKey = nil;
@@ -102,6 +145,7 @@ UIColor *getToggleColor(UIViewController *controller) {
 		if ([prefKey isEqual:@"com.apple.mediaremote.controlcenter.airplaymirroringEnabled"]) value = @"#007AFF";
 		if ([prefKey isEqual:@"com.apple.control-center.AppearanceModuleEnabled"]) value = @"#000000";
 		if ([prefKey isEqual:@"com.apple.mobiletimer.controlcenter.timerEnabled"]) value = @"#FF9500";
+		if ([prefKey isEqual:@"com.apple.control-center.MuteModuleEnabled"]) value = @"#FF0000";
 	}
 
 	return value ? [UIColor RGBAColorFromHexString:value] : nil;

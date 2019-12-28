@@ -60,23 +60,31 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 	if ([currentLayer.delegate respondsToSelector:@selector(_viewControllerForAncestor)]) {
 		UIViewController *controller = [((UIView*)currentLayer.delegate) _viewControllerForAncestor];
 
-		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] || [controller isKindOfClass:%c(HUCCModuleContentViewController)]) {
+		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] || [controller isKindOfClass:%c(HUCCModuleContentViewController)] || [controller isKindOfClass:%c(AXCCIconViewController)]) {
 
 			// Ugly fix to restore the default colors for expanded modules (TODO improve this?)
 			if ([layer.compositingFilter isEqual:@"plusD"]) return prefBool(@"togglesHideContainer") ? [[UIColor clearColor] CGColor] : [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
 			if ([((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(CCUIMenuModuleItemView)] || [((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(BSUIEmojiLabelView)]) return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00] CGColor];
+			if ([currentLayer.delegate isKindOfClass:%c(MPAVHighlightedControl)]) return originalColor;
 
 			UIColor *toggleColor = getToggleColor(controller);
 
 			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
 				if (toggleColor == nil) toggleColor = [UIColor colorWithCGColor:originalColor];
 
-				if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
+
+				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
 					((MTMaterialView*)currentLayer.delegate).configuration = 1;
 					return [toggleColor CGColor];
-				} else {
-					return [toggleColor isBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 				}
+
+				if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(_MTBackdropView)]) {
+					((_MTBackdropView*)currentLayer.delegate).colorAddColor = nil;
+					((_MTBackdropView*)currentLayer.delegate).brightness = 0;
+					return [toggleColor CGColor];
+				}
+
+				return [toggleColor isBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
 			if (toggleColor != nil) return [toggleColor CGColor];
