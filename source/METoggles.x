@@ -28,23 +28,6 @@
 	-(void)layoutSubviews {
 		%orig;
 
-		// Seriously, fuck the stupid fucking piece of shit AirPlay label
-		UIViewController *controller = self._viewControllerForAncestor;
-		if ([controller isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
-			for (UIView *subview in controller.view.allSubviews) {
-				if ([subview isKindOfClass:%c(UILabel)] && ![subview._ui_superview isKindOfClass:%c(BSUIEmojiLabelView)]) {
-					UIColor *color = getToggleColor(controller);
-
-					if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [((CCUIButtonModuleViewController*)controller) isSelected]) {
-						((UILabel*)subview).textColor = [color isBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
-					} else if (color != nil) {
-						((UILabel*)subview).textColor = color;
-					}
-
-				}
-			}
-		}
-
 		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
 		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && prefBool(@"togglesHideContainer")) {
 				for (UIView *subview in self.allSubviews) {
@@ -65,6 +48,25 @@
 				}
 		}
 
+	}
+%end
+
+%hook UILabel
+	-(void)setTextColor:(UIColor *)arg1 {
+		
+		// Fix the stupid AirPlay label color
+		if ([self._viewControllerForAncestor isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
+			UIColor *color = getToggleColor(self._viewControllerForAncestor);
+			if (color != nil) {
+				if ([self._viewControllerForAncestor isSelected] && prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
+					arg1 = [color isBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+				} else {
+					arg1 = color;
+				}
+			}
+		}
+
+		%orig;
 	}
 %end
 
