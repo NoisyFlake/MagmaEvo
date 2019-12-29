@@ -10,7 +10,7 @@
 
 	%new
 	-(UIColor *)evoGetToggleColor:(UIColor *)color {
-		if (prefValueEquals(@"connectivityMode", @"glyphOnly")) {
+		if (prefValueEquals(@"connectivityModeEnabled", @"glyphOnly")) {
 			color = [UIColor clearColor];
 		} else {
 			NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self class])];
@@ -59,7 +59,7 @@ CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *contr
 	NSString *prefKey = [NSString stringWithFormat:@"%@%@", NSStringFromClass([controller class]), [controller isEnabled] ? @"Enabled" : @"Disabled"];
 	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor RGBAColorFromHexString:prefValue(prefKey)] : nil;
 
-	if (prefValueEquals(@"connectivityMode", @"glyphOnly") || ![controller isEnabled]) {
+	if (prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") || ![controller isEnabled]) {
 		if (color != nil) return [color CGColor];
 
 		if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) return [[UIColor RGBAColorFromHexString:@"#007AFF"] CGColor];

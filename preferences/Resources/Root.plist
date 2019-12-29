@@ -29,17 +29,10 @@
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOToggles</string>
+				<key>detail</key>                   <string>MEVOTogglesController</string>
 				<key>icon</key>                     <string>icons/toggles</string>
 				<key>label</key>                    <string>Launchers &amp; Toggles</string>
 		</dict>
-		<!-- <dict>
-				<key>cell</key>                     <string>PSLinkCell</string>
-				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOAppLaunchers</string>
-				<key>icon</key>                     <string>icons/applaunchers</string>
-				<key>label</key>                    <string>App Launchers</string>
-		</dict> -->
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>

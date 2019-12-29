@@ -5,7 +5,7 @@
 		<key>enabled</key>                           <true/>
 
 		<key>connectivityHideContainer</key>         <false/>
-		<key>connectivityMode</key>                  <string>regular</string>
+		<key>connectivityModeEnabled</key>                  <string>regular</string>
 		<key>connectivityModeDisabled</key>          <string>regular</string>
 
 		<key>togglesHideContainer</key>              <false/>

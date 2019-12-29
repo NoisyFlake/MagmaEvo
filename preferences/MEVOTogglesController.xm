@@ -1,15 +1,15 @@
 #include "MEVORootListController.h"
 #include "CoreFoundation/CoreFoundation.h"
 
-BOOL enabledState = YES;
+BOOL mevoEnabledState = YES;
 
-@implementation MEVOToggles
+@implementation MEVOTogglesController
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
 		NSMutableArray *appSpecifiers = [self loadSpecifiersFromPlistName:@"Toggles" target:self];
 
-		if (!enabledState) {
+		if (!mevoEnabledState) {
 			for (PSSpecifier *spec in appSpecifiers) {
 				if ([spec.properties[@"key"] isEqual:@"togglesOverlayMode"]) {
 					[appSpecifiers removeObject:spec];
@@ -43,12 +43,12 @@ BOOL enabledState = YES;
 }
 
 - (void)viewDidLoad {
-	enabledState = YES;
+	mevoEnabledState = YES;
 	[super viewDidLoad];
 }
 
 - (void)switchState {
-	enabledState = !enabledState;
+	mevoEnabledState = !mevoEnabledState;
 	[self reloadSpecifiers];
 }
 
@@ -76,7 +76,7 @@ BOOL enabledState = YES;
 									    cell:PSLinkCell
 									    edit:Nil];
 
-	NSString *key = [NSString stringWithFormat:@"%@%@", [info objectForKey:@"CFBundleIdentifier"], enabledState ? @"Enabled" : @"Disabled"];
+	NSString *key = [NSString stringWithFormat:@"%@%@", [info objectForKey:@"CFBundleIdentifier"], mevoEnabledState ? @"Enabled" : @"Disabled"];
 	[specifier setProperty:key forKey:@"key"];
 	[specifier setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];
 	[specifier setProperty:NSClassFromString(@"MEVOColorPicker") forKey:@"cellClass"];
