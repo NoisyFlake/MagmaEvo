@@ -32,3 +32,6 @@
 
 @interface MEVOTogglesController : MEVOBaseController
 @end
+
+@interface MEVOMediaControlsController : MEVOBaseController
+@end

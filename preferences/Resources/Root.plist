@@ -36,7 +36,7 @@
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOMediaControls</string>
+				<key>detail</key>                   <string>MEVOMediaControlsController</string>
 				<key>icon</key>                     <string>icons/mediacontrols</string>
 				<key>label</key>                    <string>Media Controls</string>
 		</dict>

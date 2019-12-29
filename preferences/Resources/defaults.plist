@@ -5,11 +5,14 @@
 		<key>enabled</key>                           <true/>
 
 		<key>connectivityHideContainer</key>         <false/>
-		<key>connectivityModeEnabled</key>                  <string>regular</string>
+		<key>connectivityModeEnabled</key>           <string>regular</string>
 		<key>connectivityModeDisabled</key>          <string>regular</string>
 
 		<key>togglesHideContainer</key>              <false/>
 		<key>togglesOverlayMode</key>                <string>regular</string>
+
+		<key>mediaControlsHideContainer</key>        <false/>
+		<key>mediaControlsColorLockscreen</key>      <false/>
 
 	</dict>
 </plist>

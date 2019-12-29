@@ -94,8 +94,18 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			}
 
 		} else if([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)]) {
+
 			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
 			return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
+
+		}	else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
+			
+			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
+				if (prefValue(@"mediaControlsSlider") && (((MRPlatterViewController *)controller).style != 3 || prefBool(@"mediaControlsColorLockscreen"))) {
+					return [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
+				}
+			}
+
 		}
 
 	}

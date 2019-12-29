@@ -57,6 +57,33 @@
 @interface CCUIMenuModuleViewController : CCUIButtonModuleViewController
 @end
 
+@interface MPButton : UIButton
+@end
+
+@interface MediaControlsTransportButton : MPButton
+@end
+
+@interface MediaControlsTransportStackView : UIView
+@property (nonatomic,retain) MediaControlsTransportButton * leftButton;
+@property (nonatomic,retain) MediaControlsTransportButton * middleButton;
+@property (nonatomic,retain) MediaControlsTransportButton * rightButton;
+@property (assign,nonatomic) long long style;
+@end
+
+@interface MediaControlsHeaderView : UIView
+@property (nonatomic,retain) UILabel * primaryLabel;
+@property (nonatomic,retain) UILabel * secondaryLabel;
+@property (assign,nonatomic) long long style;
+@property (assign,nonatomic) long long buttonType;
+@end
+
+@interface MediaControlsMaterialView : UIView
+@end
+
+@interface MRPlatterViewController : UIViewController
+@property(nonatomic) long long style;
+@end
+
 @interface CCUIToggleModule : NSObject
 -(CCUIContentModuleContext *)contentModuleContext;
 @end
