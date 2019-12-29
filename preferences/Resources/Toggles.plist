@@ -32,6 +32,7 @@
 		</dict>
 		<dict>
 			<key>cell</key>                          <string>PSSegmentCell</string>
+			<key>cellClass</key>                     <string>MEVOSegment</string>
 			<key>default</key>                       <string>regular</string>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>togglesOverlayMode</string>
