@@ -53,7 +53,7 @@
 
 %hook UILabel
 	-(void)setTextColor:(UIColor *)arg1 {
-		
+
 		// Fix the stupid AirPlay label color
 		if ([self._viewControllerForAncestor isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
 			UIColor *color = getToggleColor(self._viewControllerForAncestor);
@@ -99,35 +99,18 @@
 
 UIColor *getToggleColor(UIViewController *controller) {
 	NSString *identifier = nil;
-	if ([controller isKindOfClass:%c(CCUIToggleViewController)]) {
-		CCUIToggleModule *module = ((CCUIToggleViewController *)controller).module;
-		CCUIContentModuleContext *context = [module contentModuleContext];
-		identifier = context.moduleIdentifier;
-	} else if ([controller isKindOfClass:%c(RPControlCenterModuleViewController)]) {
-		identifier = @"com.apple.replaykit.controlcenter.screencapture";
-	} else if ([controller isKindOfClass:%c(CCUIFlashlightModuleViewController)]) {
-		identifier = @"com.apple.control-center.FlashlightModule";
-	} else if ([controller isKindOfClass:%c(MTCCTimerViewController)]) {
-		identifier = @"com.apple.mobiletimer.controlcenter.timer";
-	} else if ([controller isKindOfClass:%c(HUCCModuleContentViewController)]) {
-		identifier = @"com.apple.Home.ControlCenter";
-	} else if ([controller isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
-		identifier = @"com.apple.mediaremote.controlcenter.airplaymirroring";
-	} else if ([controller isKindOfClass:%c(HACCIconViewController)]) {
-		identifier = @"com.apple.accessibility.controlcenter.hearingdevices";
-	} else if ([controller isKindOfClass:%c(AXCCGuidedAccessModuleViewController)]) {
-		identifier = @"com.apple.accessibility.controlcenter.guidedaccess";
-	} else if ([controller isKindOfClass:%c(AXCCShortcutModuleViewController)]) {
-		identifier = @"com.apple.accessibility.controlcenter.general";
-	} else if ([controller isKindOfClass:%c(AXCCIconViewController)]) {
-		identifier = @"com.apple.accessibility.controlcenter.text.size";
-	} else if([controller respondsToSelector:@selector(contentModuleContext)]) {
-		CCUIContentModuleContext *context = [(CCUIButtonModuleViewController *)controller contentModuleContext];
-		identifier = context.moduleIdentifier;
+
+	UIViewController *parentController = controller.parentViewController;
+	if ([parentController isKindOfClass:%c(CCUIContentModuleContainerViewController)]) {
+		identifier = ((CCUIContentModuleContainerViewController *)parentController).moduleIdentifier;
+	} else if ([parentController.parentViewController isKindOfClass:%c(CCUIContentModuleContainerViewController)]) {
+		identifier = ((CCUIContentModuleContainerViewController *)parentController.parentViewController).moduleIdentifier;
 	} else if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
 		// TV Remote on iOS 12 has no unique way to identify it, so let's assume this is it
 		identifier = @"com.apple.control-center.AppleTVRemoteModule";
 	}
+
+	if (identifier == nil) return nil;
 
 	NSString *prefKey = nil;
 	if ([controller respondsToSelector:@selector(isSelected)]) {
