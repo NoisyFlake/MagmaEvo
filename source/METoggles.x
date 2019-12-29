@@ -1,6 +1,34 @@
 #import "MagmaEvo.h"
 
 %hook CCUIButtonModuleView
+	-(void)didMoveToWindow {
+		%orig;
+
+		// Update layers after a respring (because only now some modules will have an identifier)
+		forceLayerUpdate(self.layer.sublayers);
+
+		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
+		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && prefBool(@"togglesHideContainer")) {
+				for (UIView *subview in self.allSubviews) {
+					if ([subview isKindOfClass:%c(MTMaterialView)]) {
+						subview.alpha = 0;
+						break;
+					}
+				}
+
+				if ([self._viewControllerForAncestor isKindOfClass:%c(HACCIconViewController)]) {
+					MTMaterialView *matView = self.parentFocusEnvironment;
+					for (UIView *subview in matView.allSubviews) {
+						if ([subview isKindOfClass:%c(_MTBackdropView)]) {
+							subview.alpha = 0;
+							break;
+						}
+					}
+				}
+		}
+
+	}
+
 	-(void)setSelected:(BOOL)arg1 {
 		%orig;
 
@@ -21,31 +49,6 @@
 
 				}
 			}
-		}
-
-	}
-
-	-(void)layoutSubviews {
-		%orig;
-
-		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
-		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && prefBool(@"togglesHideContainer")) {
-				for (UIView *subview in self.allSubviews) {
-					if ([subview isKindOfClass:%c(MTMaterialView)]) {
-						subview.alpha = 0;
-						break;
-					}
-				}
-
-				if ([self._viewControllerForAncestor isKindOfClass:%c(HACCIconViewController)]) {
-					MTMaterialView *matView = self.parentFocusEnvironment;
-					for (UIView *subview in matView.allSubviews) {
-						if ([subview isKindOfClass:%c(_MTBackdropView)]) {
-							subview.alpha = 0;
-							break;
-						}
-					}
-				}
 		}
 
 	}
