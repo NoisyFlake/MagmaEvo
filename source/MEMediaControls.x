@@ -12,8 +12,10 @@
   -(void)layoutSubviews {
     %orig;
 
+    UIViewController *controller = self._viewControllerForAncestor;
+
     // Don't color controls on the lockscreen
-    if (self.style == 3 && !prefBool(@"mediaControlsColorLockscreen")) return;
+    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && !prefBool(@"mediaControlsColorLockscreen")) return;
 
     if (prefValue(@"mediaControlsLeftButton") != nil) {
       MediaControlsTransportButton *leftButton = self.leftButton;
@@ -37,8 +39,10 @@
   -(void)_updateStyle {
     %orig;
 
+    UIViewController *controller = self._viewControllerForAncestor;
+
     // Don't color controls on the lockscreen or the AirPlay view under the expanded View
-    if ((self.style == 3 && !prefBool(@"mediaControlsColorLockscreen")) || self.buttonType == 0) return;
+    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && !prefBool(@"mediaControlsColorLockscreen")) || self.buttonType == 0) return;
 
     if (prefValue(@"mediaControlsPrimaryLabel") != nil) {
       self.primaryLabel.textColor = [UIColor RGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];

@@ -99,9 +99,9 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
 
 		}	else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
-			
+
 			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
-				if (prefValue(@"mediaControlsSlider") && (((MRPlatterViewController *)controller).style != 3 || prefBool(@"mediaControlsColorLockscreen"))) {
+				if (prefValue(@"mediaControlsSlider") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
 					return [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
 				}
 			}
