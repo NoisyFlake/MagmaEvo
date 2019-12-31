@@ -65,19 +65,31 @@
 	-(void)_setupPortraitButtons {
 		%orig;
 
-		NSArray *newOrder = [self mevoGetToggleOrder:self.portraitButtonViewControllers];
-		if (newOrder != nil) [self setPortraitButtonViewControllers:newOrder];
+		NSArray *newOrder = [self evoGetToggleOrder:self.portraitButtonViewControllers];
+		if ([newOrder count] != 0) {
+			[self setPortraitButtonViewControllers:newOrder];
+		} else {
+			// Write them to the preference file so we know which ones are available later
+			NSString *path = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
+			NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+
+			for (int i = 0; i < [self.portraitButtonViewControllers count]; i++) {
+				[settings setObject:NSStringFromClass([self.portraitButtonViewControllers[i] class]) forKey:[NSString stringWithFormat:@"connectivityPosition%d", i]];
+			}
+
+			[settings writeToFile:path atomically:YES];
+		}
 	}
 
 	-(void)_setupLandscapeButtons {
 		%orig;
 
-		NSArray *newOrder = [self mevoGetToggleOrder:self.landscapeButtonViewControllers];
-		if (newOrder != nil) [self setLandscapeButtonViewControllers:newOrder];
+		NSArray *newOrder = [self evoGetToggleOrder:self.landscapeButtonViewControllers];
+		if ([newOrder count] != 0) [self setLandscapeButtonViewControllers:newOrder];
 	}
 
 	%new
-	-(NSArray*)mevoGetToggleOrder:(NSArray *)originalOrder {
+	-(NSArray*)evoGetToggleOrder:(NSArray *)originalOrder {
 
 		NSMutableArray *newOrder = [NSMutableArray arrayWithCapacity: 6];
 		for (int i = 0; i < 6; i++) {
@@ -92,19 +104,6 @@
 		}
 
 		[newOrder removeObjectIdenticalTo:[NSNull null]];
-
-		if ([newOrder count] == 0) {
-			// Write them to the preference file so we know which ones are available later
-			NSString *path = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
-			NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-
-			for (int i = 0; i < [originalOrder count]; i++) {
-				[settings setObject:NSStringFromClass([originalOrder[i] class]) forKey:[NSString stringWithFormat:@"connectivityPosition%d", i]];
-			}
-
-			[settings writeToFile:path atomically:YES];
-			return nil;
-		}
 
 		return newOrder;
 	}

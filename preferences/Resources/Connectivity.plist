@@ -86,7 +86,7 @@
 				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerEnabled</string>
-				<key>label</key>                    <string>Hotspot</string>
+				<key>label</key>                    <string>Personal Hotspot</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -146,7 +146,7 @@
 				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerDisabled</string>
-				<key>label</key>                    <string>Hotspot</string>
+				<key>label</key>                    <string>Personal Hotspot</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>

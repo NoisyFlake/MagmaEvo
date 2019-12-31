@@ -57,7 +57,7 @@
 @interface CCUIConnectivityModuleViewController : UIViewController
 @property (nonatomic,strong,readwrite) NSArray *portraitButtonViewControllers;
 @property (nonatomic,strong,readwrite) NSArray *landscapeButtonViewControllers;
--(NSArray*)mevoGetToggleOrder:(NSArray *)originalOrder;
+-(NSArray*)evoGetToggleOrder:(NSArray *)originalOrder;
 @end
 
 @interface CCUIMenuModuleViewController : CCUIButtonModuleViewController

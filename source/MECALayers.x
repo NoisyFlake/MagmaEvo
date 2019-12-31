@@ -93,7 +93,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
-		} else if([controller isKindOfClass:%c(CCUILabeledRoundButtonViewController)]) {
+		} else if([controller isKindOfClass:%c(CCUIConnectivityButtonViewController)]) {
 
 			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
 			return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
