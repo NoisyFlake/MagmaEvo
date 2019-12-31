@@ -12,6 +12,12 @@
 			<key>key</key>                           <string>connectivityHideContainer</string>
 			<key>label</key>                         <string>Hide Container Background</string>
 		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>isController</key>             <true/>
+				<key>detail</key>                   <string>MEVOConnectivityOrderController</string>
+				<key>label</key>                    <string>Rearrange Toggles</string>
+		</dict>
 
 		<dict>
 				<key>cell</key>                     <string>PSGroupCell</string>

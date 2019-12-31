@@ -10,6 +10,8 @@
 
 	%new
 	-(UIColor *)evoGetToggleColor:(UIColor *)color {
+		if (![self isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return color;
+
 		if (prefValueEquals(@"connectivityModeEnabled", @"glyphOnly")) {
 			color = [UIColor clearColor];
 		} else {
@@ -23,10 +25,14 @@
 
 %hook CCUIRoundButton
 	-(BOOL)useAlternateBackground {
-		return NO;
+		if ([self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return NO;
+		return %orig;
 	}
+
 	-(void)_updateForStateChange {
 		%orig;
+
+		if (![self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return;
 
 		if (prefValueEquals(@"connectivityModeDisabled", @"glyphOnly")) {
 			self.normalStateBackgroundView.alpha = 0;
@@ -55,6 +61,55 @@
 	}
 %end
 
+%hook CCUIConnectivityModuleViewController
+	-(void)_setupPortraitButtons {
+		%orig;
+
+		NSArray *newOrder = [self mevoGetToggleOrder:self.portraitButtonViewControllers];
+		if (newOrder != nil) [self setPortraitButtonViewControllers:newOrder];
+	}
+
+	-(void)_setupLandscapeButtons {
+		%orig;
+
+		NSArray *newOrder = [self mevoGetToggleOrder:self.landscapeButtonViewControllers];
+		if (newOrder != nil) [self setLandscapeButtonViewControllers:newOrder];
+	}
+
+	%new
+	-(NSArray*)mevoGetToggleOrder:(NSArray *)originalOrder {
+
+		NSMutableArray *newOrder = [NSMutableArray arrayWithCapacity: 6];
+		for (int i = 0; i < 6; i++) {
+    	[newOrder addObject:[NSNull null]];
+		}
+
+		for (id obj in originalOrder) {
+			for (int i = 0; i < 6; i++) {
+				NSString *val = prefValue([NSString stringWithFormat:@"connectivityPosition%d", i]);
+				if (val != nil && [val isEqual:NSStringFromClass([obj class])]) [newOrder replaceObjectAtIndex:i withObject:obj];
+			}
+		}
+
+		[newOrder removeObjectIdenticalTo:[NSNull null]];
+
+		if ([newOrder count] == 0) {
+			// Write them to the preference file so we know which ones are available later
+			NSString *path = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
+			NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+
+			for (int i = 0; i < [originalOrder count]; i++) {
+				[settings setObject:NSStringFromClass([originalOrder[i] class]) forKey:[NSString stringWithFormat:@"connectivityPosition%d", i]];
+			}
+
+			[settings writeToFile:path atomically:YES];
+			return nil;
+		}
+
+		return newOrder;
+	}
+%end
+
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller) {
 	NSString *prefKey = [NSString stringWithFormat:@"%@%@", NSStringFromClass([controller class]), [controller isEnabled] ? @"Enabled" : @"Disabled"];
 	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor RGBAColorFromHexString:prefValue(prefKey)] : nil;
@@ -77,6 +132,8 @@ CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *contr
 
 %ctor {
 	if (prefBool(@"enabled")) {
+		// Need to load the Connectivity Bundle here or our CCUIConnectivityModuleViewController will be injected too early
+		[[NSBundle bundleWithPath:@"/System/Library/ControlCenter/Bundles/ConnectivityModule.bundle/"] load];
 		%init;
 	}
 }

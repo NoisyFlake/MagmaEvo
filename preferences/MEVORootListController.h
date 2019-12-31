@@ -30,6 +30,9 @@
 @interface MEVOConnectivityController : MEVOBaseController
 @end
 
+@interface MEVOConnectivityOrderController : MEVOBaseController
+@end
+
 @interface MEVOTogglesController : MEVOBaseController
 @end
 

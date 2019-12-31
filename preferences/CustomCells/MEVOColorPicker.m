@@ -104,7 +104,7 @@
 
     if (color == nil) {
         _colorPreview.hidden = YES;
-        self.detailTextLabel.text = @"Default";
+        self.detailTextLabel.text = @"Default Color";
         self.detailTextLabel.alpha = 0.5;
         return;
     }

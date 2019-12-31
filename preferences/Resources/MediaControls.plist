@@ -76,7 +76,7 @@
 				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>mediaControlsSlider</string>
-				<key>label</key>                    <string>Time Control</string>
+				<key>label</key>                    <string>Progress Bar</string>
 		</dict>
 	</array>
 	<key>title</key>                             <string>Media Controls</string>

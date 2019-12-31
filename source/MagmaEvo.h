@@ -54,6 +54,12 @@
 -(CCUIContentModuleContext *)contentModuleContext;
 @end
 
+@interface CCUIConnectivityModuleViewController : UIViewController
+@property (nonatomic,strong,readwrite) NSArray *portraitButtonViewControllers;
+@property (nonatomic,strong,readwrite) NSArray *landscapeButtonViewControllers;
+-(NSArray*)mevoGetToggleOrder:(NSArray *)originalOrder;
+@end
+
 @interface CCUIMenuModuleViewController : CCUIButtonModuleViewController
 @end
 
