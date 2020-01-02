@@ -43,7 +43,7 @@
 						subview.hidden = YES;
 						break;
 					} else if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
-						subview.backgroundColor = self.selectedGlyphColor ?: [UIColor RGBAColorFromHexString:@"#007AFF"]; // CALayer will handle it later, we just need to call the setter
+						subview.backgroundColor = [UIColor redColor]; // CALayer will handle it later, we just need to call the setter
 						break;
 					}
 
@@ -62,7 +62,7 @@
 			UIColor *color = getToggleColor(self._viewControllerForAncestor);
 			if (color != nil) {
 				if ([self._viewControllerForAncestor isSelected] && prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
-					arg1 = [color isBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+					arg1 = [color evoIsBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
 				} else {
 					arg1 = color;
 				}
@@ -136,7 +136,7 @@ UIColor *getToggleColor(UIViewController *controller) {
 		if ([prefKey isEqual:@"com.apple.control-center.MuteModuleEnabled"]) value = @"#FF0000";
 	}
 
-	return value ? [UIColor RGBAColorFromHexString:value] : nil;
+	return value ? [UIColor evoRGBAColorFromHexString:value] : nil;
 }
 
 %ctor {

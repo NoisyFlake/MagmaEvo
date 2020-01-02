@@ -60,13 +60,13 @@
         color = @"#FF0000:1.00";
     }
 
-    UIColor *startColor = [UIColor RGBAColorFromHexString:color];
+    UIColor *startColor = [UIColor evoRGBAColorFromHexString:color];
     BOOL alpha = [[self.specifier propertyForKey:@"alpha"] boolValue];
 
     PFColorAlert *alert = [PFColorAlert colorAlertWithStartColor:startColor showAlpha:alpha];
 
     [alert displayWithCompletion:^void(UIColor *pickedColor) {
-        NSString *hexString = [UIColor hexStringFromColor:pickedColor];
+        NSString *hexString = [UIColor evoHexStringFromColor:pickedColor];
 
         hexString = [hexString stringByAppendingFormat:@":%.2f", pickedColor.alpha];
 
@@ -110,7 +110,7 @@
     }
 
     _colorPreview.hidden = NO,
-    _colorPreview.backgroundColor = [UIColor RGBAColorFromHexString:color];
+    _colorPreview.backgroundColor = [UIColor evoRGBAColorFromHexString:color];
 
     NSUInteger location = [color rangeOfString:@":"].location;
 

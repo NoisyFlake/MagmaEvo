@@ -1,8 +1,8 @@
 @interface UIColor (MagmaEvo)
 
-+ (UIColor *)RGBAColorFromHexString:(NSString *)string;
-+ (NSString *)hexStringFromColor:(UIColor *)color;
-+ (UIColor *)inverseColor:(UIColor *)color;
-- (BOOL)isBrightColor;
++ (UIColor *)evoRGBAColorFromHexString:(NSString *)string;
++ (NSString *)evoHexStringFromColor:(UIColor *)color;
++ (UIColor *)evoInverseColor:(UIColor *)color;
+- (BOOL)evoIsBrightColor;
 
 @end

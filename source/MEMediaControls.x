@@ -19,17 +19,17 @@
 
     if (prefValue(@"mediaControlsLeftButton") != nil) {
       MediaControlsTransportButton *leftButton = self.leftButton;
-      leftButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsLeftButton")] CGColor];
+      leftButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsLeftButton")] CGColor];
     }
 
     if (prefValue(@"mediaControlsMiddleButton") != nil) {
       MediaControlsTransportButton *middleButton = self.middleButton;
-      middleButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsMiddleButton")] CGColor];
+      middleButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsMiddleButton")] CGColor];
     }
 
     if (prefValue(@"mediaControlsRightButton") != nil) {
       MediaControlsTransportButton *rightButton = self.rightButton;
-      rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsRightButton")] CGColor];
+      rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRightButton")] CGColor];
     }
 
   }
@@ -45,11 +45,11 @@
     if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && !prefBool(@"mediaControlsColorLockscreen")) || self.buttonType == 0) return;
 
     if (prefValue(@"mediaControlsPrimaryLabel") != nil) {
-      self.primaryLabel.textColor = [UIColor RGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];
+      self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];
     }
 
     if (prefValue(@"mediaControlsSecondaryLabel") != nil) {
-      self.secondaryLabel.textColor = [UIColor RGBAColorFromHexString:prefValue(@"mediaControlsSecondaryLabel")];
+      self.secondaryLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSecondaryLabel")];
       self.secondaryLabel.layer.filters = nil;
     }
 

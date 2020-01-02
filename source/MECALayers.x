@@ -70,7 +70,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			UIColor *toggleColor = getToggleColor(controller);
 
 			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
-				if (toggleColor == nil) toggleColor = [UIColor colorWithCGColor:originalColor];
+				if (toggleColor == nil) toggleColor = ((CCUIButtonModuleViewController*)controller).buttonView.selectedGlyphColor ?: [UIColor colorWithCGColor:originalColor];
 
 				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
 					((MTMaterialView*)currentLayer.delegate).configuration = 1;
@@ -83,7 +83,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 					return [toggleColor CGColor];
 				}
 
-				return [toggleColor isBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
+				return [toggleColor evoIsBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
 			if (toggleColor != nil) return [toggleColor CGColor];
@@ -102,7 +102,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
 				if (prefValue(@"mediaControlsSlider") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
-					return [[UIColor RGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
+					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
 				}
 			}
 

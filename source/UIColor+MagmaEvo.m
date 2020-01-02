@@ -2,7 +2,7 @@
 
 @implementation UIColor (MagmaEvo)
 
-+(UIColor *)RGBAColorFromHexString:(NSString *)string {
++(UIColor *)evoRGBAColorFromHexString:(NSString *)string {
     if(string == nil || string.length == 0) {
         return nil;
     }
@@ -33,7 +33,7 @@
                     alpha:alpha];
 }
 
-+(NSString *)hexStringFromColor:(UIColor *)color {
++(NSString *)evoHexStringFromColor:(UIColor *)color {
     const CGFloat *components = CGColorGetComponents(color.CGColor);
 
     CGFloat r = components[0];
@@ -43,7 +43,7 @@
     return [NSString stringWithFormat:@"#%02X%02X%02X", (int)(r * 255), (int)(g * 255), (int)(b * 255)];
 }
 
-+(UIColor *)inverseColor:(UIColor *)color {
++(UIColor *)evoInverseColor:(UIColor *)color {
     CGFloat r, g, b, a;
 
     [color getRed:&r green:&g blue:&b alpha:&a];
@@ -51,7 +51,7 @@
     return [UIColor colorWithRed:(1.0 - r) green:(1.0 - g) blue:(1.0 - b) alpha:a];
 }
 
-- (BOOL)isBrightColor {
+- (BOOL)evoIsBrightColor {
     const CGFloat *componentColors = CGColorGetComponents(self.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
     return (colorBrightness > 0.65);

@@ -51,6 +51,7 @@
 @interface CCUIButtonModuleViewController : UIViewController
 @property (assign,getter=isSelected,nonatomic) BOOL selected;
 @property (assign,getter=isExpanded,nonatomic) BOOL expanded;
+@property (nonatomic,readonly) CCUIButtonModuleView * buttonView;
 -(CCUIContentModuleContext *)contentModuleContext;
 @end
 
