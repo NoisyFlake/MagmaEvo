@@ -48,6 +48,15 @@
 @property (nonatomic,copy,readonly) NSString * moduleIdentifier;
 @end
 
+@interface CCUIBaseSliderView : UIControl
+@end
+
+@interface CCUIContinuousSliderView : CCUIBaseSliderView
+@end
+
+@interface MediaControlsVolumeSliderView : CCUIContinuousSliderView
+@end
+
 @interface CCUIButtonModuleViewController : UIViewController
 @property (assign,getter=isSelected,nonatomic) BOOL selected;
 @property (assign,getter=isExpanded,nonatomic) BOOL expanded;
@@ -121,6 +130,7 @@ void forceLayerUpdate(NSArray *layers);
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller);
 UIColor *getToggleColor(UIViewController *controller);
+CGColorRef getSliderColor(UIViewController *controller, UIView *view);
 
 // --- Definitions --- //
 

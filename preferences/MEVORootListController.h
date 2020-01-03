@@ -38,3 +38,6 @@
 
 @interface MEVOMediaControlsController : MEVOBaseController
 @end
+
+@interface MEVOSlidersController : MEVOBaseController
+@end

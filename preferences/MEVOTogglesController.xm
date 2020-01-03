@@ -30,10 +30,12 @@ BOOL mevoEnabledState = YES;
 
 		for (NSString *identifier in enabledModules) {
 			CCSModuleMetadata *metaData = [repo moduleMetadataForModuleIdentifier:identifier];
-			NSBundle *bundle = [NSBundle bundleWithURL:metaData.moduleBundleURL];
+			if (metaData.moduleBundleURL != nil) {
+				NSBundle *bundle = [NSBundle bundleWithURL:metaData.moduleBundleURL];
 
-			PSSpecifier *specifier = [self generateSpecifierForBundle:bundle];
-			if (specifier) [appSpecifiers addObject:specifier];
+				PSSpecifier *specifier = [self generateSpecifierForBundle:bundle];
+				if (specifier) [appSpecifiers addObject:specifier];
+			}
 		}
 
     _specifiers = appSpecifiers;
@@ -69,12 +71,12 @@ BOOL mevoEnabledState = YES;
 	}
 
 	PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:displayName
-									    target:self
-									    set:@selector(setPreferenceValue:specifier:)
-								   		get:@selector(readPreferenceValue:)
-									    detail:Nil
-									    cell:PSLinkCell
-									    edit:Nil];
+										target:self
+										set:@selector(setPreferenceValue:specifier:)
+										get:@selector(readPreferenceValue:)
+										detail:Nil
+										cell:PSLinkCell
+										edit:Nil];
 
 	NSString *key = [NSString stringWithFormat:@"%@%@", [info objectForKey:@"CFBundleIdentifier"], mevoEnabledState ? @"Enabled" : @"Disabled"];
 	[specifier setProperty:key forKey:@"key"];

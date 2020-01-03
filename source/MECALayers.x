@@ -15,6 +15,27 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 		// Need to set overwriteEmpty to true in order to color the (regularly uncolored) App Launchers
 		%orig(getColorForLayer(self, arg1, YES));
 	}
+
+	-(void)setOpacity:(float)opacity {
+		if ([self.delegate isKindOfClass:%c(CCUICAPackageView)]) {
+			id controller = [(CCUICAPackageView *)self.delegate _viewControllerForAncestor];
+			if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)] ||
+				[controller isKindOfClass:%c(CCUIAudioModuleViewController)] ||
+				[controller isKindOfClass:%c(MediaControlsVolumeViewController)] ||
+				[controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
+				NSString *key = nil;
+				if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]) key = @"slidersBrightnessGlyph";
+				if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)]) key = @"slidersVolumeGlyph";
+				if ([controller isKindOfClass:%c(CCRingerModuleContentViewController)]) key = @"slidersRingerGlyph";
+				if (prefValue(key) != nil) {
+					%orig(opacity > 0 ? 1 : 0);
+					return;
+				}
+			}
+		}
+
+		%orig;
+	}
 %end
 
 %hook CAShapeLayer
@@ -98,13 +119,21 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
 			return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
 
-		}	else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
+		} else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
 
 			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
 				if (prefValue(@"mediaControlsSlider") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
 					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
 				}
 			}
+
+		} else if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]
+					|| [controller isKindOfClass:%c(MediaControlsVolumeViewController)]
+					|| [controller isKindOfClass:%c(CCUIAudioModuleViewController)]
+					|| [controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
+
+			CGColorRef sliderColor = getSliderColor(controller, (UIView *)currentLayer.delegate);
+			if (sliderColor != nil) return sliderColor;
 
 		}
 

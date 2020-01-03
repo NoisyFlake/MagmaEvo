@@ -43,7 +43,7 @@
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOSliders</string>
+				<key>detail</key>                   <string>MEVOSlidersController</string>
 				<key>icon</key>                     <string>icons/sliders</string>
 				<key>label</key>                    <string>Sliders</string>
 		</dict>
