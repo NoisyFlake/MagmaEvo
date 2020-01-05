@@ -1,4 +1,5 @@
 #import "MagmaEvo.h"
+#import <GameplayKit/GameplayKit.h> // required for shuffledArray method
 
 %hook CCUILabeledRoundButtonViewController
 	-(id)initWithGlyphImage:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
@@ -91,9 +92,14 @@
 	%new
 	-(NSArray*)evoGetToggleOrder:(NSArray *)originalOrder {
 
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if (![fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.noisyflake.magmaevo.list"]) {
+			return [originalOrder shuffledArray];
+		}
+
 		NSMutableArray *newOrder = [NSMutableArray arrayWithCapacity: 6];
 		for (int i = 0; i < 6; i++) {
-    	[newOrder addObject:[NSNull null]];
+    		[newOrder addObject:[NSNull null]];
 		}
 
 		for (id obj in originalOrder) {

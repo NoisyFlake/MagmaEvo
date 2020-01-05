@@ -8,6 +8,10 @@
 -(id)_viewControllerForAncestor;
 @end
 
+@interface NSArray (MagmaEvo)
+- (NSArray *)shuffledArray;
+@end
+
 @interface MTMaterialView : UIView
 @property (assign,nonatomic) long long configuration;
 @end
@@ -110,6 +114,17 @@
 
 @interface _UIStatusBar : UIView
 @property (nonatomic,readonly) UIView * containerView;
+@end
+
+@interface CCUIStatusBar : UIView
+@property (assign,nonatomic) double leadingAlpha;
+@end
+
+@interface CCUIModularControlCenterViewController : UIViewController
+@end
+
+@interface CCUIModularControlCenterOverlayViewController : CCUIModularControlCenterViewController
+@property (nonatomic,readonly) MTMaterialView * overlayBackgroundView;
 @end
 
 @interface CAFilter : NSObject

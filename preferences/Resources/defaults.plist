@@ -14,7 +14,6 @@
 		<key>mediaControlsHideContainer</key>        <false/>
 		<key>mediaControlsColorLockscreen</key>      <false/>
 
-		<key>slidersHideContainer</key>        <false/>
-
+		<key>slidersHideContainer</key>              <false/>
 	</dict>
 </plist>
