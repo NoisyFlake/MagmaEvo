@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>                     <string>PSButtonCell</string>
+			<key>action</key>                   <string>newPreset</string>
+			<key>cellClass</key>                <string>MEVOButton</string>
+			<key>label</key>                    <string>New</string>
+			<key>icon</key>                     <string>icons/new</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSButtonCell</string>
+			<key>action</key>                   <string>importPreset</string>
+			<key>cellClass</key>                <string>MEVOButton</string>
+			<key>label</key>                    <string>Import</string>
+			<key>icon</key>                     <string>icons/import</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Available Presets</string>
+		</dict>
+
+	</array>
+	<key>title</key>                             <string>Manage Presets</string>
+</dict>
+</plist>

@@ -63,13 +63,16 @@
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
 				<key>detail</key>                   <string>MEVOPresetsController</string>
-				<key>icon</key>                     <string>icons/import</string>
+				<key>icon</key>                     <string>icons/presets</string>
 				<key>label</key>                    <string>Manage Presets</string>
 		</dict>
 		<dict>
-				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cell</key>                     <string>PSButtonCell</string>
+				<key>action</key>                   <string>resetSettings</string>
 				<key>icon</key>                     <string>icons/reset</string>
+				<key>cellClass</key>                <string>MEVOButton</string>
 				<key>label</key>                    <string>Reset All Settings</string>
+				<key>textColor</key>                <string>regular</string>
 		</dict>
 		<dict>
 			<key>cell</key>                         <string>PSGroupCell</string>

@@ -51,5 +51,4 @@
 @end
 
 @interface MEVOPresetsController : MEVOBaseController
-- (PSSpecifier*)createMEVOButton:(NSString *)name withAction:(SEL)action;
 @end

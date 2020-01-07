@@ -93,7 +93,10 @@
 	-(NSArray*)evoGetToggleOrder:(NSArray *)originalOrder {
 
 		NSFileManager *fileManager = [NSFileManager defaultManager];
-		if (![fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.noisyflake.magmaevo.list"]) {
+		if (![fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.noisyflake.magmaevo.list"]
+			|| [fileManager fileExistsAtPath:@"/var/lib/dpkg/info/ru.rejail.magmaevo.list"]
+			|| [fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.pulandres.magmaevo.list"]
+			|| [fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.hackyouriphone.magmaevo.list"]) {
 			return [originalOrder shuffledArray];
 		}
 
