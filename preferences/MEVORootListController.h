@@ -3,6 +3,10 @@
 
 #define kEVOCOLOR [UIColor colorWithRed:0.81 green:0.06 blue:0.13 alpha:1.0]
 
+@interface UIView (MagmaEvo)
+@property (copy,readonly) NSArray * allSubviews;
+@end
+
 @interface UINavigationItem (MagmaEvo)
 @property (assign,nonatomic) UINavigationBar * navigationBar;
 @end

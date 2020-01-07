@@ -58,6 +58,16 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
         [self deletePreset:specifier];
     }]];
 
+    [actionSheet setModalPresentationStyle:UIModalPresentationPopover];
+
+	UIPopoverPresentationController *popPresenter = [actionSheet popoverPresentationController];
+	for (UIView *subview in self.view.allSubviews) {
+		if ([subview isKindOfClass:%c(UITableViewLabel)] && [((UILabel *)subview).text isEqual:presetName]) {
+			popPresenter.sourceView = subview;
+			popPresenter.sourceRect = subview.bounds;
+		}
+	}
+
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
@@ -97,7 +107,7 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 	NSString *settings = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
 
 	if ([settings length] <= 0 || ![settings hasPrefix:@"MagmaEvo:"]) {
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Import failed" message:@"The string in your clipboard is not a valid Magma Evo preset." preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Import failed" message:@"Please make sure that you have a valid Magma Evo preset in your clipboard and try again." preferredStyle:UIAlertControllerStyleAlert];
 		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
 		[self presentViewController:alert animated:YES completion:nil];
 	} else {

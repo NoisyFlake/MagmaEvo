@@ -11,7 +11,7 @@
 	[super layoutSubviews];
 
 	UIColor *textColor = kEVOCOLOR;
-	if ([[self.specifier propertyForKey:@"textColor"] isEqual:@"regular"]) textColor = UIColor.labelColor;
+	if ([[self.specifier propertyForKey:@"textColor"] isEqual:@"regular"]) textColor = [UIColor respondsToSelector:@selector(labelColor)] ? UIColor.labelColor : UIColor.darkTextColor;
 	if ([[self.specifier propertyForKey:@"textColor"] isEqual:@"disabled"]) textColor = UIColor.systemGrayColor;
 
 	self.textLabel.textColor = textColor;
