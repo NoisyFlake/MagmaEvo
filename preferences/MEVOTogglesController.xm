@@ -7,7 +7,7 @@ BOOL mevoEnabledState = YES;
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		NSMutableArray *appSpecifiers = [self loadSpecifiersFromPlistName:@"Toggles" target:self];
+		NSMutableArray *appSpecifiers = [[self loadSpecifiersFromPlistName:@"Toggles" target:self] mutableCopy];
 
 		if (!mevoEnabledState) {
 			for (PSSpecifier *spec in appSpecifiers) {

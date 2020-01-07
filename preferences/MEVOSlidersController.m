@@ -4,7 +4,7 @@
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		NSMutableArray *mutableSpecifiers = [self loadSpecifiersFromPlistName:@"Sliders" target:self];
+		NSMutableArray *mutableSpecifiers = [[self loadSpecifiersFromPlistName:@"Sliders" target:self] mutableCopy];
 
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		if (![fileManager fileExistsAtPath:@"/Library/ControlCenter/Bundles/CCRingerModule.bundle/CCRingerModule"]) {

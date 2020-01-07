@@ -29,6 +29,7 @@
 				<key>cellClass</key>                <string>MEVOButton</string>
 				<key>label</key>                    <string>Switch to Disabled State</string>
 				<key>key</key>                      <string>switchState</string>
+				<key>textAlignment</key>            <string>center</string>
 		</dict>
 
 		<dict>

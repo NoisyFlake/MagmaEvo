@@ -3,8 +3,13 @@
 
 #define kEVOCOLOR [UIColor colorWithRed:0.81 green:0.06 blue:0.13 alpha:1.0]
 
-@interface UINavigationItem (CozyBadges)
+@interface UINavigationItem (MagmaEvo)
 @property (assign,nonatomic) UINavigationBar * navigationBar;
+@end
+
+@interface UIColor (MagmaEvo)
+@property(class, nonatomic, readonly) UIColor *labelColor;
+@property(class, nonatomic, readonly) UIColor *systemGrayColor;
 @end
 
 @interface CCSModuleSettingsProvider : NSObject
@@ -43,4 +48,8 @@
 @end
 
 @interface MEVOMiscController : MEVOBaseController
+@end
+
+@interface MEVOPresetsController : MEVOBaseController
+- (PSSpecifier*)createMEVOButton:(NSString *)name withAction:(SEL)action;
 @end

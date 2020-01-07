@@ -61,24 +61,21 @@
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>isController</key>             <true/>
+				<key>detail</key>                   <string>MEVOPresetsController</string>
 				<key>icon</key>                     <string>icons/import</string>
-				<key>label</key>                    <string>Import</string>
-		</dict>
-		<dict>
-				<key>cell</key>                     <string>PSLinkCell</string>
-				<key>icon</key>                     <string>icons/export</string>
-				<key>label</key>                    <string>Export</string>
+				<key>label</key>                    <string>Manage Presets</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>icon</key>                     <string>icons/reset</string>
-				<key>label</key>                    <string>Reset</string>
+				<key>label</key>                    <string>Reset All Settings</string>
 		</dict>
 		<dict>
-    		<key>cell</key>                     <string>PSGroupCell</string>
-        <key>footerText</key> 				      <string>Version 1.0.1 - NoisyFlake</string>
-				<key>footerAlignment</key> 			    <string>1</string>
-    </dict>
+			<key>cell</key>                         <string>PSGroupCell</string>
+			<key>footerText</key> 				    <string>Developed with ♥ by NoisyFlake</string>
+			<key>footerAlignment</key> 			    <string>1</string>
+		</dict>
 	</array>
 	<key>title</key>                             <string></string>
 </dict>

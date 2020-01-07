@@ -6,7 +6,7 @@ BOOL mevoEnabledConnectivityState = YES;
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		NSMutableArray *mutableSpecifiers = [self loadSpecifiersFromPlistName:@"Connectivity" target:self];
+		NSMutableArray *mutableSpecifiers = [[self loadSpecifiersFromPlistName:@"Connectivity" target:self] mutableCopy];
 
 		NSString *keyword = mevoEnabledConnectivityState ? @"Disabled" : @"Enabled";
 
