@@ -103,10 +103,17 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 - (void)importPreset {
 	UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
 
+	if (pasteboard.string == nil) {
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Clipboard empty" message:@"Please make sure that you have a valid Magma Evo preset in your clipboard and try again." preferredStyle:UIAlertControllerStyleAlert];
+		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+		[self presentViewController:alert animated:YES completion:nil];
+		return;
+	}
+
 	NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:pasteboard.string options:0];
 	NSString *settings = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
 
-	if ([settings length] <= 0 || ![settings hasPrefix:@"MagmaEvo:"]) {
+	if (settings == nil || [settings length] <= 0 || ![settings hasPrefix:@"MagmaEvo:"]) {
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Import failed" message:@"Please make sure that you have a valid Magma Evo preset in your clipboard and try again." preferredStyle:UIAlertControllerStyleAlert];
 		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
 		[self presentViewController:alert animated:YES completion:nil];
