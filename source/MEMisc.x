@@ -3,11 +3,14 @@
 %hook _UIStatusBar
 	-(void)setForegroundColor:(UIColor*)color {
 
-		if (prefValue(@"miscStatusBarColor") != nil) {
+		if (prefValue(@"miscStatusBarColor") != nil || prefBool(@"miscStatusBarHide")) {
 			UIView *parent = ((UIView* )self.parentFocusEnvironment).parentFocusEnvironment;
 
 			if ([parent isKindOfClass:%c(CCUIStatusBar)] && ((CCUIStatusBar *)parent).leadingAlpha > 0) {
-				color = [UIColor evoRGBAColorFromHexString:prefValue(@"miscStatusBarColor")];
+				if (prefValue(@"miscStatusBarColor") != nil) color = [UIColor evoRGBAColorFromHexString:prefValue(@"miscStatusBarColor")];
+				if (prefBool(@"miscStatusBarHide")) self.alpha = 0;
+			} else {
+				if (prefBool(@"miscStatusBarHide")) self.alpha = 1;
 			}
 		}
 
