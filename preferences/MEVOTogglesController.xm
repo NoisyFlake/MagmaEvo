@@ -10,7 +10,7 @@ BOOL mevoEnabledState = YES;
 		NSMutableArray *appSpecifiers = [[self loadSpecifiersFromPlistName:@"Toggles" target:self] mutableCopy];
 
 		if (!mevoEnabledState) {
-			for (PSSpecifier *spec in appSpecifiers) {
+			for (PSSpecifier *spec in [appSpecifiers reverseObjectEnumerator]) {
 				if ([spec.properties[@"key"] isEqual:@"togglesOverlayMode"]) {
 					[appSpecifiers removeObject:spec];
 				} else if ([spec.properties[@"key"] isEqual:@"state"]) {

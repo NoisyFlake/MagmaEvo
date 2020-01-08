@@ -3,15 +3,25 @@
 
 #define kEVOCOLOR [UIColor colorWithRed:0.81 green:0.06 blue:0.13 alpha:1.0]
 
+@interface NSTask : NSObject
+- (instancetype)init;
+- (void)setLaunchPath:(NSString *)path;
+- (void)setArguments:(NSArray *)arguments;
+- (void)setStandardOutput:(id)output;
+- (void)launch;
+- (void)waitUntilExit;
+@end
+
 @interface UIView (MagmaEvo)
 @property (copy,readonly) NSArray * allSubviews;
+-(id)_viewControllerForAncestor;
 @end
 
 @interface UINavigationItem (MagmaEvo)
 @property (assign,nonatomic) UINavigationBar * navigationBar;
 @end
 
-@interface UIColor (MagmaEvo)
+@interface UIColor (MagmaEvoPrefs)
 @property(class, nonatomic, readonly) UIColor *labelColor;
 @property(class, nonatomic, readonly) UIColor *systemGrayColor;
 @end

@@ -56,6 +56,13 @@
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOGlobalColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>label</key>                    <string>Set Global Color</string>
+				<key>key</key>                      <string>connectivityGlobalColorEnabled</string>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityAirDropViewControllerEnabled</string>
@@ -113,6 +120,13 @@
 					<string>regular</string>
 					<string>glyphOnly</string>
 				</array>
+		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOGlobalColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>label</key>                    <string>Set Global Color</string>
+				<key>key</key>                      <string>connectivityGlobalColorDisabled</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
