@@ -137,6 +137,13 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			CGColorRef sliderColor = getSliderColor(controller, (UIView *)currentLayer.delegate);
 			if (sliderColor != nil) return sliderColor;
 
+		} else if ([controller isKindOfClass:%c(LockButtonController)]
+					|| [controller isKindOfClass:%c(PowerDownButtonController)]
+					|| [controller isKindOfClass:%c(RebootButtonController)]
+					|| [controller isKindOfClass:%c(RespringButtonController)]
+					|| [controller isKindOfClass:%c(SafemodeButtonController)]
+					|| [controller isKindOfClass:%c(UICacheButtonController)]) {
+			return getPowerModuleColor((CCUILabeledRoundButtonViewController*)controller);
 		}
 
 	}

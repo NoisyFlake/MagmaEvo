@@ -25,13 +25,30 @@
 %end
 
 %hook CCUIRoundButton
-	-(BOOL)useAlternateBackground {
-		if ([self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return NO;
-		return %orig;
+	-(void)didMoveToWindow {
+		%orig;
+
+		if (prefBool(@"powerModuleHideBackground") && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(SafemodeButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(UICacheButtonController)])) {
+				self.normalStateBackgroundView.alpha = 0;
+		}
 	}
 
 	-(void)_updateForStateChange {
 		%orig;
+
+		if (prefBool(@"powerModuleHideBackground") && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(SafemodeButtonController)]
+			|| [self._viewControllerForAncestor isKindOfClass:%c(UICacheButtonController)])) {
+				self.normalStateBackgroundView.alpha = 0;
+		}
 
 		if (![self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return;
 
@@ -48,13 +65,20 @@
 		}
 
 	}
+
+	-(BOOL)useAlternateBackground {
+		if ([self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return NO;
+		return %orig;
+	}
 %end
 
 %hook CCUIContentModuleContentContainerView
 	-(void)_configureModuleMaterialViewIfNecessary {
 
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
-		if (module == nil || (prefBool(@"connectivityHideContainer") && [module isEqual:@"com.apple.control-center.ConnectivityModule"])) {
+		if (module == nil
+			|| (prefBool(@"connectivityHideContainer") && [module isEqual:@"com.apple.control-center.ConnectivityModule"])
+			|| (prefBool(@"powerModuleHideContainer") && [module isEqual:@"com.muirey03.powermodule"])) {
 			return;
 		}
 
@@ -134,6 +158,15 @@ CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *contr
 	}	else if([controller isEnabled]) {
 		if (color != nil && [color evoIsBrightColor]) return [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor];
 	}
+
+	return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
+}
+
+CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller) {
+	NSString *prefKey = NSStringFromClass([controller class]);
+	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor evoRGBAColorFromHexString:prefValue(prefKey)] : nil;
+
+	if (color != nil) return [color CGColor];
 
 	return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 }

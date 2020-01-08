@@ -17,5 +17,7 @@
 		<key>slidersHideContainer</key>              <false/>
 
 		<key>miscStatusBarHide</key>                 <false/>
+		<key>powerModuleHideContainer</key>          <false/>
+		<key>powerModuleHideBackground</key>         <false/>
 	</dict>
 </plist>

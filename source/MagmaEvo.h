@@ -144,6 +144,7 @@ BOOL prefValueEquals(NSString *key, NSString *value);
 void forceLayerUpdate(NSArray *layers);
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller);
+CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller);
 UIColor *getToggleColor(UIViewController *controller);
 CGColorRef getSliderColor(UIViewController *controller, UIView *view);
 
