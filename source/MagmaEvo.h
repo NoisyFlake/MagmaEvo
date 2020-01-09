@@ -123,8 +123,16 @@
 @interface CCUIModularControlCenterViewController : UIViewController
 @end
 
+@interface CCUIHeaderPocketView : UIView
+@property (assign,nonatomic) double backgroundAlpha;
+@end
+
 @interface CCUIModularControlCenterOverlayViewController : CCUIModularControlCenterViewController
 @property (nonatomic,readonly) MTMaterialView * overlayBackgroundView;
+@property(readonly, nonatomic) UIView *overlayContainerView;
+@property(readonly, nonatomic) UIScrollView *overlayScrollView;
+@property(readonly, nonatomic) long long overlayInterfaceOrientation;
+@property (nonatomic,readonly) CCUIHeaderPocketView * overlayHeaderView;
 @end
 
 @interface CAFilter : NSObject

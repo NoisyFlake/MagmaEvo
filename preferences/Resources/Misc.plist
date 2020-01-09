@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>cell</key>                     <string>PSGroupCell</string>
-			<key>label</key>                    <string>Control Center</string>
+			<key>label</key>                    <string>General</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -19,7 +19,25 @@
 
 		<dict>
 			<key>cell</key>                     <string>PSGroupCell</string>
-			<key>label</key>                    <string>Status Bar</string>
+			<key>label</key>                    <string>iPhone X and newer</string>
+			<key>footerText</key>               <string>These options are only for the Control Center on modern iPhones or if you have a tweak installed to enable it.</string>
+		</dict>
+		<dict>
+			<key>cell</key>                          <string>PSSegmentCell</string>
+			<key>cellClass</key>                     <string>MEVOSegment</string>
+			<key>default</key>                       <string>top</string>
+			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                           <string>miscMainAlignment</string>
+			<key>validTitles</key>
+				<array>
+					<string>Default Alignment</string>
+					<string>Bottom Alignment</string>
+				</array>
+			<key>validValues</key>
+				<array>
+					<string>top</string>
+					<string>bottom</string>
+				</array>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSSwitchCell</string>
@@ -27,7 +45,7 @@
 			<key>default</key>                  <false/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarHide</string>
-			<key>label</key>                    <string>Hide</string>
+			<key>label</key>                    <string>Hide Status Bar</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -35,7 +53,7 @@
 			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarColor</string>
-			<key>label</key>                    <string>Text Color</string>
+			<key>label</key>                    <string>Status Bar Color</string>
 		</dict>
 
 		<dict>
