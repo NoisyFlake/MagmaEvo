@@ -9,7 +9,7 @@
     self.navigationItem.navigationBar.tintColor = kEVOCOLOR;
 
     UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStylePlain target:self action:@selector(respring)];
-		self.navigationItem.rightBarButtonItem = applyButton;
+	self.navigationItem.rightBarButtonItem = applyButton;
 }
 
 - (id)readPreferenceValue:(PSSpecifier*)specifier {
