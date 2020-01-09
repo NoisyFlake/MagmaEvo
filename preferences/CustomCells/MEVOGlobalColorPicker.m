@@ -26,6 +26,11 @@
         [specifier setTarget:self];
         [specifier setButtonAction:@selector(displayAlert)];
 
+        UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+        lpgr.delegate = self;
+        lpgr.minimumPressDuration = 1;
+        [self.contentView addGestureRecognizer:lpgr];
+
         [self drawAccessoryView];
     }
 
@@ -43,6 +48,29 @@
 -(void)drawAccessoryView {
     _colorPreview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
     [self setAccessoryView:_colorPreview];
+}
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Remove Global Color"
+                                    message: @"This will remove all colors on the current settings page. Do you want to continue?"
+                                    preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            NSString *path = [NSString stringWithFormat:@"/User/Library/Preferences/%@.plist", self.specifier.properties[@"defaults"]];
+            NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+
+            for (PSSpecifier *spec in [self._viewControllerForAncestor specifiers]) {
+                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker")) {
+                    [settings removeObjectForKey:spec.properties[@"key"]];
+                }
+            }
+
+            [settings writeToFile:path atomically:YES];
+            [self._viewControllerForAncestor reloadSpecifiers];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [self._viewControllerForAncestor presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)displayAlert {

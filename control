@@ -1,7 +1,7 @@
 Package: com.noisyflake.magmaevo
 Name: Magma Evo
 Depends: mobilesubstrate, firmware (>= 12.0), com.opa334.ccsupport, org.thebigboss.libcolorpicker
-Version: 1.0.0-rc1
+Version: 1.0.0-rc2
 Architecture: iphoneos-arm
 Description: Your Control Center. Redefined.
 Maintainer: NoisyFlake

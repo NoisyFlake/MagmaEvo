@@ -58,7 +58,7 @@
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>cellClass</key>                <string>MEVOGlobalColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-				<key>label</key>                    <string>Set Global Color</string>
+				<key>label</key>                    <string>Global Color</string>
 				<key>key</key>                      <string>connectivityGlobalColorEnabled</string>
 		</dict>
 		<dict>
@@ -125,7 +125,7 @@
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>cellClass</key>                <string>MEVOGlobalColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-				<key>label</key>                    <string>Set Global Color</string>
+				<key>label</key>                    <string>Global Color</string>
 				<key>key</key>                      <string>connectivityGlobalColorDisabled</string>
 		</dict>
 		<dict>
