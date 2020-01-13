@@ -13,17 +13,26 @@
 	if (self) {
 		CGFloat x = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? -20 : 0;
 
-		UILabel *tweakName = [[UILabel alloc] initWithFrame:CGRectMake(x, 20, self.frame.size.width, 10)];
+		UILabel *tweakName = [[UILabel alloc] initWithFrame:CGRectMake(x, 23, self.frame.size.width, 10)];
 		[tweakName layoutIfNeeded];
 		tweakName.numberOfLines = 1;
 		tweakName.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-		tweakName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:40.0f];
+		tweakName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:34.0f];
 		tweakName.textColor = kEVOCOLOR;
-		tweakName.text = @"Magma Evo";
+
+		NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"MAGMA EVO"];
+		[attrString beginEditing];
+		[attrString addAttribute:NSFontAttributeName
+					value:[UIFont fontWithName:@"HelveticaNeue" size:34.0f]
+					range:NSMakeRange(0, 5)];
+
+		[attrString endEditing];
+		tweakName.attributedText = attrString;
+
 		tweakName.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:tweakName];
 
-		version = [[UILabel alloc] initWithFrame:CGRectMake(x, 58, self.frame.size.width, 5)];
+		version = [[UILabel alloc] initWithFrame:CGRectMake(x, 55, self.frame.size.width, 5)];
 		version.numberOfLines = 1;
 		version.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 		version.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
