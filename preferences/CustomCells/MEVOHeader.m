@@ -37,7 +37,14 @@
 			NSPipe *pipe = [NSPipe pipe];
 
 			NSTask *task = [[NSTask alloc] init];
-			task.arguments = @[@"-c", @"dpkg -s com.noisyflake.magmaevo | grep -i version | cut -d' ' -f2"];
+
+			NSFileManager *fileManager = [NSFileManager defaultManager];
+			if ([fileManager fileExistsAtPath:@"/var/lib/dpkg/info/com.noisyflake.magmaevo.list"]) {
+				task.arguments = @[@"-c", @"dpkg -s com.noisyflake.magmaevo | grep -i version | cut -d' ' -f2"];
+			} else {
+				task.arguments = @[@"-c", @"dpkg -s com.twickd.noisyflake.magma-evo | grep -i version | cut -d' ' -f2"];
+			}
+
 			task.launchPath = @"/bin/sh";
 			[task setStandardOutput: pipe];
 			[task launch];
