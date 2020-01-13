@@ -4,6 +4,8 @@
 	-(void)didMoveToWindow {
 		%orig;
 
+		if ([self isKindOfClass:%c(SBElasticSliderView)]) return;
+
 		// We do need a 1s delay here because otherwise it might be called too early, making the sliders have no color on some devices.
 		// There also is (probably) no other hook to use instead, so this is our best course of action
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
