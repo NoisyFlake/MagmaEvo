@@ -129,6 +129,12 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				}
 			}
 
+			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsRoutingCornerView)]) {
+				if (prefValue(@"mediaControlsRoutingButton") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
+					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRoutingButton")] CGColor];
+				}
+			}
+
 		} else if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]
 					|| [controller isKindOfClass:%c(MediaControlsVolumeViewController)]
 					|| [controller isKindOfClass:%c(CCUIAudioModuleViewController)]

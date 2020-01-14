@@ -100,8 +100,12 @@
 @interface MediaControlsMaterialView : UIView
 @end
 
+@interface MediaControlsRoutingCornerView : CCUICAPackageView
+@end
+
 @interface MRPlatterViewController : UIViewController
 @property(nonatomic) long long style;
+@property(retain, nonatomic) MediaControlsRoutingCornerView *routingCornerView;
 @end
 
 @interface CCUIToggleModule : NSObject

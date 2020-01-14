@@ -32,6 +32,10 @@
       rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRightButton")] CGColor];
     }
 
+    if (prefValue(@"mediaControlsRoutingButton") != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {
+      forceLayerUpdate(((MRPlatterViewController *)controller).routingCornerView.layer.sublayers);
+    }
+
   }
 %end
 

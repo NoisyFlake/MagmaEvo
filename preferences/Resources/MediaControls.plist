@@ -78,6 +78,13 @@
 				<key>key</key>                      <string>mediaControlsSlider</string>
 				<key>label</key>                    <string>Progress Bar</string>
 		</dict>
+		<dict>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>mediaControlsRoutingButton</string>
+				<key>label</key>                    <string>AirPlay</string>
+		</dict>
 	</array>
 	<key>title</key>                             <string>Media Controls</string>
 </dict>
