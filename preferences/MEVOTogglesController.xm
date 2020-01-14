@@ -67,7 +67,8 @@ BOOL mevoEnabledState = YES;
 	}
 
 	if (displayName == nil) {
-		return nil;
+		if ([[info objectForKey:@"CFBundleIdentifier"] hasPrefix:@"com.apple"]) return nil;
+		displayName = [info objectForKey:@"CFBundleName"];
 	}
 
 	PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:displayName
