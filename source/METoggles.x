@@ -89,7 +89,8 @@
 				[controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
 				[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
 				[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
-				[controller isKindOfClass:%c(HACCModuleViewController)]
+				[controller isKindOfClass:%c(HACCModuleViewController)] ||
+				[controller isKindOfClass:%c(WSUIModuleContentViewController)]
 				)
 			)
 		) {

@@ -81,7 +81,10 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 	if ([currentLayer.delegate respondsToSelector:@selector(_viewControllerForAncestor)]) {
 		UIViewController *controller = [((UIView*)currentLayer.delegate) _viewControllerForAncestor];
 
-		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] || [controller isKindOfClass:%c(HUCCModuleContentViewController)] || [controller isKindOfClass:%c(AXCCIconViewController)]) {
+		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)]
+			|| [controller isKindOfClass:%c(HUCCModuleContentViewController)]
+			|| [controller isKindOfClass:%c(AXCCIconViewController)]
+			|| [controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
 
 			// Ugly fix to restore the default colors for expanded modules (TODO improve this?)
 			if ([layer.compositingFilter isEqual:@"plusD"]) return prefBool(@"togglesHideContainer") ? [[UIColor clearColor] CGColor] : [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
