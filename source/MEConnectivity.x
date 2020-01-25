@@ -1,5 +1,4 @@
 #import "MagmaEvo.h"
-#import <GameplayKit/GameplayKit.h> // required for shuffledArray method
 
 %hook CCUILabeledRoundButtonViewController
 	-(id)initWithGlyphImage:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
@@ -165,6 +164,16 @@ CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller)
 
 %ctor {
 	if (prefBool(@"enabled")) {
+		// Load WeatherVane or QuickCC if installed because they have to be injected BEFORE the Connectivity Module gets loaded
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/QuickCC.dylib"]) {
+			dlopen("/Library/MobileSubstrate/DynamicLibraries/QuickCC.dylib", RTLD_LAZY);
+		}
+
+		if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/WeatherVane.dylib"]) {
+			dlopen("/Library/MobileSubstrate/DynamicLibraries/WeatherVane.dylib", RTLD_LAZY);
+		}
+
 		// Need to load the Connectivity Bundle here or our CCUIConnectivityModuleViewController will be injected too early
 		[[NSBundle bundleWithPath:@"/System/Library/ControlCenter/Bundles/ConnectivityModule.bundle/"] load];
 		%init;

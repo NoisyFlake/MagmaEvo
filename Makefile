@@ -12,7 +12,6 @@ TWEAK_NAME = MagmaEvo
 
 MagmaEvo_FILES = source/MagmaEvo.x $(wildcard source/*.x source/*.m)
 MagmaEvo_CFLAGS = -fobjc-arc
-MagmaEvo_FRAMEWORKS = GameplayKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += preferences
