@@ -1,5 +1,11 @@
 #import "UIColor+MagmaEvo.h"
 
+#ifdef DEBUG
+#define NSLog(fmt, ...) NSLog((@"[MagmaEvo] [%s:%d] " fmt), __FILE__, __LINE__, ##__VA_ARGS__)
+#else
+#define NSLog(fmt, ...)
+#endif
+
 @interface UIView (MagmaEvo)
 @property (nonatomic,readonly) UIView * _ui_superview;
 @property (copy,readonly) NSArray * allSubviews;

@@ -132,7 +132,8 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				}
 			}
 
-			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsRoutingCornerView)]) {
+			// On iOS 12 the delegate is the correct view, on iOS 13 we only receive the subview
+			if ([currentLayer.delegate isKindOfClass:%c(MediaControlsRoutingCornerView)] || [((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsRoutingCornerView)]) {
 				if (prefValue(@"mediaControlsRoutingButton") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
 					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRoutingButton")] CGColor];
 				}
