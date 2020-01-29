@@ -119,7 +119,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
-		} else if([controller isKindOfClass:%c(PrsymTogglesModuleViewController)]) {
+		} else if([controller isKindOfClass:%c(PrysmTogglesModuleViewController)]) {
 
 			UIColor *toggleColor = getPrysmToggleColor((UIView *)currentLayer.delegate);
 
@@ -144,7 +144,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 			return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 
-		} else if([controller isKindOfClass:%c(PrsymConnectivityModuleViewController)]) {
+		} else if([controller isKindOfClass:%c(PrysmConnectivityModuleViewController)]) {
 
 			if ([currentLayer.delegate isKindOfClass:%c(PrysmButtonView)]) {
 

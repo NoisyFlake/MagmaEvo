@@ -1,6 +1,6 @@
 #import "MagmaEvo.h"
 
-%hook PrsymConnectivityModuleViewController
+%hook PrysmConnectivityModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
 	forceLayerUpdate(self.view.layer.sublayers);
@@ -9,7 +9,7 @@
 }
 %end
 
-%hook PrsymSliderModuleViewController
+%hook PrysmSliderModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
 
@@ -23,7 +23,7 @@
 }
 %end
 
-%hook PrsymMediaModuleViewController
+%hook PrysmMediaModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
 
@@ -33,6 +33,8 @@
 
 	if (prefValue(@"mediaControlsPrimaryLabel")) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];
 	if (prefValue(@"mediaControlsSecondaryLabel")) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSecondaryLabel")];
+
+	if (prefBool(@"mediaControlsHideContainer")) self.view.backgroundColor = [UIColor clearColor];
 }
 %end
 
@@ -46,7 +48,7 @@
 
 UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 	NSString *internalName = nil;
-	PrsymConnectivityModuleViewController *parent = view._viewControllerForAncestor;
+	PrysmConnectivityModuleViewController *parent = view._viewControllerForAncestor;
 	if (view == parent.airdropButton) internalName = @"CCUIConnectivityAirDropViewController";
 	if (view == parent.airplaneButton) internalName = @"CCUIConnectivityAirplaneViewController";
 	if (view == parent.bluetoothButton) internalName = @"CCUIConnectivityBluetoothViewController";
@@ -67,7 +69,7 @@ UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 
 UIColor *getPrysmConnectivityGlyphColor(UIImageView *view) {
 	NSString *prefKey = nil;
-	PrsymConnectivityModuleViewController *parent = view._viewControllerForAncestor;
+	PrysmConnectivityModuleViewController *parent = view._viewControllerForAncestor;
 	if (view == parent.airdropButton.altStateImageView) prefKey = @"CCUIConnectivityAirDropViewControllerEnabled";
 	if (view == parent.airdropButton.imageView) prefKey = @"CCUIConnectivityAirDropViewControllerDisabled";
 
@@ -127,9 +129,9 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 
 	if (prefBool(@"enabled") && [fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"]) {
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib", RTLD_LAZY);
-		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrsymConnectivity.bundle/"] load];
-		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrsymSlider.bundle/"] load];
-		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrsymMedia.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmConnectivity.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmSlider.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmMedia.bundle/"] load];
 		%init;
 	}
 }

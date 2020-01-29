@@ -39,7 +39,7 @@
 @property(readonly, nonatomic) UIImageView *imageView;
 @end
 
-@interface PrsymConnectivityModuleViewController : UIViewController
+@interface PrysmConnectivityModuleViewController : UIViewController
 @property (nonatomic,readonly) PrysmButtonView *airdropButton;
 @property (nonatomic,readonly) PrysmButtonView *airplaneButton;
 @property (nonatomic,readonly) PrysmButtonView *bluetoothButton;
@@ -52,12 +52,12 @@
 @property (nonatomic,retain) UIImageView * overlayImageView;
 @end
 
-@interface PrsymSliderModuleViewController : UIViewController
+@interface PrysmSliderModuleViewController : UIViewController
 @property (nonatomic,retain) PrysmSliderViewController * audioSlider;
 @property (nonatomic,retain) PrysmSliderViewController * brightnessSlider;
 @end
 
-@interface PrsymMediaModuleViewController : UIViewController
+@interface PrysmMediaModuleViewController : UIViewController
 @property (nonatomic,retain) UIButton * skipButton;
 @property (nonatomic,retain) UIButton * rewindButton;
 @property (nonatomic,retain) UIButton * playPauseButton;
