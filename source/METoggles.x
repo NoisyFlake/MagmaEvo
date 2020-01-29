@@ -109,6 +109,8 @@ UIColor *getToggleColor(UIViewController *controller) {
 		identifier = ((CCUIContentModuleContainerViewController *)parentController).moduleIdentifier;
 	} else if ([parentController.parentViewController isKindOfClass:%c(CCUIContentModuleContainerViewController)]) {
 		identifier = ((CCUIContentModuleContainerViewController *)parentController.parentViewController).moduleIdentifier;
+	} else if ([controller.parentFocusEnvironment isKindOfClass:%c(PrysmButtonView)]) {
+		identifier = ((PrysmButtonView *)controller.parentFocusEnvironment).identifier;
 	} else if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
 		// TV Remote on iOS 12 has no unique way to identify it, so let's assume this is it
 		identifier = @"com.apple.control-center.AppleTVRemoteModule";
@@ -123,6 +125,10 @@ UIColor *getToggleColor(UIViewController *controller) {
 		prefKey = [NSString stringWithFormat:@"%@%@", identifier, @"Disabled"];
 	}
 
+	return getColorForPrefKey(prefKey);
+}
+
+UIColor *getColorForPrefKey(NSString *prefKey) {
 	NSString *value = prefValue(prefKey);
 	if (value == nil) {
 		if ([prefKey isEqual:@"com.apple.control-center.OrientationLockModuleEnabled"]) value = @"#FF5A63";

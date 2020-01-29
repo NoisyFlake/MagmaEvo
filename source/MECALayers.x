@@ -119,6 +119,47 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
+		} else if([controller isKindOfClass:%c(PrsymTogglesModuleViewController)]) {
+
+			UIColor *toggleColor = getPrysmToggleColor((UIView *)currentLayer.delegate);
+
+			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && isPrysmButtonSelected(getPrysmButtonView((UIView *)currentLayer.delegate))) {
+
+				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
+					((MTMaterialView*)currentLayer.delegate).configuration = 1;
+					return [toggleColor CGColor];
+				}
+
+				if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(_MTBackdropView)]) {
+					((_MTBackdropView*)currentLayer.delegate).colorAddColor = nil;
+					((_MTBackdropView*)currentLayer.delegate).brightness = 0;
+					return [toggleColor CGColor];
+				}
+
+				return [toggleColor evoIsBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
+
+			}
+
+			if (toggleColor != nil) return [toggleColor CGColor];
+
+			return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
+
+		} else if([controller isKindOfClass:%c(PrsymConnectivityModuleViewController)]) {
+
+			if ([currentLayer.delegate isKindOfClass:%c(PrysmButtonView)]) {
+
+				PrysmButtonView *view = (PrysmButtonView *)currentLayer.delegate;
+				UIColor *color = getPrysmConnectivityColor(view);
+
+				if (color != nil) return color.CGColor;
+
+			} else if ([currentLayer.delegate isKindOfClass:%c(UIImageView)]) {
+				UIImageView *view = (UIImageView *)currentLayer.delegate;
+				UIColor *color = getPrysmConnectivityGlyphColor(view);
+
+				if (color != nil) return color.CGColor;
+			}
+
 		} else if([controller isKindOfClass:%c(CCUIConnectivityButtonViewController)]) {
 
 			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;

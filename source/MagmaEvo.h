@@ -14,6 +14,10 @@
 -(id)_viewControllerForAncestor;
 @end
 
+@interface UIViewController (MagmaEvo)
+@property (nonatomic,readonly) id parentFocusEnvironment;
+@end
+
 @interface NSArray (MagmaEvo)
 - (NSArray *)shuffledArray;
 @end
@@ -25,6 +29,44 @@
 @interface _MTBackdropView : UIView
 @property (nonatomic,copy) UIColor * colorAddColor;
 @property (assign,nonatomic) double brightness;
+@end
+
+@interface PrysmButtonView : UIView
+@property (nonatomic,copy) NSString * identifier;
+@property (nonatomic,retain) UIColor * altStateColor;
+@property (assign,nonatomic) BOOL state;
+@property(readonly, nonatomic) UIImageView *altStateImageView;
+@property(readonly, nonatomic) UIImageView *imageView;
+@end
+
+@interface PrsymConnectivityModuleViewController : UIViewController
+@property (nonatomic,readonly) PrysmButtonView *airdropButton;
+@property (nonatomic,readonly) PrysmButtonView *airplaneButton;
+@property (nonatomic,readonly) PrysmButtonView *bluetoothButton;
+@property (nonatomic,readonly) PrysmButtonView *cellularButton;
+@property (nonatomic,readonly) PrysmButtonView *wifiButton;
+@end
+
+@interface PrysmSliderViewController : UIViewController
+@property (nonatomic,retain) UIView * overlayView;
+@property (nonatomic,retain) UIImageView * overlayImageView;
+@end
+
+@interface PrsymSliderModuleViewController : UIViewController
+@property (nonatomic,retain) PrysmSliderViewController * audioSlider;
+@property (nonatomic,retain) PrysmSliderViewController * brightnessSlider;
+@end
+
+@interface PrsymMediaModuleViewController : UIViewController
+@property (nonatomic,retain) UIButton * skipButton;
+@property (nonatomic,retain) UIButton * rewindButton;
+@property (nonatomic,retain) UIButton * playPauseButton;
+@property (nonatomic,retain) UILabel * titleLabel;
+@property (nonatomic,retain) UILabel * subtitleLabel;
+@end
+
+@interface PrysmCardBackgroundViewController : UIViewController
+@property (nonatomic,retain) UIView * overlayView;
 @end
 
 @interface CCUIContentModuleContainerViewController : UIViewController
@@ -163,8 +205,17 @@ void forceLayerUpdate(NSArray *layers);
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller);
 CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller);
+
 UIColor *getToggleColor(UIViewController *controller);
+UIColor *getColorForPrefKey(NSString *prefKey);
+
 CGColorRef getSliderColor(UIViewController *controller, UIView *view);
+
+UIColor *getPrysmConnectivityGlyphColor(UIImageView *view);
+UIColor *getPrysmConnectivityColor(PrysmButtonView *view);
+UIColor *getPrysmToggleColor(UIView *view);
+bool isPrysmButtonSelected(PrysmButtonView *view);
+PrysmButtonView *getPrysmButtonView(UIView *view);
 
 // --- Definitions --- //
 
