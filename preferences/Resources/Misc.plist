@@ -21,6 +21,7 @@
 			<key>cell</key>                     <string>PSGroupCell</string>
 			<key>label</key>                    <string>iPhone X and newer</string>
 			<key>footerText</key>               <string>These options are only for the Control Center on modern iPhones or if you have a tweak installed to enable it.</string>
+			<key>feature</key>                  <string>notPrysm</string>
 		</dict>
 		<dict>
 			<key>cell</key>                          <string>PSSegmentCell</string>
@@ -28,6 +29,7 @@
 			<key>default</key>                       <string>top</string>
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>miscMainAlignment</string>
+			<key>feature</key>                       <string>notPrysm</string>
 			<key>validTitles</key>
 				<array>
 					<string>Default Alignment</string>
@@ -46,6 +48,7 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarHide</string>
 			<key>label</key>                    <string>Hide Status Bar</string>
+			<key>feature</key>                  <string>notPrysm</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -54,6 +57,7 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarColor</string>
 			<key>label</key>                    <string>Status Bar Color</string>
+			<key>feature</key>                  <string>notPrysm</string>
 		</dict>
 
 		<dict>

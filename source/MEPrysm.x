@@ -46,6 +46,16 @@
 }
 %end
 
+%hook PrysmButtonView
+-(void)setBackgroundColor:(UIColor *)color {
+	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && prefBool(@"togglesHideContainer")) {
+		color = [UIColor clearColor];
+	}
+
+	%orig(color);
+}
+%end
+
 UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 	NSString *internalName = nil;
 	PrysmConnectivityModuleViewController *parent = view._viewControllerForAncestor;

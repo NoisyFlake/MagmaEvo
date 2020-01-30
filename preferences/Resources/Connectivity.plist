@@ -17,6 +17,7 @@
 				<key>isController</key>             <true/>
 				<key>detail</key>                   <string>MEVOConnectivityOrderController</string>
 				<key>label</key>                    <string>Rearrange Toggles</string>
+				<key>key</key>                      <string>rearrangeToggles</string>
 		</dict>
 
 		<dict>
