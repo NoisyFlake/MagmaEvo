@@ -8,7 +8,7 @@
 		forceLayerUpdate(self.layer.sublayers);
 
 		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
-		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && prefBool(@"togglesHideContainer")) {
+		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [settings boolForKey:@"togglesHideContainer"]) {
 				for (UIView *subview in self.allSubviews) {
 					if ([subview isKindOfClass:%c(MTMaterialView)]) {
 						subview.alpha = 0;
@@ -34,15 +34,15 @@
 
 		forceLayerUpdate(self.layer.sublayers);
 
-		if (!prefValueEquals(@"togglesOverlayMode", @"regular")) {
+		if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"regular"]) {
 			for (UIView *subview in self.allSubviews) {
 				if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
 						(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
 
-					if (prefValueEquals(@"togglesOverlayMode", @"removeOverlay")) {
+					if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"removeOverlay"]) {
 						subview.hidden = YES;
 						break;
-					} else if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
+					} else if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
 						subview.backgroundColor = [UIColor redColor]; // CALayer will handle it later, we just need to call the setter
 						break;
 					}
@@ -61,7 +61,7 @@
 		if ([self._viewControllerForAncestor isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
 			UIColor *color = getToggleColor(self._viewControllerForAncestor);
 			if (color != nil) {
-				if ([self._viewControllerForAncestor isSelected] && prefValueEquals(@"togglesOverlayMode", @"colorOverlay")) {
+				if ([self._viewControllerForAncestor isSelected] && [[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
 					arg1 = [color evoIsBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
 				} else {
 					arg1 = color;
@@ -85,7 +85,7 @@
 
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
 		if (controller == nil ||
-			(prefBool(@"togglesHideContainer") && (
+			([settings boolForKey:@"togglesHideContainer"] && (
 				[controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
 				[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
 				[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
@@ -129,7 +129,7 @@ UIColor *getToggleColor(UIViewController *controller) {
 }
 
 UIColor *getColorForPrefKey(NSString *prefKey) {
-	NSString *value = prefValue(prefKey);
+	NSString *value = [settings valueForKey:prefKey];
 	if (value == nil) {
 		if ([prefKey isEqual:@"com.apple.control-center.OrientationLockModuleEnabled"]) value = @"#FF5A63";
 		if ([prefKey isEqual:@"com.apple.donotdisturb.DoNotDisturbModuleEnabled"]) value = @"#5E67D6";
@@ -147,7 +147,9 @@ UIColor *getColorForPrefKey(NSString *prefKey) {
 }
 
 %ctor {
-	if (prefBool(@"enabled")) {
+	settings = [MagmaPrefs sharedInstance];
+
+	if ([settings boolForKey:@"enabled"]) {
 		%init;
 	}
 }

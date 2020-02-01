@@ -27,7 +27,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]) key = @"slidersBrightnessGlyph";
 				if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)]) key = @"slidersVolumeGlyph";
 				if ([controller isKindOfClass:%c(CCRingerModuleContentViewController)]) key = @"slidersRingerGlyph";
-				if (prefValue(key) != nil) {
+				if ([settings valueForKey:key] != nil) {
 					%orig(opacity > 0 ? 1 : 0);
 					return;
 				}
@@ -87,13 +87,13 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			|| [controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
 
 			// Ugly fix to restore the default colors for expanded modules (TODO improve this?)
-			if ([layer.compositingFilter isEqual:@"plusD"]) return prefBool(@"togglesHideContainer") ? [[UIColor clearColor] CGColor] : [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
+			if ([layer.compositingFilter isEqual:@"plusD"]) return [settings boolForKey:@"togglesHideContainer"] ? [[UIColor clearColor] CGColor] : [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
 			if ([((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(CCUIMenuModuleItemView)] || [((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(BSUIEmojiLabelView)]) return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00] CGColor];
 			if ([currentLayer.delegate isKindOfClass:%c(MPAVHighlightedControl)]) return originalColor;
 
 			UIColor *toggleColor = getToggleColor(controller);
 
-			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
+			if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
 				if (toggleColor == nil) toggleColor = ((CCUIButtonModuleViewController*)controller).buttonView.selectedGlyphColor ?: [UIColor colorWithCGColor:originalColor];
 
 				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
@@ -123,7 +123,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 			UIColor *toggleColor = getPrysmToggleColor((UIView *)currentLayer.delegate);
 
-			if (prefValueEquals(@"togglesOverlayMode", @"colorOverlay") && isPrysmButtonSelected(getPrysmButtonView((UIView *)currentLayer.delegate))) {
+			if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && isPrysmButtonSelected(getPrysmButtonView((UIView *)currentLayer.delegate))) {
 
 				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
 					((MTMaterialView*)currentLayer.delegate).configuration = 1;
@@ -168,15 +168,15 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 		} else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
 
 			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
-				if (prefValue(@"mediaControlsSlider") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
-					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSlider")] CGColor];
+				if ([settings valueForKey:@"mediaControlsSlider"] && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
+					return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]] CGColor];
 				}
 			}
 
 			// On iOS 12 the delegate is the correct view, on iOS 13 we only receive the subview
 			if ([currentLayer.delegate isKindOfClass:%c(MediaControlsRoutingCornerView)] || [((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsRoutingCornerView)]) {
-				if (prefValue(@"mediaControlsRoutingButton") && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || prefBool(@"mediaControlsColorLockscreen"))) {
-					return [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRoutingButton")] CGColor];
+				if ([settings valueForKey:@"mediaControlsRoutingButton"] && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
+					return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]] CGColor];
 				}
 			}
 
@@ -203,7 +203,9 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 }
 
 %ctor {
-	if (prefBool(@"enabled")) {
+	settings = [MagmaPrefs sharedInstance];
+
+	if ([settings boolForKey:@"enabled"]) {
 		%init;
 	}
 }

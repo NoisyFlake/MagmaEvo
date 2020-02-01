@@ -74,10 +74,6 @@
         NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
         [settings setObject:hexString forKey:self.specifier.properties[@"key"]];
         [settings writeToFile:path atomically:YES];
-        // CFStringRef notificationName = (CFStringRef)self.specifier.properties[@"PostNotification"];
-        // if (notificationName) {
-        //     CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), notificationName, NULL, NULL, YES);
-        // }
 
         [self updateCellDisplay];
     }];

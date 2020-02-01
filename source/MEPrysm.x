@@ -5,7 +5,7 @@
 	%orig;
 	forceLayerUpdate(self.view.layer.sublayers);
 
-	if (prefBool(@"connectivityHideContainer")) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings boolForKey:@"connectivityHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 }
 %end
 
@@ -13,13 +13,13 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if (prefValue(@"slidersVolumeBackground")) self.audioSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:prefValue(@"slidersVolumeBackground")];
-	if (prefValue(@"slidersVolumeGlyph")) self.audioSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:prefValue(@"slidersVolumeGlyph")];
+	if ([settings valueForKey:@"slidersVolumeBackground"]) self.audioSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeBackground"]];
+	if ([settings valueForKey:@"slidersVolumeGlyph"]) self.audioSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]];
 
-	if (prefValue(@"slidersBrightnessBackground")) self.brightnessSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:prefValue(@"slidersBrightnessBackground")];
-	if (prefValue(@"slidersBrightnessGlyph")) self.brightnessSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:prefValue(@"slidersBrightnessGlyph")];
+	if ([settings valueForKey:@"slidersBrightnessBackground"]) self.brightnessSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessBackground"]];
+	if ([settings valueForKey:@"slidersBrightnessGlyph"]) self.brightnessSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]];
 
-	if (prefBool(@"slidersHideContainer")) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings boolForKey:@"slidersHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 }
 %end
 
@@ -27,14 +27,14 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if (prefValue(@"mediaControlsLeftButton")) self.rewindButton.tintColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsLeftButton")];
-	if (prefValue(@"mediaControlsMiddleButton")) self.playPauseButton.tintColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsMiddleButton")];
-	if (prefValue(@"mediaControlsRightButton")) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRightButton")];
+	if ([settings valueForKey:@"mediaControlsLeftButton"]) self.rewindButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]];
+	if ([settings valueForKey:@"mediaControlsMiddleButton"]) self.playPauseButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
+	if ([settings valueForKey:@"mediaControlsRightButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
 
-	if (prefValue(@"mediaControlsPrimaryLabel")) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];
-	if (prefValue(@"mediaControlsSecondaryLabel")) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSecondaryLabel")];
+	if ([settings valueForKey:@"mediaControlsPrimaryLabel"]) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
+	if ([settings valueForKey:@"mediaControlsSecondaryLabel"]) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
 
-	if (prefBool(@"mediaControlsHideContainer")) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings boolForKey:@"mediaControlsHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 }
 %end
 
@@ -42,13 +42,13 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if (prefValue(@"miscMainBackground")) self.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:prefValue(@"miscMainBackground")];
+	if ([settings valueForKey:@"miscMainBackground"]) self.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"miscMainBackground"]];
 }
 %end
 
 %hook PrysmButtonView
 -(void)setBackgroundColor:(UIColor *)color {
-	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && prefBool(@"togglesHideContainer")) {
+	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && [settings boolForKey:@"togglesHideContainer"]) {
 		color = [UIColor clearColor];
 	}
 
@@ -69,9 +69,9 @@ UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 	UIColor *color = nil;
 
 	if (view.state) {
-		color = prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") ? [UIColor clearColor] : getColorForPrefKey(prefKey);
+		color = [[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : getColorForPrefKey(prefKey);
 	} else {
-		color = prefValueEquals(@"connectivityModeDisabled", @"glyphOnly") ? [UIColor clearColor] : nil;
+		color = [[settings valueForKey:@"connectivityModeDisabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : nil;
 	}
 
 	return color;
@@ -95,7 +95,7 @@ UIColor *getPrysmConnectivityGlyphColor(UIImageView *view) {
 	if (view == parent.wifiButton.altStateImageView) prefKey = @"CCUIConnectivityWifiViewControllerEnabled";
 	if (view == parent.wifiButton.imageView) prefKey = @"CCUIConnectivityWifiViewControllerDisabled";
 
-	if ((prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") && [prefKey containsString:@"Enabled"])
+	if (([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] && [prefKey containsString:@"Enabled"])
 		|| [prefKey containsString:@"Disabled"]) {
 		UIColor *color = getColorForPrefKey(prefKey);
 		if (color == nil) {
@@ -110,7 +110,7 @@ UIColor *getPrysmConnectivityGlyphColor(UIImageView *view) {
 		return color;
 	}
 
-	if (!prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") && [prefKey containsString:@"Enabled"]) {
+	if (![[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] && [prefKey containsString:@"Enabled"]) {
 		return [getColorForPrefKey(prefKey) evoIsBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
 	}
 
@@ -146,8 +146,9 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 
 %ctor {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
+	settings = [MagmaPrefs sharedInstance];
 
-	if (prefBool(@"enabled") && [fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"]) {
+	if ([settings boolForKey:@"enabled"] && [fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"]) {
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib", RTLD_LAZY);
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmConnectivity.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmSlider.bundle/"] load];

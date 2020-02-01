@@ -12,11 +12,11 @@
 	-(UIColor *)evoGetToggleColor:(UIColor *)color {
 		if (![self isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return color;
 
-		if (prefValueEquals(@"connectivityModeEnabled", @"glyphOnly")) {
+		if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"]) {
 			color = [UIColor clearColor];
 		} else {
 			NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self class])];
-			if (prefValue(prefKey)) color = [UIColor evoRGBAColorFromHexString:prefValue(prefKey)];
+			if ([settings valueForKey:prefKey]) color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:prefKey]];
 		}
 
 		return color;
@@ -27,7 +27,7 @@
 	-(void)didMoveToWindow {
 		%orig;
 
-		if (prefBool(@"powerModuleHideBackground") && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
+		if ([settings boolForKey:@"powerModuleHideBackground"] && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
@@ -40,7 +40,7 @@
 	-(void)_updateForStateChange {
 		%orig;
 
-		if (prefBool(@"powerModuleHideBackground") && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
+		if ([settings boolForKey:@"powerModuleHideBackground"] && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
 			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
@@ -51,7 +51,7 @@
 
 		if (![self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return;
 
-		if (prefValueEquals(@"connectivityModeDisabled", @"glyphOnly")) {
+		if ([[settings valueForKey:@"connectivityModeDisabled"] isEqual:@"glyphOnly"]) {
 			self.normalStateBackgroundView.alpha = 0;
 		}
 
@@ -76,8 +76,8 @@
 
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
 		if (module == nil
-			|| (prefBool(@"connectivityHideContainer") && [module isEqual:@"com.apple.control-center.ConnectivityModule"])
-			|| (prefBool(@"powerModuleHideContainer") && [module isEqual:@"com.muirey03.powermodule"])) {
+			|| ([settings boolForKey:@"connectivityHideContainer"] && [module isEqual:@"com.apple.control-center.ConnectivityModule"])
+			|| ([settings boolForKey:@"powerModuleHideContainer"] && [module isEqual:@"com.muirey03.powermodule"])) {
 			return;
 		}
 
@@ -122,7 +122,7 @@
 
 		for (id obj in originalOrder) {
 			for (int i = 0; i < 6; i++) {
-				NSString *val = prefValue([NSString stringWithFormat:@"connectivityPosition%d", i]);
+				NSString *val = [settings valueForKey:[NSString stringWithFormat:@"connectivityPosition%d", i]];
 				if (val != nil && [val isEqual:NSStringFromClass([obj class])]) [newOrder replaceObjectAtIndex:i withObject:obj];
 			}
 		}
@@ -135,9 +135,9 @@
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller) {
 	NSString *prefKey = [NSString stringWithFormat:@"%@%@", NSStringFromClass([controller class]), [controller isEnabled] ? @"Enabled" : @"Disabled"];
-	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor evoRGBAColorFromHexString:prefValue(prefKey)] : nil;
+	UIColor *color = ([settings valueForKey:prefKey] != nil) ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:prefKey]] : nil;
 
-	if (prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") || ![controller isEnabled]) {
+	if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] || ![controller isEnabled]) {
 		if (color != nil) return [color CGColor];
 
 		if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) return [[UIColor evoRGBAColorFromHexString:@"#007AFF"] CGColor];
@@ -155,7 +155,7 @@ CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *contr
 
 CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller) {
 	NSString *prefKey = NSStringFromClass([controller class]);
-	UIColor *color = (prefValue(prefKey) != nil) ? [UIColor evoRGBAColorFromHexString:prefValue(prefKey)] : nil;
+	UIColor *color = ([settings valueForKey:prefKey] != nil) ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:prefKey]] : nil;
 
 	if (color != nil) return [color CGColor];
 
@@ -163,7 +163,9 @@ CGColorRef getPowerModuleColor(CCUILabeledRoundButtonViewController *controller)
 }
 
 %ctor {
-	if (prefBool(@"enabled")) {
+	settings = [MagmaPrefs sharedInstance];
+
+	if ([settings boolForKey:@"enabled"]) {
 		// Load WeatherVane or QuickCC if installed because they have to be injected BEFORE the Connectivity Module gets loaded
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/QuickCC.dylib"]) {

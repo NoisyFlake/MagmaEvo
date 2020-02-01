@@ -6,6 +6,15 @@
 #define NSLog(fmt, ...)
 #endif
 
+@interface MagmaPrefs : NSObject
+@property (nonatomic, retain) NSDictionary *settings;
+@property (nonatomic, retain) NSDictionary *defaultSettings;
++ (id)sharedInstance;
+- (id)init;
+-(BOOL)boolForKey:(NSString *)key;
+-(NSString *)valueForKey:(NSString *)key;
+@end
+
 @interface UIView (MagmaEvo)
 @property (nonatomic,readonly) UIView * _ui_superview;
 @property (copy,readonly) NSArray * allSubviews;
@@ -198,9 +207,6 @@
 
 // --- Method list --- //
 
-BOOL prefBool(NSString *key);
-NSString* prefValue(NSString *key);
-BOOL prefValueEquals(NSString *key, NSString *value);
 void forceLayerUpdate(NSArray *layers);
 
 CGColorRef getConnectivityGlyphColor(CCUILabeledRoundButtonViewController *controller);
@@ -220,3 +226,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view);
 // --- Definitions --- //
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+// --- Global objects --- //
+
+MagmaPrefs *settings;

@@ -3,7 +3,7 @@
 %hook MediaControlsMaterialView
   -(id)initWithFrame:(CGRect)arg1 {
     MediaControlsMaterialView *orig = %orig;
-    if (prefBool(@"mediaControlsHideContainer")) orig.alpha = 0;
+    if ([settings boolForKey:@"mediaControlsHideContainer"]) orig.alpha = 0;
     return orig;
   }
 %end
@@ -15,24 +15,24 @@
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen
-    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && !prefBool(@"mediaControlsColorLockscreen")) return;
+    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
 
-    if (prefValue(@"mediaControlsLeftButton") != nil) {
+    if ([settings valueForKey:@"mediaControlsLeftButton"] != nil) {
       MediaControlsTransportButton *leftButton = self.leftButton;
-      leftButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsLeftButton")] CGColor];
+      leftButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]] CGColor];
     }
 
-    if (prefValue(@"mediaControlsMiddleButton") != nil) {
+    if ([settings valueForKey:@"mediaControlsMiddleButton"] != nil) {
       MediaControlsTransportButton *middleButton = self.middleButton;
-      middleButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsMiddleButton")] CGColor];
+      middleButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]] CGColor];
     }
 
-    if (prefValue(@"mediaControlsRightButton") != nil) {
+    if ([settings valueForKey:@"mediaControlsRightButton"] != nil) {
       MediaControlsTransportButton *rightButton = self.rightButton;
-      rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsRightButton")] CGColor];
+      rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]] CGColor];
     }
 
-    if (prefValue(@"mediaControlsRoutingButton") != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {
+    if ([settings valueForKey:@"mediaControlsRoutingButton"] != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {
       forceLayerUpdate(((MRPlatterViewController *)controller).routingCornerView.layer.sublayers);
     }
 
@@ -46,14 +46,14 @@
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen or the AirPlay view under the expanded View
-    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && !prefBool(@"mediaControlsColorLockscreen")) || self.buttonType == 0) return;
+    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) || self.buttonType == 0) return;
 
-    if (prefValue(@"mediaControlsPrimaryLabel") != nil) {
-      self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsPrimaryLabel")];
+    if ([settings valueForKey:@"mediaControlsPrimaryLabel"] != nil) {
+      self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
     }
 
-    if (prefValue(@"mediaControlsSecondaryLabel") != nil) {
-      self.secondaryLabel.textColor = [UIColor evoRGBAColorFromHexString:prefValue(@"mediaControlsSecondaryLabel")];
+    if ([settings valueForKey:@"mediaControlsSecondaryLabel"] != nil) {
+      self.secondaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
       self.secondaryLabel.layer.filters = nil;
     }
 
@@ -61,7 +61,9 @@
 %end
 
 %ctor {
-	if (prefBool(@"enabled")) {
+  settings = [MagmaPrefs sharedInstance];
+
+	if ([settings boolForKey:@"enabled"]) {
 		%init;
 	}
 }

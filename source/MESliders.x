@@ -40,7 +40,7 @@
 
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
 		if (controller == nil ||
-			(prefBool(@"slidersHideContainer") && (
+			([settings boolForKey:@"slidersHideContainer"] && (
 				[controller isKindOfClass:%c(CCUIDisplayModuleViewController)] ||
 				[controller isKindOfClass:%c(CCUIAudioModuleViewController)] ||
 				[controller isKindOfClass:%c(CCRingerModuleContentViewController)]
@@ -59,7 +59,7 @@
     MediaControlsVolumeSliderView *orig = %orig;
 
     // Hide the container background of the iOS 13 volume slider as it doesn't use _configureModuleMaterialViewIfNecessary
-    if (prefBool(@"slidersHideContainer")) {
+    if ([settings boolForKey:@"slidersHideContainer"]) {
     	for (UIView *subview in self.allSubviews) {
     		if ([subview isKindOfClass:%c(MTMaterialView)]) {
     			subview.alpha = 0;
@@ -81,23 +81,23 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 	NSString *backgroundKey = [NSString stringWithFormat:@"%@Background", identifier];
 	NSString *glyphKey = [NSString stringWithFormat:@"%@Glyph", identifier];
 
-	if (prefValue(backgroundKey) != nil) {
+	if ([settings valueForKey:backgroundKey] != nil) {
 		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [view isKindOfClass:%c(MTMaterialView)]) {
 			((MTMaterialView *)view).configuration = 1;
-			return [[UIColor evoRGBAColorFromHexString:prefValue(backgroundKey)] CGColor];
+			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:backgroundKey]] CGColor];
 		}
 
 		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [view isKindOfClass:%c(_MTBackdropView)]) {
 			((_MTBackdropView*)view).colorAddColor = nil;
 			((_MTBackdropView*)view).brightness = 0;
-			return [[UIColor evoRGBAColorFromHexString:prefValue(backgroundKey)] CGColor];
+			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:backgroundKey]] CGColor];
 		}
 	}
 
-	if (prefValue(glyphKey) != nil) {
+	if ([settings valueForKey:glyphKey] != nil) {
 		if (![view isKindOfClass:%c(MTMaterialView)] && ![view isKindOfClass:%c(_MTBackdropView)]) {
 			// This is the glyph inside the slider
-			return [[UIColor evoRGBAColorFromHexString:prefValue(glyphKey)] CGColor];
+			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:glyphKey]] CGColor];
 		}
 	}
 
@@ -105,7 +105,9 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 }
 
 %ctor {
-	if (prefBool(@"enabled")) {
+	settings = [MagmaPrefs sharedInstance];
+
+	if ([settings boolForKey:@"enabled"]) {
 		Class cls = NSClassFromString(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") ? @"CCUIContinuousSliderView" : @"CCUIModuleSliderView");
 		%init(SliderClass=cls);
 	}
