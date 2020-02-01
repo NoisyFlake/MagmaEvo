@@ -97,7 +97,17 @@ UIColor *getPrysmConnectivityGlyphColor(UIImageView *view) {
 
 	if ((prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") && [prefKey containsString:@"Enabled"])
 		|| [prefKey containsString:@"Disabled"]) {
-		return getColorForPrefKey(prefKey);
+		UIColor *color = getColorForPrefKey(prefKey);
+		if (color == nil) {
+			if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+			if ([prefKey isEqual:@"CCUIConnectivityAirplaneViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#FF9500"];
+			if ([prefKey isEqual:@"CCUIConnectivityBluetoothViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+			if ([prefKey isEqual:@"CCUIConnectivityCellularDataViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+			if ([prefKey isEqual:@"CCUIConnectivityHotspotViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+			if ([prefKey isEqual:@"CCUIConnectivityWifiViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+		}
+
+		return color;
 	}
 
 	if (!prefValueEquals(@"connectivityModeEnabled", @"glyphOnly") && [prefKey containsString:@"Enabled"]) {
