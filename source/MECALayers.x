@@ -22,10 +22,11 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)] ||
 				[controller isKindOfClass:%c(CCUIAudioModuleViewController)] ||
 				[controller isKindOfClass:%c(MediaControlsVolumeViewController)] ||
+				([settings boolForKey:@"slidersVolumeSystem"] && [controller isKindOfClass:%c(SBElasticVolumeViewController)]) ||
 				[controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
 				NSString *key = nil;
 				if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]) key = @"slidersBrightnessGlyph";
-				if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)]) key = @"slidersVolumeGlyph";
+				if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)] || [controller isKindOfClass:%c(SBElasticVolumeViewController)]) key = @"slidersVolumeGlyph";
 				if ([controller isKindOfClass:%c(CCRingerModuleContentViewController)]) key = @"slidersRingerGlyph";
 				if ([settings valueForKey:key] != nil) {
 					%orig(opacity > 0 ? 1 : 0);
@@ -183,6 +184,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 		} else if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]
 					|| [controller isKindOfClass:%c(MediaControlsVolumeViewController)]
 					|| [controller isKindOfClass:%c(CCUIAudioModuleViewController)]
+					|| ([settings boolForKey:@"slidersVolumeSystem"] && [controller isKindOfClass:%c(SBElasticVolumeViewController)])
 					|| [controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
 
 			CGColorRef sliderColor = getSliderColor(controller, (UIView *)currentLayer.delegate);

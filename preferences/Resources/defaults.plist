@@ -15,6 +15,7 @@
 		<key>mediaControlsColorLockscreen</key>      <false/>
 
 		<key>slidersHideContainer</key>              <false/>
+		<key>slidersVolumeSystem</key>               <false/>
 
 		<key>miscStatusBarHide</key>                 <false/>
 		<key>powerModuleHideContainer</key>          <false/>

@@ -4,33 +4,27 @@
 	-(void)didMoveToWindow {
 		%orig;
 
-		if ([self isKindOfClass:%c(SBElasticSliderView)]) return;
+		if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
-		// We do need a 1s delay here because otherwise it might be called too early, making the sliders have no color on some devices.
-		// There also is (probably) no other hook to use instead, so this is our best course of action
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+		UIViewController *controller = [self _viewControllerForAncestor];
 
-			UIViewController *controller = [self _viewControllerForAncestor];
+		// We usually need the first (and only) MTMaterialView, however for the iOS 13 volume slider we need the last one
+		for (UIView *subview in ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(SBElasticVolumeViewController)] ? [((UIView *)self).allSubviews reverseObjectEnumerator] : ((UIView *)self).allSubviews)) {
+			if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
+				(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
+				subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
+				break;
+			}
+		}
 
-			// We usually need the first (and only) MTMaterialView, however for the iOS 13 volume slider we need the last one
-			for (UIView *subview in ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] ? [((UIView *)self).allSubviews reverseObjectEnumerator] : ((UIView *)self).allSubviews)) {
-				if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
-					(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
-					subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
-					break;
+		// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
+		if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
+			for (UIView *subview in ((UIView *)self).allSubviews) {
+				if ([subview isKindOfClass:%c(CCUICAPackageView)]) {
+					forceLayerUpdate(@[subview.layer]);
 				}
 			}
-
-			// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
-			if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
-				for (UIView *subview in ((UIView *)self).allSubviews) {
-					if ([subview isKindOfClass:%c(CCUICAPackageView)]) {
-						forceLayerUpdate(@[subview.layer]);
-					}
-				}
-			}
-
-		});
+		}
 
 	}
 %end
@@ -75,7 +69,7 @@
 CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 	NSString *identifier = nil;
 	if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]) identifier = @"slidersBrightness";
-	if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)]) identifier = @"slidersVolume";
+	if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(CCUIAudioModuleViewController)] || [controller isKindOfClass:%c(SBElasticVolumeViewController)]) identifier = @"slidersVolume";
 	if ([controller isKindOfClass:%c(CCRingerModuleContentViewController)]) identifier = @"slidersRinger";
 
 	NSString *backgroundKey = [NSString stringWithFormat:@"%@Background", identifier];
