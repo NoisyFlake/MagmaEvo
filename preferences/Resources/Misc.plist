@@ -131,6 +131,30 @@
 				<key>label</key>                    <string>Lock Screen</string>
 				<key>feature</key>                  <string>PowerModule</string>
 		</dict>
+
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>BetterCCXI Weather</string>
+			<key>feature</key>                  <string>bcxiWeather</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSSwitchCell</string>
+			<key>cellClass</key>                <string>MEVOToggle</string>
+			<key>default</key>                  <false/>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>betterCCXIHideContainer</string>
+			<key>label</key>                    <string>Hide Container Background</string>
+			<key>feature</key>                  <string>bcxiWeather</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSSwitchCell</string>
+			<key>cellClass</key>                <string>MEVOToggle</string>
+			<key>default</key>                  <false/>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>betterCCXIFix</string>
+			<key>label</key>                    <string>Fix Grey Background (iOS 13)</string>
+			<key>feature</key>                  <string>bcxiWeather</string>
+		</dict>
 	</array>
 	<key>title</key>                            <string>Miscellaneous</string>
 </dict>

@@ -205,6 +205,10 @@
 @property (retain) CAFilter *compositingFilter;
 @end
 
+@interface WAWeatherPlatterViewController
+@property(readonly, nonatomic) UIView *backgroundView;
+@end
+
 // --- Method list --- //
 
 void forceLayerUpdate(NSArray *layers);
