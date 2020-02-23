@@ -184,7 +184,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 		} else if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)]
 					|| [controller isKindOfClass:%c(MediaControlsVolumeViewController)]
 					|| [controller isKindOfClass:%c(CCUIAudioModuleViewController)]
-					|| ([settings boolForKey:@"slidersVolumeSystem"] && [controller isKindOfClass:%c(SBElasticVolumeViewController)])
+					|| ([settings boolForKey:@"slidersVolumeSystem"] && [controller isKindOfClass:%c(SBElasticVolumeViewController)] && ![currentLayer.delegate isKindOfClass:%c(SBFTouchPassThroughView)])
 					|| [controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
 
 			CGColorRef sliderColor = getSliderColor(controller, (UIView *)currentLayer.delegate);
