@@ -6,22 +6,37 @@
 
 		if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
-		UIViewController *controller = [self _viewControllerForAncestor];
+		if (![self isKindOfClass:%c(SBElasticSliderView)]) {
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
 
-		// We usually need the first (and only) MTMaterialView, however for the iOS 13 volume slider we need the last one
-		for (UIView *subview in ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] || [controller isKindOfClass:%c(SBElasticVolumeViewController)] ? [((UIView *)self).allSubviews reverseObjectEnumerator] : ((UIView *)self).allSubviews)) {
-			if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
-				(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
-				subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
-				break;
-			}
-		}
+				UIViewController *controller = [self _viewControllerForAncestor];
 
-		// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
-		if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
-			for (UIView *subview in ((UIView *)self).allSubviews) {
-				if ([subview isKindOfClass:%c(CCUICAPackageView)]) {
-					forceLayerUpdate(@[subview.layer]);
+				// We usually need the first (and only) MTMaterialView, however for the iOS 13 volume slider we need the last one
+				for (UIView *subview in ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] ? [((UIView *)self).allSubviews reverseObjectEnumerator] : ((UIView *)self).allSubviews)) {
+					if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
+						(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
+						subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
+						break;
+					}
+				}
+
+				// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
+				if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
+					for (UIView *subview in ((UIView *)self).allSubviews) {
+						if ([subview isKindOfClass:%c(CCUICAPackageView)]) {
+							forceLayerUpdate(@[subview.layer]);
+						}
+					}
+				}
+
+			});
+
+		} else {
+			// iOS 13 volume HUD doesn't like dispatch_after
+			for (UIView *subview in [((UIView *)self).allSubviews reverseObjectEnumerator]) {
+				if ([subview isKindOfClass:%c(MTMaterialView)]) {
+					subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
+					break;
 				}
 			}
 		}
