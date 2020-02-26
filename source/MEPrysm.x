@@ -14,10 +14,21 @@
 	%orig;
 
 	if ([settings valueForKey:@"slidersVolumeBackground"]) self.audioSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeBackground"]];
-	if ([settings valueForKey:@"slidersVolumeGlyph"]) self.audioSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]];
+	if ([settings valueForKey:@"slidersVolumeGlyph"]) {
+		self.audioSlider.percentOverlayLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]];
+
+		self.audioSlider.packageView.layer.compositingFilter = nil;
+		forceLayerUpdate(@[self.audioSlider.packageView.layer]);
+	}
+
 
 	if ([settings valueForKey:@"slidersBrightnessBackground"]) self.brightnessSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessBackground"]];
-	if ([settings valueForKey:@"slidersBrightnessGlyph"]) self.brightnessSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]];
+	if ([settings valueForKey:@"slidersBrightnessGlyph"]) {
+		self.brightnessSlider.percentOverlayLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]];
+
+		self.brightnessSlider.packageView.layer.compositingFilter = nil;
+		forceLayerUpdate(@[self.brightnessSlider.packageView.layer]);
+	}
 
 	if ([settings boolForKey:@"slidersHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 }

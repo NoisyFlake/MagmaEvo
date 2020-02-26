@@ -40,6 +40,22 @@
 @property (assign,nonatomic) double brightness;
 @end
 
+@interface CCUIContentModuleContainerViewController : UIViewController
+@property (nonatomic,copy) NSString * moduleIdentifier;
+@property (nonatomic,retain) UIViewController * contentViewController;
+@end
+
+@interface CCUIContentModuleContentContainerView : UIView
+@property (nonatomic,readonly) MTMaterialView * moduleMaterialView;
+@end
+
+@interface CCUIButtonModuleView : UIControl
+@property (nonatomic,retain) UIColor * selectedGlyphColor;
+@end
+
+@interface CCUICAPackageView : UIView
+@end
+
 @interface PrysmButtonView : UIView
 @property (nonatomic,copy) NSString * identifier;
 @property (nonatomic,retain) UIColor * altStateColor;
@@ -58,7 +74,10 @@
 
 @interface PrysmSliderViewController : UIViewController
 @property (nonatomic,retain) UIView * overlayView;
-@property (nonatomic,retain) UIImageView * overlayImageView;
+@property (nonatomic,retain) UILabel * percentOverlayLabel;
+@property (nonatomic,retain) CCUICAPackageView * packageView;
+@property (nonatomic,assign,readwrite) int style;
+
 @end
 
 @interface PrysmSliderModuleViewController : UIViewController
@@ -76,22 +95,6 @@
 
 @interface PrysmCardBackgroundViewController : UIViewController
 @property (nonatomic,retain) UIView * overlayView;
-@end
-
-@interface CCUIContentModuleContainerViewController : UIViewController
-@property (nonatomic,copy) NSString * moduleIdentifier;
-@property (nonatomic,retain) UIViewController * contentViewController;
-@end
-
-@interface CCUIContentModuleContentContainerView : UIView
-@property (nonatomic,readonly) MTMaterialView * moduleMaterialView;
-@end
-
-@interface CCUIButtonModuleView : UIControl
-@property (nonatomic,retain) UIColor * selectedGlyphColor;
-@end
-
-@interface CCUICAPackageView : UIView
 @end
 
 @interface CCUIRoundButton : UIControl

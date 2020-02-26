@@ -161,6 +161,22 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				if (color != nil) return color.CGColor;
 			}
 
+		} else if([controller isKindOfClass:%c(PrysmSliderViewController)]) {
+
+			if ([((UIView *)currentLayer.delegate).superview isKindOfClass:%c(CCUICAPackageView)]) {
+
+				if (((PrysmSliderViewController *)controller).style == 1) {
+					if ([settings valueForKey:@"slidersBrightnessGlyph"]) {
+						return [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]].CGColor;
+					}
+				} else if (((PrysmSliderViewController *)controller).style == 2) {
+					if ([settings valueForKey:@"slidersVolumeGlyph"]) {
+						return [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]].CGColor;
+					}
+				}
+
+			}
+
 		} else if([controller isKindOfClass:%c(CCUIConnectivityButtonViewController)]) {
 
 			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
