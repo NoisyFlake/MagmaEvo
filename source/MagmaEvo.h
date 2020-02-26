@@ -74,6 +74,7 @@
 
 @interface PrysmSliderViewController : UIViewController
 @property (nonatomic,retain) UIView * overlayView;
+@property (nonatomic,retain) UIImageView * overlayImageView;
 @property (nonatomic,retain) UILabel * percentOverlayLabel;
 @property (nonatomic,retain) CCUICAPackageView * packageView;
 @property (nonatomic,assign,readwrite) int style;
