@@ -15,6 +15,7 @@
 			for (PSSpecifier *spec in [mutableSpecifiers reverseObjectEnumerator]) {
 				if ((!powerModuleInstalled && [spec.properties[@"feature"] isEqual:@"PowerModule"])
 					|| (prysmInstalled && [spec.properties[@"feature"] isEqual:@"notPrysm"])
+					|| (!prysmInstalled && [spec.properties[@"feature"] isEqual:@"prysm"])
 					|| (!bcxiWeatherInstalled && [spec.properties[@"feature"] isEqual:@"bcxiWeather"])) {
 					[mutableSpecifiers removeObject:spec];
 				}

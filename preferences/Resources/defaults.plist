@@ -20,6 +20,7 @@
 		<key>miscStatusBarHide</key>                 <false/>
 		<key>powerModuleHideContainer</key>          <false/>
 		<key>powerModuleHideBackground</key>         <false/>
+		<key>prysmWeatherHideContainer</key>         <false/>
 		<key>betterCCXIHideContainer</key>           <false/>
 		<key>betterCCXIFix</key>                     <false/>
 	</dict>

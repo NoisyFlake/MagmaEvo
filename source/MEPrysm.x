@@ -36,6 +36,20 @@
 }
 %end
 
+%hook PrysmWeatherModuleViewController
+-(void)viewDidLayoutSubviews {
+	%orig;
+
+	if ([settings valueForKey:@"prysmWeatherCurrentTemperature"]) self.currentTemperatureLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherCurrentTemperature"]];
+	if ([settings valueForKey:@"prysmWeatherLocationTitle"]) self.locationTitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherLocationTitle"]];
+	if ([settings valueForKey:@"prysmWeatherLocationSubtitle"]) self.locationSubtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherLocationSubtitle"]];
+	if ([settings valueForKey:@"prysmWeatherTemperatureRange"]) self.temperatureRangeLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherTemperatureRange"]];
+
+	if ([settings boolForKey:@"prysmWeatherHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
+
+}
+%end
+
 %hook PrysmMediaModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
@@ -46,6 +60,8 @@
 
 	if ([settings valueForKey:@"mediaControlsPrimaryLabel"]) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
 	if ([settings valueForKey:@"mediaControlsSecondaryLabel"]) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
+
+	if ([settings valueForKey:@"mediaControlsSlider"]) self.progressView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]];
 
 	if ([settings boolForKey:@"mediaControlsHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 }
@@ -166,6 +182,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmConnectivity.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmSlider.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmMedia.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmWeather.bundle/"] load];
 		%init;
 	}
 }

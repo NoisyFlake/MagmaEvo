@@ -78,7 +78,13 @@
 @property (nonatomic,retain) UILabel * percentOverlayLabel;
 @property (nonatomic,retain) CCUICAPackageView * packageView;
 @property (nonatomic,assign,readwrite) int style;
+@end
 
+@interface PrysmWeatherModuleViewController : UIViewController
+@property (nonatomic,strong,readwrite) UILabel *currentTemperatureLabel;
+@property (nonatomic,strong,readwrite) UILabel *locationSubtitleLabel;
+@property (nonatomic,strong,readwrite) UILabel *locationTitleLabel;
+@property (nonatomic,strong,readwrite) UILabel *temperatureRangeLabel;
 @end
 
 @interface PrysmSliderModuleViewController : UIViewController
@@ -92,6 +98,7 @@
 @property (nonatomic,retain) UIButton * playPauseButton;
 @property (nonatomic,retain) UILabel * titleLabel;
 @property (nonatomic,retain) UILabel * subtitleLabel;
+@property (nonatomic,strong,readwrite) UIView * progressView;
 @end
 
 @interface PrysmCardBackgroundViewController : UIViewController
