@@ -47,7 +47,10 @@
 
 	if ([settings boolForKey:@"prysmWeatherHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 
-	if ([settings valueForKey:@"prysmWeatherIcon"]) self.conditionImageView.layer.contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherIcon"]] CGColor];
+	if ([settings valueForKey:@"prysmWeatherIcon"]) {
+		self.conditionImageView.image = [self.conditionImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.conditionImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherIcon"]];
+	}
 }
 %end
 
