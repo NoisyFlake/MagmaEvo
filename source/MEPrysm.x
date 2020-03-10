@@ -47,6 +47,7 @@
 
 	if ([settings boolForKey:@"prysmWeatherHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
 
+	if ([settings valueForKey:@"prysmWeatherIcon"]) self.conditionImageView.layer.contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherIcon"]] CGColor];
 }
 %end
 
@@ -63,7 +64,20 @@
 
 	if ([settings valueForKey:@"mediaControlsSlider"]) self.progressView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]];
 
-	if ([settings boolForKey:@"mediaControlsHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings valueForKey:@"prysmMediaControlsArtworkPreview"]) self.artworkView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsArtworkPreview"]];
+
+	if ([settings valueForKey:@"mediaControlsRoutingButton"]) {
+		self.applicationOverlayView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]];
+		self.applicationOverlayView.alpha = 1;
+		self.applicationView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]];
+		self.applicationView.alpha = 1;
+	}
+
+	if ([settings boolForKey:@"mediaControlsHideContainer"]) {
+		self.view.backgroundColor = [UIColor clearColor];
+		self.artworkView.backgroundColor = [UIColor clearColor];
+		self.applicationContainer.backgroundColor = [UIColor clearColor];
+	}
 }
 %end
 

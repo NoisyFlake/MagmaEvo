@@ -81,6 +81,7 @@
 @end
 
 @interface PrysmWeatherModuleViewController : UIViewController
+@property (nonatomic,strong,readwrite) UIImageView *conditionImageView;
 @property (nonatomic,strong,readwrite) UILabel *currentTemperatureLabel;
 @property (nonatomic,strong,readwrite) UILabel *locationSubtitleLabel;
 @property (nonatomic,strong,readwrite) UILabel *locationTitleLabel;
@@ -99,6 +100,10 @@
 @property (nonatomic,retain) UILabel * titleLabel;
 @property (nonatomic,retain) UILabel * subtitleLabel;
 @property (nonatomic,strong,readwrite) UIView * progressView;
+@property (nonatomic,strong,readwrite) UIView * artworkView;
+@property (nonatomic,strong,readwrite) UIView * applicationContainer;
+@property (nonatomic,strong,readwrite) UIImageView * applicationView;
+@property (nonatomic,strong,readwrite) UIImageView * applicationOverlayView;
 @end
 
 @interface PrysmCardBackgroundViewController : UIViewController

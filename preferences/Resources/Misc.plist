@@ -150,6 +150,14 @@
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmWeatherIcon</string>
+			<key>label</key>                    <string>Icon</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmWeatherLocationTitle</string>
 			<key>label</key>                    <string>Condition</string>
 			<key>feature</key>                  <string>prysm</string>
