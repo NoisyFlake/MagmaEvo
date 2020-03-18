@@ -122,6 +122,8 @@ UIColor *getToggleColor(UIViewController *controller) {
 		identifier = ((CCUIContentModuleContainerViewController *)parentController.parentViewController).moduleIdentifier;
 	} else if ([controller.parentFocusEnvironment isKindOfClass:%c(PrysmButtonView)]) {
 		identifier = ((PrysmButtonView *)controller.parentFocusEnvironment).identifier;
+	} else if ([controller isKindOfClass:%c(HACCIconViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.hearingdevices";
 	} else if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
 		// TV Remote on iOS 12 has no unique way to identify it, so let's assume this is it
 		identifier = @"com.apple.control-center.AppleTVRemoteModule";

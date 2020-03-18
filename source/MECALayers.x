@@ -85,6 +85,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 		if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)]
 			|| [controller isKindOfClass:%c(HUCCModuleContentViewController)]
 			|| [controller isKindOfClass:%c(AXCCIconViewController)]
+			|| [controller isKindOfClass:%c(HACCIconViewController)]
 			|| [controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
 
 			// Ugly fix to restore the default colors for expanded modules (TODO improve this?)
