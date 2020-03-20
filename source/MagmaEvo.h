@@ -179,6 +179,10 @@
 @property (nonatomic,retain) UILabel * secondaryLabel;
 @property (assign,nonatomic) long long style;
 @property (assign,nonatomic) long long buttonType;
+-(void)magmaEvoColorize;
+@end
+
+@interface NextUpMediaHeaderView : MediaControlsHeaderView
 @end
 
 @interface MediaControlsMaterialView : UIView

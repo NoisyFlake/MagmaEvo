@@ -50,14 +50,27 @@
   }
 %end
 
+%hook NextUpMediaHeaderView
+  -(void)_updateStyle {
+    %orig;
+
+    [self magmaEvoColorize];
+  }
+%end
+
 %hook MediaControlsHeaderView
   -(void)_updateStyle {
     %orig;
 
+    [self magmaEvoColorize];
+  }
+
+  %new
+  -(void)magmaEvoColorize {
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen or the AirPlay view under the expanded View
-    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) || self.buttonType == 0) return;
+    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"])) return;
 
     if ([settings valueForKey:@"mediaControlsPrimaryLabel"] != nil) {
       self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
@@ -67,7 +80,6 @@
       self.secondaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
       self.secondaryLabel.layer.filters = nil;
     }
-
   }
 %end
 
