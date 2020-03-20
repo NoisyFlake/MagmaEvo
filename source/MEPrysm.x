@@ -174,8 +174,10 @@ UIColor *getPrysmToggleColor(UIView *view) {
 }
 
 bool isPrysmButtonSelected(PrysmButtonView *view) {
-	for (UIView *subview in view.allSubviews) {
-		if ([subview isKindOfClass:%c(CCUIButtonModuleView)]) return ((UIControl *)subview).selected;
+	UIViewController *controller = view.moduleController ?: view.ccButton;
+
+	if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)]) {
+		return ((CCUIButtonModuleViewController *)controller).selected;
 	}
 
 	return NO;

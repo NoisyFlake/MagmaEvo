@@ -6,6 +6,10 @@
 #define NSLog(fmt, ...)
 #endif
 
+@interface NSObject (MagmaEvo)
+- (id)safeValueForKey:(id)arg1;
+@end
+
 @interface MagmaPrefs : NSObject
 @property (nonatomic, retain) NSDictionary *settings;
 @property (nonatomic, retain) NSDictionary *defaultSettings;
@@ -17,7 +21,6 @@
 
 @interface UIView (MagmaEvo)
 @property (nonatomic,readonly) UIView * _ui_superview;
-@property (copy,readonly) NSArray * allSubviews;
 @property (assign,nonatomic) long long compositingMode;
 @property (nonatomic,readonly) id parentFocusEnvironment;
 -(id)_viewControllerForAncestor;
@@ -62,6 +65,8 @@
 @property (assign,nonatomic) BOOL state;
 @property(readonly, nonatomic) UIImageView *altStateImageView;
 @property(readonly, nonatomic) UIImageView *imageView;
+@property(nonatomic, strong, readwrite) UIViewController *ccButton;
+@property(nonatomic, strong, readwrite) UIViewController *moduleController;
 @end
 
 @interface PrysmConnectivityModuleViewController : UIViewController
@@ -219,6 +224,14 @@
 @interface CALayer (MagmaEvo)
 @property (assign) CGColorRef contentsMultiplyColor;
 @property (retain) CAFilter *compositingFilter;
+@end
+
+@interface CABackdropLayer : CALayer
+@end
+
+@interface MTMaterialLayer : CABackdropLayer
+@property (assign,getter=isReduceMotionEnabled,nonatomic) BOOL reduceMotionEnabled;
+@property (assign,getter=isReduceTransparencyEnabled,nonatomic) BOOL reduceTransparencyEnabled;
 @end
 
 @interface WAWeatherPlatterViewController

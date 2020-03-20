@@ -9,7 +9,7 @@
 
 		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
 		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [settings boolForKey:@"togglesHideContainer"]) {
-				for (UIView *subview in self.allSubviews) {
+				for (UIView *subview in self.subviews) {
 					if ([subview isKindOfClass:%c(MTMaterialView)]) {
 						subview.alpha = 0;
 						break;
@@ -17,13 +17,10 @@
 				}
 
 				if ([self._viewControllerForAncestor isKindOfClass:%c(HACCIconViewController)]) {
-					MTMaterialView *matView = self.parentFocusEnvironment;
-					for (UIView *subview in matView.allSubviews) {
-						if ([subview isKindOfClass:%c(_MTBackdropView)]) {
-							subview.alpha = 0;
-							break;
-						}
-					}
+					UIView *parent = self.superview;
+					_MTBackdropView *backdropView = [parent safeValueForKey:@"_backdropView"];
+
+					if (backdropView) backdropView.alpha = 0;
 				}
 		}
 
@@ -35,20 +32,19 @@
 		forceLayerUpdate(self.layer.sublayers);
 
 		if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"regular"]) {
-			for (UIView *subview in self.allSubviews) {
-				if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
-						(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
 
-					if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"removeOverlay"]) {
-						subview.hidden = YES;
-						break;
-					} else if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
-						subview.backgroundColor = [UIColor redColor]; // CALayer will handle it later, we just need to call the setter
-						break;
-					}
+			// iOS 13
+			UIView *backgroundView = [self safeValueForKey:@"_highlightedBackgroundView"];
 
-				}
+			// iOS 12
+			if ([backgroundView safeValueForKey:@"_backdropView"]) backgroundView = [backgroundView safeValueForKey:@"_backdropView"];
+
+			if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"removeOverlay"]) {
+				backgroundView.hidden = YES;
+			} else if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
+				backgroundView.backgroundColor = [UIColor redColor]; // CALayer will handle the actual color
 			}
+
 		}
 
 	}

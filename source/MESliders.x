@@ -6,41 +6,27 @@
 
 		if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
-		if (![self isKindOfClass:%c(SBElasticSliderView)]) {
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+		// iOS 13
+		UIView *backgroundView = [self safeValueForKey:@"_backgroundView"];
 
-				UIViewController *controller = [self _viewControllerForAncestor];
+		// iOS 12
+		if (!backgroundView) {
+			MTMaterialView *materialView = [self safeValueForKey:@"_continuousValueBackgroundView"];
+			backgroundView = [materialView safeValueForKey:@"_backdropView"];
 
-				// We usually need the first (and only) MTMaterialView, however for the iOS 13 volume slider we need the last one
-				for (UIView *subview in ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] ? [((UIView *)self).allSubviews reverseObjectEnumerator] : ((UIView *)self).allSubviews)) {
-					if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(MTMaterialView)]) ||
-						(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [subview isKindOfClass:%c(_MTBackdropView)])) {
-						subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
-						break;
-					}
-				}
-
-				// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
-				if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
-					for (UIView *subview in ((UIView *)self).allSubviews) {
-						if ([subview isKindOfClass:%c(CCUICAPackageView)]) {
-							forceLayerUpdate(@[subview.layer]);
-						}
-					}
-				}
-
-			});
-
-		} else {
-			// iOS 13 volume HUD doesn't like dispatch_after
-			for (UIView *subview in [((UIView *)self).allSubviews reverseObjectEnumerator]) {
-				if ([subview isKindOfClass:%c(MTMaterialView)]) {
-					subview.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
-					break;
-				}
-			}
+			// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
+			CCUICAPackageView *glyph = [self safeValueForKey:@"_compensatingGlyphPackageView"];
+			if (glyph) forceLayerUpdate(@[glyph.layer]);
 		}
 
+		// Remove the two accessibility features from the sliders or they will be invisible
+		if ([backgroundView.layer isKindOfClass:%c(MTMaterialLayer)]) {
+			MTMaterialLayer *layer = (MTMaterialLayer *)backgroundView.layer;
+			layer.reduceMotionEnabled = NO;
+			layer.reduceTransparencyEnabled = NO;
+		}
+
+		backgroundView.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
 	}
 %end
 
@@ -69,12 +55,8 @@
 
     // Hide the container background of the iOS 13 volume slider as it doesn't use _configureModuleMaterialViewIfNecessary
     if ([settings boolForKey:@"slidersHideContainer"]) {
-    	for (UIView *subview in self.allSubviews) {
-    		if ([subview isKindOfClass:%c(MTMaterialView)]) {
-    			subview.alpha = 0;
-    			break;
-    		}
-    	}
+		MTMaterialView *materialView = [self valueForKey:@"_materialView"];
+		materialView.alpha = 0;
     }
 
     return orig;
