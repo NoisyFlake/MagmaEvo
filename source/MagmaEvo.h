@@ -134,6 +134,11 @@
 @end
 
 @interface CCUIContinuousSliderView : CCUIBaseSliderView
+-(void)magmaEvoColorize;
+@end
+
+@interface CCUIModuleSliderView : UIControl
+-(void)magmaEvoColorize;
 @end
 
 @interface MediaControlsVolumeSliderView : CCUIContinuousSliderView
@@ -166,6 +171,7 @@
 @property (nonatomic,retain) MediaControlsTransportButton * middleButton;
 @property (nonatomic,retain) MediaControlsTransportButton * rightButton;
 @property (assign,nonatomic) long long style;
+-(void)magmaEvoColorize;
 @end
 
 @interface MediaControlsHeaderView : UIView

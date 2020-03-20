@@ -12,6 +12,18 @@
   -(void)layoutSubviews {
     %orig;
 
+    [self magmaEvoColorize];
+
+  }
+
+  -(void)didMoveToWindow {
+    %orig;
+
+    [self magmaEvoColorize];
+  }
+
+  %new
+  -(void)magmaEvoColorize {
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen
@@ -35,7 +47,6 @@
     if ([settings valueForKey:@"mediaControlsRoutingButton"] != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {
       forceLayerUpdate(((MRPlatterViewController *)controller).routingCornerView.layer.sublayers);
     }
-
   }
 %end
 

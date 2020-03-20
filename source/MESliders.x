@@ -6,6 +6,17 @@
 
 		if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
+		if (![self isKindOfClass:%c(SBElasticSliderView)]) {
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+				[self magmaEvoColorize];
+			});
+		} else {
+			[self magmaEvoColorize];
+		}
+	}
+
+	%new
+	-(void)magmaEvoColorize {
 		// iOS 13
 		UIView *backgroundView = [self safeValueForKey:@"_backgroundView"];
 
