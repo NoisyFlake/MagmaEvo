@@ -87,6 +87,11 @@
   settings = [MagmaPrefs sharedInstance];
 
 	if ([settings boolForKey:@"enabled"]) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/NextUp.dylib"]) {
+			dlopen("/Library/MobileSubstrate/DynamicLibraries/NextUp.dylib", RTLD_LAZY);
+		}
+
 		%init;
 	}
 }
