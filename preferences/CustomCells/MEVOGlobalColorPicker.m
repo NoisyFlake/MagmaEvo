@@ -60,7 +60,7 @@
             NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
 
             for (PSSpecifier *spec in [self._viewControllerForAncestor specifiers]) {
-                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker")) {
+                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker") && ![spec.properties[@"key"] containsString:@"ContainerBackground"]) {
                     [settings removeObjectForKey:spec.properties[@"key"]];
                 }
             }
@@ -93,7 +93,7 @@
             NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
 
             for (PSSpecifier *spec in [self._viewControllerForAncestor specifiers]) {
-                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker")) {
+                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker") && ![spec.properties[@"key"] containsString:@"ContainerBackground"]) {
                     [settings setObject:hexString forKey:spec.properties[@"key"]];
                 }
             }

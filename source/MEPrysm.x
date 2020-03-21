@@ -5,7 +5,7 @@
 	%orig;
 	forceLayerUpdate(self.view.layer.sublayers);
 
-	if ([settings boolForKey:@"connectivityHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings valueForKey:@"connectivityContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"connectivityContainerBackground"]];
 }
 %end
 
@@ -32,7 +32,7 @@
 		forceLayerUpdate(@[self.brightnessSlider.packageView.layer]);
 	}
 
-	if ([settings boolForKey:@"slidersHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings valueForKey:@"slidersContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersContainerBackground"]];
 }
 %end
 
@@ -45,7 +45,7 @@
 	if ([settings valueForKey:@"prysmWeatherLocationSubtitle"]) self.locationSubtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherLocationSubtitle"]];
 	if ([settings valueForKey:@"prysmWeatherTemperatureRange"]) self.temperatureRangeLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherTemperatureRange"]];
 
-	if ([settings boolForKey:@"prysmWeatherHideContainer"]) self.view.backgroundColor = [UIColor clearColor];
+	if ([settings valueForKey:@"prysmWeatherContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherContainerBackground"]];
 
 	if ([settings valueForKey:@"prysmWeatherIcon"]) {
 		self.conditionImageView.image = [self.conditionImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -76,10 +76,8 @@
 		self.applicationView.alpha = 1;
 	}
 
-	if ([settings boolForKey:@"mediaControlsHideContainer"]) {
-		self.view.backgroundColor = [UIColor clearColor];
-		self.artworkView.backgroundColor = [UIColor clearColor];
-		self.applicationContainer.backgroundColor = [UIColor clearColor];
+	if ([settings valueForKey:@"mediaControlsContainerBackground"]) {
+		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsContainerBackground"]];
 	}
 }
 %end
@@ -94,8 +92,8 @@
 
 %hook PrysmButtonView
 -(void)setBackgroundColor:(UIColor *)color {
-	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && [settings boolForKey:@"togglesHideContainer"]) {
-		color = [UIColor clearColor];
+	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && [settings valueForKey:@"togglesContainerBackground"]) {
+		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"togglesContainerBackground"]];
 	}
 
 	%orig(color);

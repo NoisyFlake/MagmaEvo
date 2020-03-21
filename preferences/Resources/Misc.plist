@@ -70,17 +70,17 @@
 			<key>cellClass</key>                <string>MEVOToggle</string>
 			<key>default</key>                  <false/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                      <string>powerModuleHideContainer</string>
-			<key>label</key>                    <string>Hide Container Background</string>
+			<key>key</key>                      <string>powerModuleHideBackground</string>
+			<key>label</key>                    <string>Hide Glyph Background</string>
 			<key>feature</key>                  <string>PowerModule</string>
 		</dict>
 		<dict>
-			<key>cell</key>                     <string>PSSwitchCell</string>
-			<key>cellClass</key>                <string>MEVOToggle</string>
-			<key>default</key>                  <false/>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                      <string>powerModuleHideBackground</string>
-			<key>label</key>                    <string>Hide Glyph Background</string>
+			<key>key</key>                      <string>powerModuleContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
+			<key>alpha</key>                    <true/>
 			<key>feature</key>                  <string>PowerModule</string>
 		</dict>
 		<dict>
@@ -138,12 +138,12 @@
 			<key>feature</key>                  <string>prysm</string>
 		</dict>
 		<dict>
-			<key>cell</key>                     <string>PSSwitchCell</string>
-			<key>cellClass</key>                <string>MEVOToggle</string>
-			<key>default</key>                  <false/>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                      <string>prysmWeatherHideContainer</string>
-			<key>label</key>                    <string>Hide Container Background</string>
+			<key>key</key>                      <string>prysmWeatherContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
+			<key>alpha</key>                    <true/>
 			<key>feature</key>                  <string>prysm</string>
 		</dict>
 		<dict>
@@ -197,17 +197,17 @@
 			<key>cellClass</key>                <string>MEVOToggle</string>
 			<key>default</key>                  <false/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                      <string>betterCCXIHideContainer</string>
-			<key>label</key>                    <string>Hide Container Background</string>
+			<key>key</key>                      <string>betterCCXIFix</string>
+			<key>label</key>                    <string>Fix Grey Background (iOS 13)</string>
 			<key>feature</key>                  <string>bcxiWeather</string>
 		</dict>
 		<dict>
-			<key>cell</key>                     <string>PSSwitchCell</string>
-			<key>cellClass</key>                <string>MEVOToggle</string>
-			<key>default</key>                  <false/>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                      <string>betterCCXIFix</string>
-			<key>label</key>                    <string>Fix Grey Background (iOS 13)</string>
+			<key>key</key>                      <string>betterCCXIContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
+			<key>alpha</key>                    <true/>
 			<key>feature</key>                  <string>bcxiWeather</string>
 		</dict>
 	</array>

@@ -5,12 +5,12 @@
 	<key>items</key>
 	<array>
 		<dict>
-			<key>cell</key>                          <string>PSSwitchCell</string>
-			<key>cellClass</key>                     <string>MEVOToggle</string>
-			<key>default</key>                       <false/>
-			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                           <string>connectivityHideContainer</string>
-			<key>label</key>                         <string>Hide Container Background</string>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>connectivityContainerBackground</string>
+				<key>label</key>                    <string>Container Background</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -61,6 +61,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>label</key>                    <string>Global Color</string>
 				<key>key</key>                      <string>connectivityGlobalColorEnabled</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -68,6 +69,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityAirDropViewControllerEnabled</string>
 				<key>label</key>                    <string>AirDrop</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -75,6 +77,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityAirplaneViewControllerEnabled</string>
 				<key>label</key>                    <string>Airplane Mode</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -82,6 +85,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityBluetoothViewControllerEnabled</string>
 				<key>label</key>                    <string>Bluetooth</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -89,6 +93,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityCellularDataViewControllerEnabled</string>
 				<key>label</key>                    <string>Cellular Data</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -96,6 +101,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerEnabled</string>
 				<key>label</key>                    <string>Personal Hotspot</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -103,6 +109,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityWifiViewControllerEnabled</string>
 				<key>label</key>                    <string>WiFi</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 
 		<dict>
@@ -128,6 +135,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>label</key>                    <string>Global Color</string>
 				<key>key</key>                      <string>connectivityGlobalColorDisabled</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -135,6 +143,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityAirDropViewControllerDisabled</string>
 				<key>label</key>                    <string>AirDrop</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -142,6 +151,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityAirplaneViewControllerDisabled</string>
 				<key>label</key>                    <string>Airplane Mode</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -149,6 +159,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityBluetoothViewControllerDisabled</string>
 				<key>label</key>                    <string>Bluetooth</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -156,6 +167,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityCellularDataViewControllerDisabled</string>
 				<key>label</key>                    <string>Cellular Data</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -163,6 +175,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityHotspotViewControllerDisabled</string>
 				<key>label</key>                    <string>Personal Hotspot</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -170,6 +183,7 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>CCUIConnectivityWifiViewControllerDisabled</string>
 				<key>label</key>                    <string>WiFi</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 	</array>
 	<key>title</key>                             <string>Connectivity</string>

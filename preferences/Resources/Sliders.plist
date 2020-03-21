@@ -5,12 +5,12 @@
 	<key>items</key>
 	<array>
 		<dict>
-			<key>cell</key>                          <string>PSSwitchCell</string>
-			<key>cellClass</key>                     <string>MEVOToggle</string>
-			<key>default</key>                       <false/>
-			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
-			<key>key</key>                           <string>slidersHideContainer</string>
-			<key>label</key>                         <string>Hide Container Background</string>
+				<key>cell</key>                     <string>PSLinkCell</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
+				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+				<key>key</key>                      <string>slidersContainerBackground</string>
+				<key>label</key>                    <string>Container Background</string>
+				<key>alpha</key>                    <true/>
 		</dict>
 
 		<dict>

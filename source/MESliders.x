@@ -41,33 +41,15 @@
 	}
 %end
 
-%hook CCUIContentModuleContentContainerView
-	-(void)_configureModuleMaterialViewIfNecessary {
-
-		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
-		if (controller == nil ||
-			([settings boolForKey:@"slidersHideContainer"] && (
-				[controller isKindOfClass:%c(CCUIDisplayModuleViewController)] ||
-				[controller isKindOfClass:%c(CCUIAudioModuleViewController)] ||
-				[controller isKindOfClass:%c(CCRingerModuleContentViewController)]
-				)
-			)
-		) {
-			return;
-		}
-
-		%orig;
-	}
-%end
-
 %hook MediaControlsVolumeSliderView
   -(id)initWithFrame:(CGRect)arg1 {
     MediaControlsVolumeSliderView *orig = %orig;
 
-    // Hide the container background of the iOS 13 volume slider as it doesn't use _configureModuleMaterialViewIfNecessary
-    if ([settings boolForKey:@"slidersHideContainer"]) {
+    // iOS 13 volume slider is different from the rest of the sliders
+    if ([settings valueForKey:@"slidersContainerBackground"] && (![self isKindOfClass:%c(SBElasticSliderView)] || [settings boolForKey:@"slidersVolumeSystem"])) {
 		MTMaterialView *materialView = [self valueForKey:@"_materialView"];
-		materialView.alpha = 0;
+		materialView.configuration = 1;
+		materialView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersContainerBackground"]];
     }
 
     return orig;

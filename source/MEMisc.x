@@ -79,6 +79,59 @@
 
 %end
 
+%hook CCUIContentModuleContentContainerView
+	-(void)didMoveToWindow {
+		%orig;
+
+		NSString *preferenceKey = nil;
+
+		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
+		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
+
+		if ([module isEqual:@"com.apple.control-center.ConnectivityModule"]) {
+
+			preferenceKey = @"connectivityContainerBackground";
+
+		} else if ([module isEqual:@"com.muirey03.powermodule"]) {
+
+			preferenceKey = @"powerModuleContainerBackground";
+
+		} else 	if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
+			[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
+			[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
+			[controller isKindOfClass:%c(HACCModuleViewController)] ||
+			[controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
+
+			preferenceKey = @"togglesContainerBackground";
+
+		} else if ([controller isKindOfClass:%c(BCIWeatherContentViewController)]) {
+
+			preferenceKey = @"betterCCXIContainerBackground";
+
+		} else if ([controller isKindOfClass:%c(CCUIDisplayModuleViewController)] ||
+			[controller isKindOfClass:%c(CCUIAudioModuleViewController)] ||
+			[controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
+
+			preferenceKey = @"slidersContainerBackground";
+
+		}
+
+		if (preferenceKey && [settings valueForKey:preferenceKey]) {
+			UIView *view = self.moduleMaterialView;
+
+			if ([view respondsToSelector:@selector(configuration)]) {
+				((MTMaterialView *)view).configuration = 1;
+			} else {
+				view = [view safeValueForKey:@"_backdropView"];
+				((_MTBackdropView *)view).colorAddColor = nil;
+				((_MTBackdropView *)view).brightness = 0;
+			}
+
+			view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:preferenceKey]];
+		}
+	}
+%end
+
 %ctor {
 	settings = [MagmaPrefs sharedInstance];
 

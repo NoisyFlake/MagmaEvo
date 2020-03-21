@@ -76,28 +76,6 @@
 	}
 %end
 
-%hook CCUIContentModuleContentContainerView
-	-(void)_configureModuleMaterialViewIfNecessary {
-
-		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
-		if (controller == nil ||
-			(([settings boolForKey:@"togglesHideContainer"] && (
-				[controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
-				[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
-				[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
-				[controller isKindOfClass:%c(HACCModuleViewController)] ||
-				[controller isKindOfClass:%c(WSUIModuleContentViewController)]
-				)) ||
-				([settings boolForKey:@"betterCCXIHideContainer"] && [controller isKindOfClass:%c(BCIWeatherContentViewController)])
-			)
-		) {
-			return;
-		}
-
-		%orig;
-	}
-%end
-
 %hook WAWeatherPlatterViewController
 -(void)viewDidLayoutSubviews {
 	%orig;

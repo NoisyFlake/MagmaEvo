@@ -71,20 +71,6 @@
 	}
 %end
 
-%hook CCUIContentModuleContentContainerView
-	-(void)_configureModuleMaterialViewIfNecessary {
-
-		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
-		if (module == nil
-			|| ([settings boolForKey:@"connectivityHideContainer"] && [module isEqual:@"com.apple.control-center.ConnectivityModule"])
-			|| ([settings boolForKey:@"powerModuleHideContainer"] && [module isEqual:@"com.muirey03.powermodule"])) {
-			return;
-		}
-
-		%orig;
-	}
-%end
-
 %hook CCUIConnectivityModuleViewController
 	-(void)_setupPortraitButtons {
 		%orig;
