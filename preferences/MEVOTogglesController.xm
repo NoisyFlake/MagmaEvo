@@ -62,8 +62,10 @@ BOOL mevoEnabledState = YES;
 
 	if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.apple.control-center.OrientationLockModule"]) {
 		displayName = @"Orientation Lock";
-	} if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.apple.donotdisturb.DoNotDisturbModule"]) {
+	} else if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.apple.donotdisturb.DoNotDisturbModule"]) {
 		displayName = @"Do Not Disturb";
+	} else if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.muirey03.powermodule"]) {
+		return nil;
 	}
 
 	if (displayName == nil) {

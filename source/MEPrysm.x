@@ -82,6 +82,50 @@
 }
 %end
 
+%hook PrysmPowerModuleViewController
+-(void)viewDidLayoutSubviews {
+	%orig;
+
+	if ([settings valueForKey:@"prysmPowerContainerBackground"]) {
+		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerContainerBackground"]];
+	}
+
+	// We have to call the setter again because only now the PrysmButtonView will have a viewcontroller we can check. Pass it the default color as fallback
+	UIColor *defaultColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.15];
+	self.respringButton.backgroundColor = defaultColor;
+	self.safemodeButton.backgroundColor = defaultColor;
+	self.lockButton.backgroundColor = defaultColor;
+	self.rebootButton.backgroundColor = defaultColor;
+	self.shutdownButton.backgroundColor = defaultColor;
+
+	if ([settings valueForKey:@"prysmPowerRespring"]) {
+		self.respringButton.imageView.image = [self.respringButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.respringButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerRespring"]];
+	}
+
+	if ([settings valueForKey:@"prysmPowerSafemode"]) {
+		self.safemodeButton.imageView.image = [self.safemodeButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.safemodeButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerSafemode"]];
+	}
+
+	if ([settings valueForKey:@"prysmPowerLock"]) {
+		self.lockButton.imageView.image = [self.lockButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.lockButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerLock"]];
+	}
+
+	if ([settings valueForKey:@"prysmPowerReboot"]) {
+		self.rebootButton.imageView.image = [self.rebootButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.rebootButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerReboot"]];
+	}
+
+	if ([settings valueForKey:@"prysmPowerShutdown"]) {
+		self.shutdownButton.imageView.image = [self.shutdownButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.shutdownButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerShutdown"]];
+	}
+
+}
+%end
+
 %hook PrysmCardBackgroundViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
@@ -92,9 +136,17 @@
 
 %hook PrysmButtonView
 -(void)setBackgroundColor:(UIColor *)color {
-	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && [settings valueForKey:@"togglesContainerBackground"]) {
+	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] &&
+		![self._viewControllerForAncestor isKindOfClass:%c(PrysmPowerModuleViewController)] &&
+		[settings valueForKey:@"togglesContainerBackground"]) {
 		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"togglesContainerBackground"]];
 	}
+
+	if ([self._viewControllerForAncestor isKindOfClass:%c(PrysmPowerModuleViewController)] && [settings valueForKey:@"prysmPowerToggleBackground"]) {
+		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerToggleBackground"]];
+	}
+
+	HBLogWarn(@"MagmaEvo Controller: %@", self._viewControllerForAncestor);
 
 	%orig(color);
 }
@@ -200,6 +252,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmSlider.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmMedia.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmWeather.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmPower.bundle/"] load];
 		%init;
 	}
 }

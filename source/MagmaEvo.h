@@ -93,6 +93,14 @@
 @property (nonatomic,strong,readwrite) UILabel *temperatureRangeLabel;
 @end
 
+@interface PrysmPowerModuleViewController : UIViewController
+@property (nonatomic,readonly) PrysmButtonView *respringButton;
+@property (nonatomic,readonly) PrysmButtonView *safemodeButton;
+@property (nonatomic,readonly) PrysmButtonView *lockButton;
+@property (nonatomic,readonly) PrysmButtonView *rebootButton;
+@property (nonatomic,readonly) PrysmButtonView *shutdownButton;
+@end
+
 @interface PrysmSliderModuleViewController : UIViewController
 @property (nonatomic,retain) PrysmSliderViewController * audioSlider;
 @property (nonatomic,retain) PrysmSliderViewController * brightnessSlider;
