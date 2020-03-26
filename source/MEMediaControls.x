@@ -43,18 +43,18 @@
     if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
 
     if ([settings valueForKey:@"mediaControlsLeftButton"] != nil) {
-      MediaControlsTransportButton *leftButton = self.leftButton;
-      leftButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]] CGColor];
+      self.leftButton.imageView.image = [self.leftButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+      self.leftButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]];
     }
 
     if ([settings valueForKey:@"mediaControlsMiddleButton"] != nil) {
-      MediaControlsTransportButton *middleButton = self.middleButton;
-      middleButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]] CGColor];
+      self.middleButton.imageView.image = [self.middleButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+      self.middleButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
     }
 
     if ([settings valueForKey:@"mediaControlsRightButton"] != nil) {
-      MediaControlsTransportButton *rightButton = self.rightButton;
-      rightButton.layer.sublayers[0].contentsMultiplyColor = [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]] CGColor];
+      self.rightButton.imageView.image = [self.rightButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+      self.rightButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
     }
 
     if ([settings valueForKey:@"mediaControlsRoutingButton"] != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {

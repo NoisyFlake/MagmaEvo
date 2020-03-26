@@ -152,8 +152,6 @@
 		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerToggleBackground"]];
 	}
 
-	HBLogWarn(@"MagmaEvo Controller: %@", self._viewControllerForAncestor);
-
 	%orig(color);
 }
 %end
