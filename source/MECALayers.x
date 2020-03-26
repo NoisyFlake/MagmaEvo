@@ -99,9 +99,14 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				if (toggleColor == nil) toggleColor = ((CCUIButtonModuleViewController*)controller).buttonView.selectedGlyphColor ?: [UIColor colorWithCGColor:originalColor];
 
 				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
+					MTMaterialLayer *layer = (MTMaterialLayer *)((MTMaterialView*)currentLayer.delegate).layer;
+					layer.reduceMotionEnabled = NO;
+					layer.reduceTransparencyEnabled = NO;
+
 					// Future fix?: The next line is the culprit for the first connectivity button text in the expanded view being black after a
 					// respring when the location module is in the CC and enabled. Yes, you read that right.
 					((MTMaterialView*)currentLayer.delegate).configuration = 1;
+
 					return [toggleColor CGColor];
 				}
 
