@@ -123,6 +123,10 @@
 @property (nonatomic,retain) UIView * overlayView;
 @end
 
+@interface NextUpViewController : UIViewController
+@property (nonatomic, assign, readwrite) BOOL controlCenter;
+@end
+
 @interface CCUIRoundButton : UIControl
 @property (nonatomic,retain) UIView * normalStateBackgroundView;
 @property (nonatomic,retain) UIImageView * selectedGlyphView;

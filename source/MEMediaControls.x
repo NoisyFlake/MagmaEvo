@@ -83,7 +83,10 @@
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen or the AirPlay view under the expanded View
-    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"])) return;
+    if ((([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] ||
+          [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)] ||
+          ([controller isKindOfClass:%c(NextUpViewController)] && !((NextUpViewController *)controller).controlCenter)
+          ) && ![settings boolForKey:@"mediaControlsColorLockscreen"])) return;
 
     if ([settings valueForKey:@"mediaControlsPrimaryLabel"] != nil) {
       self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
