@@ -72,6 +72,8 @@
 	if ([settings valueForKey:@"mediaControlsSlider"]) self.progressView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]];
 
 	if ([settings valueForKey:@"prysmMediaControlsArtworkPreview"]) self.artworkView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsArtworkPreview"]];
+	if ([settings valueForKey:@"prysmMediaControlsArtworkPreviewBackground"]) self.artworkView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsArtworkPreviewBackground"]];
+	if ([settings valueForKey:@"prysmMediaControlsAirplayBackground"]) self.applicationContainer.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsAirplayBackground"]];
 
 	if ([settings valueForKey:@"mediaControlsRoutingButton"]) {
 		self.applicationOverlayView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]];
