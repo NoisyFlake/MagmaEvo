@@ -60,7 +60,11 @@
 
 	if ([settings valueForKey:@"mediaControlsLeftButton"]) self.rewindButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]];
 	if ([settings valueForKey:@"mediaControlsMiddleButton"]) self.playPauseButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
-	if ([settings valueForKey:@"mediaControlsRightButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
+	if (self.playPauseButton.hidden) {
+		if ([settings valueForKey:@"mediaControlsMiddleButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
+	} else {
+		if ([settings valueForKey:@"mediaControlsRightButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
+	}
 
 	if ([settings valueForKey:@"mediaControlsPrimaryLabel"]) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
 	if ([settings valueForKey:@"mediaControlsSecondaryLabel"]) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
