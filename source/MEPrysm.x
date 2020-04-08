@@ -132,6 +132,76 @@
 }
 %end
 
+%hook PrysmBatteryModuleViewController
+-(void)reloadBatteryInfo {
+	%orig;
+
+	if ([settings valueForKey:@"prysmBatteryContainerBackground"]) {
+		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryContainerBackground"]];
+	}
+
+	// First device
+	if ([settings valueForKey:@"prysmBatteryFirstBatteryPercentage"]) {
+		self.firstDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryPercentage"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryFirstDeviceName"]) {
+		self.firstDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstDeviceName"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryFirstDeviceIcon"]) {
+		self.firstDevice.deviceIconView.image = [self.firstDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.firstDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstDeviceIcon"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryFirstBatteryIcon"]) {
+		self.firstDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
+		self.firstDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
+		self.firstDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
+	}
+
+	// Second device
+	if ([settings valueForKey:@"prysmBatterySecondBatteryPercentage"]) {
+		self.secondDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryPercentage"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatterySecondDeviceName"]) {
+		self.secondDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondDeviceName"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatterySecondDeviceIcon"]) {
+		self.secondDevice.deviceIconView.image = [self.secondDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.secondDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondDeviceIcon"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatterySecondBatteryIcon"]) {
+		self.secondDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
+		self.secondDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
+		self.secondDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
+	}
+
+	// Third device
+	if ([settings valueForKey:@"prysmBatteryThirdBatteryPercentage"]) {
+		self.thirdDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryPercentage"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryThirdDeviceName"]) {
+		self.thirdDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdDeviceName"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryThirdDeviceIcon"]) {
+		self.thirdDevice.deviceIconView.image = [self.thirdDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+		self.thirdDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdDeviceIcon"]];
+	}
+
+	if ([settings valueForKey:@"prysmBatteryThirdBatteryIcon"]) {
+		self.thirdDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
+		self.thirdDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
+		self.thirdDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
+	}
+}
+%end
+
 %hook PrysmCardBackgroundViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
@@ -257,6 +327,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmMedia.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmWeather.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmPower.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmBattery.bundle/"] load];
 		%init;
 	}
 }

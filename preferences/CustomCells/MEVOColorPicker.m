@@ -61,9 +61,8 @@
     }
 
     UIColor *startColor = [UIColor evoRGBAColorFromHexString:color];
-    BOOL alpha = [[self.specifier propertyForKey:@"alpha"] boolValue];
 
-    PFColorAlert *alert = [PFColorAlert colorAlertWithStartColor:startColor showAlpha:alpha];
+    PFColorAlert *alert = [PFColorAlert colorAlertWithStartColor:startColor showAlpha:YES];
 
     [alert displayWithCompletion:^void(UIColor *pickedColor) {
         NSString *hexString = [UIColor evoHexStringFromColor:pickedColor];

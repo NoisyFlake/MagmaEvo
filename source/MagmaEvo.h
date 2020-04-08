@@ -101,6 +101,25 @@
 @property (nonatomic,readonly) PrysmButtonView *shutdownButton;
 @end
 
+@interface _UIBatteryView : UIView
+@property (nonatomic,copy) UIColor* fillColor;
+@property (nonatomic,copy) UIColor* bodyColor;
+@property (nonatomic,copy) UIColor* pinColor;
+@end
+
+@interface PrysmBatteryDeviceView : UIView
+@property (nonatomic, strong, readwrite) UIImageView *deviceIconView;
+@property (nonatomic, strong, readwrite) UILabel *batteryPercentLabel;
+@property (nonatomic, strong, readwrite) _UIBatteryView *batteryView;
+@property (nonatomic, strong, readwrite) UILabel *deviceNameLabel;
+@end
+
+@interface PrysmBatteryModuleViewController : UIViewController
+@property (nonatomic, strong, readwrite) PrysmBatteryDeviceView *firstDevice;
+@property (nonatomic, strong, readwrite) PrysmBatteryDeviceView *secondDevice;
+@property (nonatomic, strong, readwrite) PrysmBatteryDeviceView *thirdDevice;
+@end
+
 @interface PrysmSliderModuleViewController : UIViewController
 @property (nonatomic,retain) PrysmSliderViewController * audioSlider;
 @property (nonatomic,retain) PrysmSliderViewController * brightnessSlider;

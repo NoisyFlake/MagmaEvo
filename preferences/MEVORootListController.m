@@ -11,10 +11,16 @@
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		_specifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
+		NSMutableArray *mutableSpecifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] mutableCopy];
+		NSFileManager *fileManager= [NSFileManager defaultManager];
+
+		if (![fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"]) {
+			for (PSSpecifier *spec in [mutableSpecifiers reverseObjectEnumerator]) {
+				if ([spec.properties[@"feature"] isEqual:@"prysm"]) [mutableSpecifiers removeObject:spec];
+			}
+		}
 
 		NSString *path = @"/User/Library/Preferences/com.noisyflake.magmaevo.configured";
-        NSFileManager *fileManager= [NSFileManager defaultManager];
 
         if (![fileManager fileExistsAtPath:path]) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle: @"Welcome" message: @"Thank you for buying Magma Evo! Here you can configure colors and other settings for all parts of your Control Center.\n\nWhenever you want to reset a specific color setting, simply long-press on the setting name and the color will be reset to the default." preferredStyle:UIAlertControllerStyleAlert];
@@ -24,6 +30,8 @@
 
             [fileManager createFileAtPath:path contents:nil attributes:nil];
         }
+
+		_specifiers = mutableSpecifiers;
 	}
 
 	return _specifiers;

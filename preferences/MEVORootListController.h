@@ -61,6 +61,9 @@
 @interface MEVOSlidersController : MEVOBaseController
 @end
 
+@interface MEVOPrysmController : MEVOBaseController
+@end
+
 @interface MEVOMiscController : MEVOBaseController
 @end
 
