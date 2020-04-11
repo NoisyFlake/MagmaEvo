@@ -6,3 +6,9 @@
 - (BOOL)evoIsBrightColor;
 
 @end
+
+@interface NSNotificationCenter (MagmaEvo)
+
+- (void)addUniqueObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object;
+
+@end

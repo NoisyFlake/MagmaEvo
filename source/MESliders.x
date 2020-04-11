@@ -45,14 +45,17 @@
   -(id)initWithFrame:(CGRect)arg1 {
     MediaControlsVolumeSliderView *orig = %orig;
 
-    // iOS 13 volume slider is different from the rest of the sliders
-    if ([settings valueForKey:@"slidersContainerBackground"] && (![self isKindOfClass:%c(SBElasticSliderView)] || [settings boolForKey:@"slidersVolumeSystem"])) {
-		MTMaterialView *materialView = [self valueForKey:@"_materialView"];
-		materialView.configuration = 1;
-		materialView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersContainerBackground"]];
-    }
+    [self magmaEvoColorize];
+    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
 
     return orig;
+  }
+
+  %new
+  -(void)magmaEvoColorize {
+	  if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
+
+	  [MagmaHelper colorizeMaterialView:[self valueForKey:@"_materialView"] forSetting:@"slidersContainerBackground"];
   }
 %end
 

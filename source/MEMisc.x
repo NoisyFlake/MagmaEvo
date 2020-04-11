@@ -83,6 +83,12 @@
 	-(void)didMoveToWindow {
 		%orig;
 
+		[self magmaEvoColorize];
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+	}
+
+	%new
+	-(void)magmaEvoColorize {
 		NSString *preferenceKey = nil;
 
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
@@ -116,18 +122,8 @@
 
 		}
 
-		if (preferenceKey && [settings valueForKey:preferenceKey]) {
-			UIView *view = self.moduleMaterialView;
-
-			if ([view respondsToSelector:@selector(configuration)]) {
-				((MTMaterialView *)view).configuration = 1;
-			} else {
-				view = [view safeValueForKey:@"_backdropView"];
-				((_MTBackdropView *)view).colorAddColor = nil;
-				((_MTBackdropView *)view).brightness = 0;
-			}
-
-			view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:preferenceKey]];
+		if (preferenceKey) {
+			[MagmaHelper colorizeMaterialView:self.moduleMaterialView forSetting:preferenceKey];
 		}
 	}
 %end

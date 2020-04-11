@@ -16,6 +16,10 @@ static MagmaPrefs *sharedInstance = nil;
 static NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
 static NSString *defaultFile = @"/Library/PreferenceBundles/MagmaEvo.bundle/defaults.plist";
 
+static void updatePreferences() {
+	[[MagmaPrefs sharedInstance] load];
+}
+
 @implementation MagmaPrefs
 
 +(id)sharedInstance {
@@ -38,12 +42,18 @@ static NSString *defaultFile = @"/Library/PreferenceBundles/MagmaEvo.bundle/defa
 		}
 
 		_defaultSettings = [[NSMutableDictionary alloc] initWithContentsOfFile:defaultFile];
-		_settings = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFile];
+		[self load];
 
-		NSLog(@"Preferences loaded.");
+		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)updatePreferences, CFSTR("com.noisyflake.magmaevo/update"), NULL, CFNotificationSuspensionBehaviorCoalesce);
 	}
 
 	return self;
+}
+
+-(void)load {
+	_settings = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFile];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"com.noisyflake.magmaevo/reload" object:nil];
 }
 
 -(BOOL)boolForKey:(NSString *)key {

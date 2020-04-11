@@ -4,21 +4,15 @@
   -(id)initWithFrame:(CGRect)arg1 {
     MediaControlsMaterialView *orig = %orig;
 
-    if ([settings valueForKey:@"mediaControlsContainerBackground"]) {
-			UIView *view = [self safeValueForKey:@"_backgroundView"];
-
-			if ([view respondsToSelector:@selector(configuration)]) {
-				((MTMaterialView *)view).configuration = 1;
-			} else {
-				view = [view safeValueForKey:@"_backdropView"];
-				((_MTBackdropView *)view).colorAddColor = nil;
-				((_MTBackdropView *)view).brightness = 0;
-			}
-
-			view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsContainerBackground"]];
-		}
+    [self magmaEvoColorize];
+    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
 
     return orig;
+  }
+
+  %new
+  -(void)magmaEvoColorize {
+    [MagmaHelper colorizeMaterialView:[self safeValueForKey:@"_backgroundView"] forSetting:@"mediaControlsContainerBackground"];
   }
 %end
 

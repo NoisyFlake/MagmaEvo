@@ -19,6 +19,10 @@
 -(NSString *)valueForKey:(NSString *)key;
 @end
 
+@interface MagmaHelper : NSObject
++ (void)colorizeMaterialView:(UIView *)view forSetting:(NSString *)key;
+@end
+
 @interface UIView (MagmaEvo)
 @property (nonatomic,readonly) UIView * _ui_superview;
 @property (assign,nonatomic) long long compositingMode;
@@ -50,6 +54,7 @@
 
 @interface CCUIContentModuleContentContainerView : UIView
 @property (nonatomic,readonly) MTMaterialView * moduleMaterialView;
+-(void)magmaEvoColorize;
 @end
 
 @interface CCUIButtonModuleView : UIControl
@@ -173,6 +178,7 @@
 @end
 
 @interface MediaControlsVolumeSliderView : CCUIContinuousSliderView
+-(void)magmaEvoColorize;
 @end
 
 @interface CCUIButtonModuleViewController : UIViewController
@@ -217,6 +223,7 @@
 @end
 
 @interface MediaControlsMaterialView : UIView
+-(void)magmaEvoColorize;
 @end
 
 @interface MediaControlsRoutingCornerView : CCUICAPackageView
@@ -273,6 +280,8 @@
 @interface MTMaterialLayer : CABackdropLayer
 @property (assign,getter=isReduceMotionEnabled,nonatomic) BOOL reduceMotionEnabled;
 @property (assign,getter=isReduceTransparencyEnabled,nonatomic) BOOL reduceTransparencyEnabled;
+-(void)_setNeedsConfiguring;
+-(void)_updateForChangeInRecipeAndConfiguration;
 @end
 
 @interface WAWeatherPlatterViewController
