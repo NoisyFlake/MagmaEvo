@@ -5,12 +5,11 @@
 	<key>items</key>
 	<array>
 		<dict>
-				<key>cell</key>                     <string>PSLinkCell</string>
-				<key>cellClass</key>                <string>MEVOColorPicker</string>
-				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
-				<key>key</key>                      <string>slidersContainerBackground</string>
-				<key>label</key>                    <string>Container Background</string>
-				<key>alpha</key>                    <true/>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>slidersContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
 		</dict>
 
 		<dict>
@@ -20,7 +19,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersBrightnessGlyph</string>
 			<key>label</key>                    <string>Icon</string>
@@ -28,7 +26,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersBrightnessBackground</string>
 			<key>label</key>                    <string>Background</string>
@@ -36,7 +33,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersBrightnessLabel</string>
 			<key>label</key>                    <string>Percent Label</string>
@@ -58,7 +54,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersVolumeGlyph</string>
 			<key>label</key>                    <string>Icon</string>
@@ -66,7 +61,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersVolumeBackground</string>
 			<key>label</key>                    <string>Background</string>
@@ -74,7 +68,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersVolumeLabel</string>
 			<key>label</key>                    <string>Percent Label</string>
@@ -90,7 +83,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersRingerGlyph</string>
 			<key>label</key>                    <string>Icon</string>
@@ -99,7 +91,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersRingerBackground</string>
 			<key>label</key>                    <string>Background</string>

@@ -83,6 +83,7 @@ BOOL mevoEnabledState = YES;
 
 	NSString *key = [NSString stringWithFormat:@"%@%@", [info objectForKey:@"CFBundleIdentifier"], mevoEnabledState ? @"Enabled" : @"Disabled"];
 	[specifier setProperty:key forKey:@"key"];
+	[specifier setProperty:displayName forKey:@"label"];
 	[specifier setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];
 	[specifier setProperty:NSClassFromString(@"MEVOColorPicker") forKey:@"cellClass"];
 	return specifier;

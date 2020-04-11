@@ -10,7 +10,6 @@
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>togglesContainerBackground</string>
 				<key>label</key>                    <string>Container Background</string>
-				<key>alpha</key>                    <true/>
 		</dict>
 
 		<dict>
@@ -52,10 +51,11 @@
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
-				<key>cellClass</key>                <string>MEVOGlobalColorPicker</string>
+				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>label</key>                    <string>Global Color</string>
 				<key>key</key>                      <string>togglesGlobalColor</string>
+				<key>global</key>                   <true/>
 		</dict>
 
 	</array>

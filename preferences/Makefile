@@ -13,7 +13,7 @@ MagmaEvo_INSTALL_PATH = /Library/PreferenceBundles
 MagmaEvo_FRAMEWORKS = UIKit
 MagmaEvo_PRIVATE_FRAMEWORKS = Preferences
 MagmaEvo_CFLAGS = -fobjc-arc
-MagmaEvo_LIBRARIES = colorpicker
+MagmaEvo_LIBRARIES = sparkcolourpicker
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 

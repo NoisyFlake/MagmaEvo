@@ -1,23 +1,22 @@
 #import <Preferences/PSTableCell.h>
-#import "../../source/UIColor+MagmaEvo.h"
-#import <libcolorpicker.h>
 #import <Preferences/PSSpecifier.h>
+#include "../../source/UIColor+MagmaEvo.h"
+#include "../MEVORootListController.h"
 
-@interface MEVOColorPicker : PSTableCell
+#define kIsGlobal [self.specifier.properties[@"global"] boolValue]
+#define kFilepath @"/var/mobile/Library/Preferences/com.noisyflake.magmaevo.plist"
+
+@interface SparkColourPickerCell : PSTableCell
+@property (nonatomic, strong, readwrite) NSMutableDictionary *options;
+-(void)colourPicker:(id)picker didUpdateColour:(UIColor*) colour;
+-(void)openColourPicker;
+-(void)dismissPicker;
 @end
 
-@interface MEVOColorPicker ()
-
+@interface MEVOColorPicker : SparkColourPickerCell
 @property (nonatomic, retain) UIView *colorPreview;
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier specifier:(PSSpecifier *)specifier;
-
-- (NSString *)previewColor;
-
-- (void)displayAlert;
-- (void)drawAccessoryView;
-- (void)updateCellDisplay;
-
+@property (nonatomic, retain) UIColor *currentColor;
+@property (nonatomic, retain) UILongPressGestureRecognizer *lpgr;
 @end
 
 @implementation MEVOColorPicker
@@ -28,84 +27,145 @@
     if(self) {
         [specifier setTarget:self];
 
-        UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-        lpgr.delegate = self;
-        lpgr.minimumPressDuration = 1;
-        [self.contentView addGestureRecognizer:lpgr];
-
-        [specifier setButtonAction:@selector(displayAlert)];
-        [self drawAccessoryView];
+        _lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+        _lpgr.delegate = self;
+        _lpgr.minimumPressDuration = 1;
+        [super.contentView addGestureRecognizer:_lpgr];
     }
 
     return self;
 }
 
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
-  NSString *path = [NSString stringWithFormat:@"/User/Library/Preferences/%@.plist", self.specifier.properties[@"defaults"]];
-  NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-  [settings removeObjectForKey:self.specifier.properties[@"key"]];
-  [settings writeToFile:path atomically:YES];
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    // Fix sparks color picker blocking our long press gesture recognizer
+    if (gestureRecognizer == _lpgr) return YES;
 
-  [self updateCellDisplay];
+    return [super gestureRecognizer:gestureRecognizer shouldReceiveTouch:touch];
 }
 
--(void)didMoveToSuperview {
-    [super didMoveToSuperview];
-    [self updateCellDisplay];
-}
+-(void)layoutSubviews {
+    [super layoutSubviews];
 
--(void)displayAlert {
-    NSString *color = [self previewColor];
-    if (color == nil) {
-        color = @"#FF0000:1.00";
+    if (kIsGlobal) {
+        self.textLabel.textColor = kEVOCOLOR;
+        self.textLabel.highlightedTextColor = kEVOCOLOR;
     }
-
-    UIColor *startColor = [UIColor evoRGBAColorFromHexString:color];
-
-    PFColorAlert *alert = [PFColorAlert colorAlertWithStartColor:startColor showAlpha:YES];
-
-    [alert displayWithCompletion:^void(UIColor *pickedColor) {
-        NSString *hexString = [UIColor evoHexStringFromColor:pickedColor];
-
-        hexString = [hexString stringByAppendingFormat:@":%.2f", pickedColor.alpha];
-
-        NSString *path = [NSString stringWithFormat:@"/User/Library/Preferences/%@.plist", self.specifier.properties[@"defaults"]];
-        NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-        [settings setObject:hexString forKey:self.specifier.properties[@"key"]];
-        [settings writeToFile:path atomically:YES];
-
-        [self updateCellDisplay];
-    }];
 }
 
--(void)drawAccessoryView {
-    _colorPreview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:kFilepath];
 
-    _colorPreview.layer.cornerRadius = _colorPreview.frame.size.width / 2;
-    _colorPreview.layer.borderWidth = 0.5;
-    _colorPreview.layer.borderColor = [UIColor colorWithRed:0.67 green:0.67 blue:0.67 alpha:1.0].CGColor;
+    if (kIsGlobal) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Reset Global Color"
+                                    message: @"This will reset all colors in the current category. Do you want to continue?"
+                                    preferredStyle:UIAlertControllerStyleAlert];
 
-    [self setAccessoryView:_colorPreview];
-    [self updateCellDisplay];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            for (PSSpecifier *spec in [self._viewControllerForAncestor specifiers]) {
+                if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker") && ![spec.properties[@"key"] containsString:@"ContainerBackground"]) {
+                    [settings removeObjectForKey:spec.properties[@"key"]];
+                }
+            }
+
+            [settings writeToFile:kFilepath atomically:YES];
+            [self._viewControllerForAncestor reloadSpecifiers];
+        }]];
+
+        [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        [self._viewControllerForAncestor presentViewController:alert animated:YES completion:nil];
+    } else {
+        [settings removeObjectForKey:self.specifier.properties[@"key"]];
+        [settings writeToFile:kFilepath atomically:YES];
+
+        _currentColor = nil;
+        [self updateCellDisplay];
+    }
+}
+
+-(void)colourPicker:(id)picker didUpdateColour:(UIColor*) colour {
+    _currentColor = colour;
+    if (!kIsGlobal) [super colourPicker:picker didUpdateColour:colour];
+}
+
+-(void)dismissPicker {
+    [super dismissPicker];
+
+    if (kIsGlobal && _currentColor) {
+        NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:kFilepath];
+
+        for (PSSpecifier *spec in [self._viewControllerForAncestor specifiers]) {
+            if ([spec propertyForKey:@"cellClass"] == NSClassFromString(@"MEVOColorPicker") && ![spec.properties[@"key"] containsString:@"ContainerBackground"]) {
+                [settings setObject:[UIColor evoHexStringFromColor:_currentColor] forKey:spec.properties[@"key"]];
+            }
+        }
+
+        [settings writeToFile:kFilepath atomically:YES];
+        [self._viewControllerForAncestor reloadSpecifiers];
+    }
+}
+
+-(void)showOverwriteAlert {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Set Global Color"
+                                    message: @"This will overwrite all colors on the current settings page. Do you want to continue?"
+                                    preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [self openColourPicker];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [self._viewControllerForAncestor presentViewController:alert animated:YES completion:nil];
 }
 
 -(NSString *)previewColor {
-    NSMutableDictionary *_prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.noisyflake.magmaevo.plist"];
+    if (_currentColor) return [UIColor evoHexStringFromColor:_currentColor];
+
+    NSMutableDictionary *_prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:kFilepath];
     return [_prefs valueForKey:[self.specifier propertyForKey:@"key"]];
 }
 
+-(void)createAccessoryView {
+    _colorPreview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
+    _colorPreview.layer.cornerRadius = _colorPreview.frame.size.width / 2;
+    _colorPreview.layer.shadowOpacity = 0.5;
+    _colorPreview.layer.shadowOffset = CGSizeZero;
+    _colorPreview.layer.shadowRadius = 5.0;
+}
+
 -(void)updateCellDisplay {
+    // Set necessary options for sparks colorpicker
+    if ([self.options valueForKey:@"defaults"] == nil || [self.options valueForKey:@"fallback"] == nil) {
+        [self.options setObject:@"com.noisyflake.magmaevo" forKey:@"defaults"];
+        [self.options setObject:@"#FF0000" forKey:@"fallback"];
+    }
+
+    if (kIsGlobal) {
+        self.accessoryView.hidden = YES;
+        [self.specifier setButtonAction:@selector(showOverwriteAlert)];
+        return;
+    }
+
+    if (_colorPreview == nil) {
+        [self createAccessoryView];
+    }
+
+    if (self.accessoryView != _colorPreview) {
+        // Overwrite sparks colour preview with our custom one
+        self.accessoryView = _colorPreview;
+    }
+
     NSString *color = [self previewColor];
 
     if (color == nil) {
         _colorPreview.hidden = YES;
-        self.detailTextLabel.text = @"Default Color";
+        self.detailTextLabel.text = @"Default";
         self.detailTextLabel.alpha = 0.5;
         return;
     }
 
     _colorPreview.hidden = NO,
     _colorPreview.backgroundColor = [UIColor evoRGBAColorFromHexString:color];
+    _colorPreview.layer.shadowColor = _colorPreview.backgroundColor.CGColor;
 
     NSUInteger location = [color rangeOfString:@":"].location;
 
@@ -114,7 +174,9 @@
         double alpha = [alphaString doubleValue] * 100;
 
         color = [color substringWithRange:NSMakeRange(0, location)];
-        if (alpha < 100) {
+        if (alpha == 0) {
+            color = @"Hidden";
+        } else if (alpha < 100) {
             color = [NSString stringWithFormat:@"%@ %d%%", color, (int)alpha];
         }
     }

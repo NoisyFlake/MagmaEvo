@@ -14,7 +14,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerContainerBackground</string>
 			<key>label</key>                    <string>Container Background</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -22,7 +21,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerToggleBackground</string>
 			<key>label</key>                    <string>Toggle Background</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -30,7 +28,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerRespring</string>
 			<key>label</key>                    <string>Respring</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -38,7 +35,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerSafemode</string>
 			<key>label</key>                    <string>Safemode</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -46,7 +42,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerLock</string>
 			<key>label</key>                    <string>Lock</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -54,7 +49,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerReboot</string>
 			<key>label</key>                    <string>Reboot</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -62,7 +56,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerShutdown</string>
 			<key>label</key>                    <string>Shutdown</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 
 		<dict>
@@ -75,7 +68,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmWeatherContainerBackground</string>
 			<key>label</key>                    <string>Container Background</string>
-			<key>alpha</key>                    <true/>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -123,7 +115,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmBatteryContainerBackground</string>
 			<key>label</key>                    <string>Container Background</string>
-			<key>alpha</key>                    <true/>
 		</dict>
         <dict>
 			<key>cell</key>                     <string>PSGroupCell</string>

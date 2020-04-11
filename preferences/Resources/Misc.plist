@@ -11,7 +11,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscMainBackground</string>
 			<key>label</key>                    <string>Background Color</string>
@@ -53,7 +52,6 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
-			<key>alpha</key>                    <true/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarColor</string>
 			<key>label</key>                    <string>Status Bar Color</string>
@@ -80,7 +78,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>powerModuleContainerBackground</string>
 			<key>label</key>                    <string>Container Background</string>
-			<key>alpha</key>                    <true/>
 			<key>feature</key>                  <string>PowerModule</string>
 		</dict>
 		<dict>
@@ -152,7 +149,6 @@
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>betterCCXIContainerBackground</string>
 			<key>label</key>                    <string>Container Background</string>
-			<key>alpha</key>                    <true/>
 			<key>feature</key>                  <string>bcxiWeather</string>
 		</dict>
 	</array>
