@@ -241,7 +241,7 @@ UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 	if (view.state) {
 		color = [[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : getColorForPrefKey(prefKey);
 	} else {
-		color = [[settings valueForKey:@"connectivityModeDisabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : nil;
+		color = [[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : nil;
 	}
 
 	return color;

@@ -51,7 +51,7 @@
 
 		if (![self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return;
 
-		if ([[settings valueForKey:@"connectivityModeDisabled"] isEqual:@"glyphOnly"]) {
+		if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"]) {
 			self.normalStateBackgroundView.alpha = 0;
 		}
 

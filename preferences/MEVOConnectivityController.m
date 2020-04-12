@@ -17,12 +17,10 @@ BOOL mevoEnabledConnectivityState = YES;
 				continue;
 			}
 
-			if ([spec.properties[@"key"] containsString:keyword]) {
+			if ([spec.properties[@"key"] containsString:keyword] && ![spec.properties[@"key"] isEqual:@"connectivityModeEnabled"]) {
 				[mutableSpecifiers removeObject:spec];
-			} else if ([spec.properties[@"key"] isEqual:@"state"]) {
-				spec.name = mevoEnabledConnectivityState ? @"ENABLED STATE" : @"DISABLED STATE";
 			} else if ([spec.properties[@"key"] isEqual:@"switchState"]) {
-				spec.name = mevoEnabledConnectivityState ? @"Switch to Disabled State" : @"Switch to Enabled State";
+				spec.name = mevoEnabledConnectivityState ? @"Colors for Enabled State" : @"Colors for Disabled State";
 			}
 		}
 

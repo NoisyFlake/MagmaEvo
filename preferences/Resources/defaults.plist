@@ -6,7 +6,6 @@
 
 		<key>connectivityHideContainer</key>         <false/>
 		<key>connectivityModeEnabled</key>           <string>regular</string>
-		<key>connectivityModeDisabled</key>          <string>regular</string>
 
 		<key>togglesHideContainer</key>              <false/>
 		<key>togglesOverlayMode</key>                <string>regular</string>

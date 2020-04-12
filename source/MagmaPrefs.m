@@ -24,7 +24,7 @@ static void updatePreferences() {
 
 +(id)sharedInstance {
 	if (sharedInstance == nil) {
-		NSLog(@"Initializing preferences.");
+		NSLog("Initializing preferences.");
 		sharedInstance = [[self alloc] init];
 	}
 

@@ -109,7 +109,7 @@
 
 -(void)showOverwriteAlert {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Set Global Color"
-                                    message: @"This will overwrite all colors on the current settings page. Do you want to continue?"
+                                    message: @"This will overwrite all colors in the current category. Do you want to continue?"
                                     preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {

@@ -1,7 +1,7 @@
 #import "UIColor+MagmaEvo.h"
 
 #ifdef DEBUG
-#define NSLog(fmt, ...) NSLog((@"[MagmaEvo] [%s:%d] " fmt), __FILE__, __LINE__, ##__VA_ARGS__)
+#define NSLog(fmt, ...) os_log(OS_LOG_DEFAULT, ("[MagmaEvo] [%s:%d] " fmt), __FILE__, __LINE__, ##__VA_ARGS__)
 #else
 #define NSLog(fmt, ...)
 #endif

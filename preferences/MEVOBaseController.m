@@ -8,8 +8,15 @@
 
     self.navigationItem.navigationBar.tintColor = kEVOCOLOR;
 
-    UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStylePlain target:self action:@selector(respring)];
+    UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(respring)];
 	self.navigationItem.rightBarButtonItem = applyButton;
+
+	UITableView *table = self.view.subviews[0];
+	table.separatorStyle = 0;
+}
+
+-(long long)tableViewStyle {
+	return 2;
 }
 
 - (id)readPreferenceValue:(PSSpecifier*)specifier {

@@ -9,17 +9,13 @@ BOOL mevoEnabledState = YES;
 	if (!_specifiers) {
 		NSMutableArray *appSpecifiers = [[self loadSpecifiersFromPlistName:@"Toggles" target:self] mutableCopy];
 
-		if (!mevoEnabledState) {
-			for (PSSpecifier *spec in [appSpecifiers reverseObjectEnumerator]) {
-				if ([spec.properties[@"key"] isEqual:@"togglesOverlayMode"]) {
-					[appSpecifiers removeObject:spec];
-				} else if ([spec.properties[@"key"] isEqual:@"state"]) {
-					spec.name = @"DISABLED STATE";
-				} else if ([spec.properties[@"key"] isEqual:@"switchState"]) {
-					spec.name = @"Switch to Enabled State";
-				}
+
+		for (PSSpecifier *spec in [appSpecifiers reverseObjectEnumerator]) {
+			if ([spec.properties[@"key"] isEqual:@"switchState"]) {
+				spec.name = mevoEnabledState ? @"Colors for Enabled State" : @"Colors for Disabled State";
 			}
 		}
+
 
 		[[NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/ControlCenterServices.framework"] load];
 
@@ -37,6 +33,21 @@ BOOL mevoEnabledState = YES;
 				if (specifier) [appSpecifiers addObject:specifier];
 			}
 		}
+
+	PSSpecifier* globalPicker = [PSSpecifier preferenceSpecifierNamed:@"Change All"
+										target:self
+										set:@selector(setPreferenceValue:specifier:)
+										get:@selector(readPreferenceValue:)
+										detail:Nil
+										cell:PSLinkCell
+										edit:Nil];
+
+	[globalPicker setProperty:@"togglesGlobalPicker" forKey:@"key"];
+	[globalPicker setProperty:@"Change All" forKey:@"label"];
+	[globalPicker setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];
+	[globalPicker setProperty:NSClassFromString(@"MEVOColorPicker") forKey:@"cellClass"];
+	[globalPicker setProperty:@YES forKey:@"global"];
+	[appSpecifiers addObject:globalPicker];
 
     _specifiers = appSpecifiers;
 	}
