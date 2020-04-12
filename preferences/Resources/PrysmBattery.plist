@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>                     	<string>PSGroupCell</string>
+			<key>headerCellClass</key>              <string>MEVOImage</string>
+			<key>prysmIcon</key>                    <string>images/prysm_batteryContainer.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Device 1</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryFirstBatteryPercentage</string>
+			<key>label</key>                    <string>Battery Percentage</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryFirstBatteryIcon</string>
+			<key>label</key>                    <string>Battery Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryFirstDeviceIcon</string>
+			<key>label</key>                    <string>Device Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryFirstDeviceName</string>
+			<key>label</key>                    <string>Device Name</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Device 2</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatterySecondBatteryPercentage</string>
+			<key>label</key>                    <string>Battery Percentage</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatterySecondBatteryIcon</string>
+			<key>label</key>                    <string>Battery Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatterySecondDeviceIcon</string>
+			<key>label</key>                    <string>Device Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatterySecondDeviceName</string>
+			<key>label</key>                    <string>Device Name</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Device 3</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryThirdBatteryPercentage</string>
+			<key>label</key>                    <string>Battery Percentage</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryThirdBatteryIcon</string>
+			<key>label</key>                    <string>Battery Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryThirdDeviceIcon</string>
+			<key>label</key>                    <string>Device Icon</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmBatteryThirdDeviceName</string>
+			<key>label</key>                    <string>Device Name</string>
+		</dict>
+	</array>
+	<key>title</key>                            <string>Battery Module</string>
+</dict>
+</plist>

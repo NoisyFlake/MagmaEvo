@@ -8,6 +8,7 @@
 			<key>cell</key>                     	<string>PSGroupCell</string>
 			<key>headerCellClass</key>              <string>MEVOImage</string>
 			<key>icon</key>                         <string>images/togglesContainer.png</string>
+			<key>prysmIcon</key>                    <string>images/togglesContainer_prysm.png</string>
 		</dict>
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
@@ -21,6 +22,7 @@
 			<key>cell</key>                     	<string>PSGroupCell</string>
 			<key>headerCellClass</key>              <string>MEVOImage</string>
 			<key>icon</key>                         <string>images/togglesMode.png</string>
+			<key>prysmIcon</key>                    <string>images/togglesMode_prysm.png</string>
 		</dict>
 		<dict>
 			<key>cell</key>                          <string>PSSegmentCell</string>

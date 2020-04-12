@@ -62,14 +62,6 @@
 				<key>icon</key>                     <string>icons/misc</string>
 				<key>label</key>                    <string>Miscellaneous</string>
 		</dict>
-		<dict>
-				<key>cell</key>                     <string>PSLinkCell</string>
-				<key>isController</key>             <true/>
-				<key>detail</key>                   <string>MEVOPrysmController</string>
-				<key>icon</key>                     <string>icons/prysm</string>
-				<key>label</key>                    <string>Prysm</string>
-				<key>feature</key>                  <string>prysm</string>
-		</dict>
 
 		<dict>
 				<key>cell</key>                     <string>PSGroupCell</string>

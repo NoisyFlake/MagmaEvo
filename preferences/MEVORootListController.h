@@ -64,6 +64,15 @@
 @interface MEVOPrysmController : MEVOBaseController
 @end
 
+@interface MEVOPrysmPowerController : MEVOBaseController
+@end
+
+@interface MEVOPrysmWeatherController : MEVOBaseController
+@end
+
+@interface MEVOPrysmBatteryController : MEVOBaseController
+@end
+
 @interface MEVOMiscController : MEVOBaseController
 @end
 

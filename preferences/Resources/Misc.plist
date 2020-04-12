@@ -8,6 +8,7 @@
 			<key>cell</key>                     	<string>PSGroupCell</string>
 			<key>headerCellClass</key>              <string>MEVOImage</string>
 			<key>icon</key>                         <string>images/miscBackground.png</string>
+			<key>prysmIcon</key>                    <string>images/miscBackground_prysm.png</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -19,9 +20,36 @@
 
 		<dict>
 			<key>cell</key>                     <string>PSGroupCell</string>
-			<key>label</key>                    <string>iPhone X and newer</string>
-			<key>footerText</key>               <string>These options are only for the Control Center on modern iPhones or if you have a tweak installed to enable it.</string>
-			<key>feature</key>                  <string>notPrysm</string>
+			<key>label</key>                    <string>Prysm Modules</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>isController</key>             <true/>
+			<key>detail</key>                   <string>MEVOPrysmBatteryController</string>
+			<key>label</key>                    <string>Battery Module</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>isController</key>             <true/>
+			<key>detail</key>                   <string>MEVOPrysmPowerController</string>
+			<key>label</key>                    <string>Power Module</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>isController</key>             <true/>
+			<key>detail</key>                   <string>MEVOPrysmWeatherController</string>
+			<key>label</key>                    <string>Weather Module</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                     	<string>PSGroupCell</string>
+			<key>headerCellClass</key>              <string>MEVOImage</string>
+			<key>icon</key>                         <string>images/miscAlignment.png</string>
+			<key>feature</key>                       <string>notPrysm</string>
 		</dict>
 		<dict>
 			<key>cell</key>                          <string>PSSegmentCell</string>
@@ -41,13 +69,19 @@
 					<string>bottom</string>
 				</array>
 		</dict>
+
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Status Bar</string>
+			<key>feature</key>                  <string>notPrysm</string>
+		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSSwitchCell</string>
 			<key>cellClass</key>                <string>MEVOToggle</string>
 			<key>default</key>                  <false/>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarHide</string>
-			<key>label</key>                    <string>Hide Status Bar</string>
+			<key>label</key>                    <string>Hide in CC</string>
 			<key>feature</key>                  <string>notPrysm</string>
 		</dict>
 		<dict>
@@ -55,7 +89,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscStatusBarColor</string>
-			<key>label</key>                    <string>Status Bar Color</string>
+			<key>label</key>                    <string>Text Color</string>
 			<key>feature</key>                  <string>notPrysm</string>
 		</dict>
 

@@ -15,7 +15,12 @@
 		self.backgroundColor = [UIColor clearColor];
 		self.backgroundView = nil;
 
-		_bigImageView = [[UIImageView alloc] initWithImage:specifier.properties[@"iconImage"]];
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSString *iconName = [fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"] && specifier.properties[@"prysmIcon"] ? specifier.properties[@"prysmIcon"] : specifier.properties[@"icon"];
+
+		NSString *path = [NSString stringWithFormat:@"/Library/PreferenceBundles/MagmaEvo.bundle/%@", iconName];
+		_bigImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:path]];
+
 		CGRect frame = self.contentView.bounds;
 
 		// Necessary for when using the grouped tableViewStyle
@@ -42,7 +47,7 @@
 }
 
 - (CGFloat)preferredHeightForWidth:(CGFloat)width {
-	return _bigImageView.image.size.height / 2;
+	return lroundf(_bigImageView.image.size.height / 2);
 }
 
  @end
