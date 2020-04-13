@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>headerCellClass</key>          <string>MEVOImage</string>
+			<key>icon</key>                     <string>images/betterCCXI_fix.png</string>
+			<key>footerText</key>               <string>This is only necessary on iOS 13.</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSSwitchCell</string>
+			<key>cellClass</key>                <string>MEVOToggle</string>
+			<key>default</key>                  <false/>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>betterCCXIFix</string>
+			<key>label</key>                    <string>Fix Gray Background</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                    <string>PSGroupCell</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                    <string>PSGroupCell</string>
+			<key>headerCellClass</key>         <string>MEVOImage</string>
+			<key>icon</key>                    <string>images/betterCCXI_container.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>betterCCXIContainerBackground</string>
+			<key>label</key>                    <string>Container Background</string>
+		</dict>
+	</array>
+	<key>title</key>                            <string>BetterCCXI Weather</string>
+</dict>
+</plist>

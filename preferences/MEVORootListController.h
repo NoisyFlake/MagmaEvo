@@ -76,5 +76,11 @@
 @interface MEVOMiscController : MEVOBaseController
 @end
 
+@interface MEVOPowerModuleController : MEVOBaseController
+@end
+
+@interface MEVOBetterCCXIController : MEVOBaseController
+@end
+
 @interface MEVOPresetsController : MEVOBaseController
 @end

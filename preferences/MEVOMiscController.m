@@ -12,10 +12,14 @@
 		BOOL bcxiWeatherInstalled = [fileManager fileExistsAtPath:@"/Library/ControlCenter/Bundles/BCIXWeatherModule.bundle"];
 
 		for (PSSpecifier *spec in [mutableSpecifiers reverseObjectEnumerator]) {
-			if ((!powerModuleInstalled && [spec.properties[@"feature"] isEqual:@"PowerModule"])
-				|| (prysmInstalled && [spec.properties[@"feature"] isEqual:@"notPrysm"])
-				|| (!prysmInstalled && [spec.properties[@"feature"] isEqual:@"prysm"])
-				|| (!bcxiWeatherInstalled && [spec.properties[@"feature"] isEqual:@"bcxiWeather"])) {
+			NSString *feature = spec.properties[@"feature"];
+			if (
+				([feature isEqual:@"PowerModule"] && !powerModuleInstalled) ||
+				([feature isEqual:@"prysm"] && !prysmInstalled) ||
+				([feature isEqual:@"notPrysm"] && prysmInstalled) ||
+				([feature isEqual:@"bcxiWeather"] && (!bcxiWeatherInstalled || prysmInstalled)) ||
+				([feature isEqual:@"thirdparty"] && (!bcxiWeatherInstalled && !powerModuleInstalled))
+			) {
 				[mutableSpecifiers removeObject:spec];
 			}
 		}

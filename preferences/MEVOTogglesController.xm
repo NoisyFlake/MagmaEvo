@@ -34,22 +34,22 @@ BOOL mevoEnabledState = YES;
 			}
 		}
 
-	PSSpecifier* globalPicker = [PSSpecifier preferenceSpecifierNamed:@"Change All"
-										target:self
-										set:@selector(setPreferenceValue:specifier:)
-										get:@selector(readPreferenceValue:)
-										detail:Nil
-										cell:PSLinkCell
-										edit:Nil];
+		PSSpecifier* globalPicker = [PSSpecifier preferenceSpecifierNamed:@"Change All"
+											target:self
+											set:@selector(setPreferenceValue:specifier:)
+											get:@selector(readPreferenceValue:)
+											detail:Nil
+											cell:PSLinkCell
+											edit:Nil];
 
-	[globalPicker setProperty:@"togglesGlobalPicker" forKey:@"key"];
-	[globalPicker setProperty:@"Change All" forKey:@"label"];
-	[globalPicker setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];
-	[globalPicker setProperty:NSClassFromString(@"MEVOColorPicker") forKey:@"cellClass"];
-	[globalPicker setProperty:@YES forKey:@"global"];
-	[appSpecifiers addObject:globalPicker];
+		[globalPicker setProperty:@"togglesGlobalPicker" forKey:@"key"];
+		[globalPicker setProperty:@"Change All" forKey:@"label"];
+		[globalPicker setProperty:@"com.noisyflake.magmaevo" forKey:@"defaults"];
+		[globalPicker setProperty:NSClassFromString(@"MEVOColorPicker") forKey:@"cellClass"];
+		[globalPicker setProperty:@YES forKey:@"global"];
+		[appSpecifiers addObject:globalPicker];
 
-    _specifiers = appSpecifiers;
+		_specifiers = appSpecifiers;
 	}
 
 	return _specifiers;

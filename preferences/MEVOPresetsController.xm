@@ -72,7 +72,7 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 }
 
 - (void)newPreset {
-	UIAlertController * alert = [UIAlertController alertControllerWithTitle: @"New Preset" message: @"Enter a name for the new preset" preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController * alert = [UIAlertController alertControllerWithTitle: @"New Preset" message: @"This will create a new preset with your current settings. Enter a name for the new preset" preferredStyle:UIAlertControllerStyleAlert];
 
 	[alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
 		textField.placeholder = @"Name";
