@@ -1,7 +1,7 @@
 #import "UIColor+MagmaEvo.h"
 
 #ifdef DEBUG
-#define NSLog(fmt, ...) os_log(OS_LOG_DEFAULT, ("[MagmaEvo] [%s:%d] " fmt), __FILE__, __LINE__, ##__VA_ARGS__)
+#define NSLog(fmt, ...) HBLogWarn((@"[MagmaEvo] " fmt), ##__VA_ARGS__)
 #else
 #define NSLog(fmt, ...)
 #endif
@@ -153,8 +153,10 @@
 
 @interface CCUIRoundButton : UIControl
 @property (nonatomic,retain) UIView * normalStateBackgroundView;
+@property (nonatomic,retain) UIView * selectedStateBackgroundView;
 @property (nonatomic,retain) UIImageView * selectedGlyphView;
 @property (nonatomic,retain) CCUICAPackageView * glyphPackageView;
+-(void)magmaEvoColorize;
 @end
 
 @interface CCUILabeledRoundButtonViewController : UIViewController
@@ -178,6 +180,11 @@
 @end
 
 @interface MediaControlsVolumeSliderView : CCUIContinuousSliderView
+-(void)magmaEvoColorizeContainer;
+@end
+
+@interface MediaControlsTimeControl : UIControl
+@property (nonatomic,retain) UIView * elapsedTrack;
 -(void)magmaEvoColorize;
 @end
 
@@ -267,6 +274,7 @@
 
 @interface CAFilter : NSObject
 @property (copy) NSString * name;
++(id)filterWithName:(id)arg1;
 @end
 
 @interface CALayer (MagmaEvo)

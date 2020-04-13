@@ -9,9 +9,11 @@
 		if (![self isKindOfClass:%c(SBElasticSliderView)]) {
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
 				[self magmaEvoColorize];
+				[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
 			});
 		} else {
 			[self magmaEvoColorize];
+			[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
 		}
 	}
 
@@ -24,10 +26,12 @@
 		if (!backgroundView) {
 			MTMaterialView *materialView = [self safeValueForKey:@"_continuousValueBackgroundView"];
 			backgroundView = [materialView safeValueForKey:@"_backdropView"];
+		}
 
-			// iOS 13 tries to color the glyphs itself, however on 12 we need to manually color the layer
-			CCUICAPackageView *glyph = [self safeValueForKey:@"_compensatingGlyphPackageView"];
-			if (glyph) forceLayerUpdate(@[glyph.layer]);
+		CCUICAPackageView *glyph = [self safeValueForKey:@"_compensatingGlyphPackageView"];
+		if (glyph) {
+			glyph.alpha = glyph.alpha; // Update opacity in CALayer
+			forceLayerUpdate(@[glyph.layer]);
 		}
 
 		// Remove the two accessibility features from the sliders or they will be invisible
@@ -45,14 +49,14 @@
   -(id)initWithFrame:(CGRect)arg1 {
     MediaControlsVolumeSliderView *orig = %orig;
 
-    [self magmaEvoColorize];
-    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+    [self magmaEvoColorizeContainer];
+    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorizeContainer) name:@"com.noisyflake.magmaevo/reload" object:nil];
 
     return orig;
   }
 
   %new
-  -(void)magmaEvoColorize {
+  -(void)magmaEvoColorizeContainer {
 	  if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
 	  [MagmaHelper colorizeMaterialView:[self valueForKey:@"_materialView"] forSetting:@"slidersContainerBackground"];
@@ -68,23 +72,40 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 	NSString *backgroundKey = [NSString stringWithFormat:@"%@Background", identifier];
 	NSString *glyphKey = [NSString stringWithFormat:@"%@Glyph", identifier];
 
-	if ([settings valueForKey:backgroundKey] != nil) {
-		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [view isKindOfClass:%c(MTMaterialView)]) {
+	NSString *backgroundValue = [settings valueForKey:backgroundKey];
+	NSString *glyphValue = [settings valueForKey:glyphKey];
+
+	if ([view isKindOfClass:%c(MTMaterialView)] && [view respondsToSelector:@selector(configuration)]) {
+
+		if (backgroundValue) {
 			((MTMaterialView *)view).configuration = 1;
-			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:backgroundKey]] CGColor];
+			return [[UIColor evoRGBAColorFromHexString:backgroundValue] CGColor];
+		} else {
+			((MTMaterialView *)view).configuration = 3;
+			[((MTMaterialLayer *)view.layer) _updateForChangeInRecipeAndConfiguration];
+			[((MTMaterialLayer *)view.layer) _setNeedsConfiguring];
+			return nil;
 		}
 
-		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [view isKindOfClass:%c(_MTBackdropView)]) {
+	} else if ([view isKindOfClass:%c(_MTBackdropView)]) {
+
+		if (backgroundValue) {
 			((_MTBackdropView*)view).colorAddColor = nil;
 			((_MTBackdropView*)view).brightness = 0;
-			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:backgroundKey]] CGColor];
+			return [[UIColor evoRGBAColorFromHexString:backgroundValue] CGColor];
+		} else {
+			// TODO
+			return nil;
 		}
-	}
 
-	if ([settings valueForKey:glyphKey] != nil) {
-		if (![view isKindOfClass:%c(MTMaterialView)] && ![view isKindOfClass:%c(_MTBackdropView)]) {
-			// This is the glyph inside the slider
-			return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:glyphKey]] CGColor];
+	} else {
+		// Note: We have to set it to clearColor instead of nil or a color with 0 alpha, otherwise we are unable to edit it on-the-fly afterwards again
+		// No idea why this happens, but this workaround seems to work reliable
+		if (glyphValue) {
+			UIColor *selectedColor = [UIColor evoRGBAColorFromHexString:glyphValue];
+			return CGColorGetComponents(selectedColor.CGColor)[3] == 0 ? UIColor.clearColor.CGColor : selectedColor.CGColor;
+		} else {
+			return [[UIColor clearColor] CGColor];
 		}
 	}
 

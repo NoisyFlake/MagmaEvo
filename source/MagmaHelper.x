@@ -13,7 +13,7 @@
             [((MTMaterialLayer *)view.layer) _updateForChangeInRecipeAndConfiguration];
             [((MTMaterialLayer *)view.layer) _setNeedsConfiguring];
         }
-    } else if ([view isKindOfClass:%c(MTBackdropView)]) {
+    } else if ([view isKindOfClass:%c(_MTBackdropView)]) {
         view = [view safeValueForKey:@"_backdropView"];
 
         if (value) {

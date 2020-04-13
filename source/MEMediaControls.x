@@ -27,6 +27,7 @@
     %orig;
 
     [self magmaEvoColorize];
+    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
   }
 
   %new
@@ -36,24 +37,38 @@
     // Don't color controls on the lockscreen
     if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
 
-    if ([settings valueForKey:@"mediaControlsLeftButton"] != nil) {
-      self.leftButton.imageView.image = [self.leftButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-      self.leftButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]];
-    }
+    self.leftButton.imageView.image = [self.leftButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.leftButton.imageView.tintColor = [settings valueForKey:@"mediaControlsLeftButton"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]] : [UIColor whiteColor];
 
-    if ([settings valueForKey:@"mediaControlsMiddleButton"] != nil) {
-      self.middleButton.imageView.image = [self.middleButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-      self.middleButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
-    }
+    self.middleButton.imageView.image = [self.middleButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.middleButton.imageView.tintColor = [settings valueForKey:@"mediaControlsMiddleButton"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]] : [UIColor whiteColor];
 
-    if ([settings valueForKey:@"mediaControlsRightButton"] != nil) {
-      self.rightButton.imageView.image = [self.rightButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-      self.rightButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
-    }
+    self.rightButton.imageView.image = [self.rightButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.rightButton.imageView.tintColor = [settings valueForKey:@"mediaControlsRightButton"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]] : [UIColor whiteColor];
 
-    if ([settings valueForKey:@"mediaControlsRoutingButton"] != nil && [controller isKindOfClass:%c(MRPlatterViewController)]) {
+    if ([controller isKindOfClass:%c(MRPlatterViewController)]) {
       forceLayerUpdate(((MRPlatterViewController *)controller).routingCornerView.layer.sublayers);
     }
+  }
+%end
+
+%hook MediaControlsTimeControl
+  -(void)setStyle:(long long)arg1 {
+    %orig;
+
+    NSLog(@"Setting style");
+    [self magmaEvoColorize];
+    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+  }
+
+  %new
+  -(void)magmaEvoColorize {
+     UIViewController *controller = self._viewControllerForAncestor;
+
+    // Don't color controls on the lockscreen
+    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
+
+    self.elapsedTrack.backgroundColor = [settings valueForKey:@"mediaControlsSlider"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]] : UIColor.whiteColor;
   }
 %end
 
@@ -82,14 +97,10 @@
           ([controller isKindOfClass:%c(NextUpViewController)] && !((NextUpViewController *)controller).controlCenter)
           ) && ![settings boolForKey:@"mediaControlsColorLockscreen"])) return;
 
-    if ([settings valueForKey:@"mediaControlsPrimaryLabel"] != nil) {
-      self.primaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
-    }
+    self.primaryLabel.textColor = [settings valueForKey:@"mediaControlsPrimaryLabel"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]] : [UIColor whiteColor];
 
-    if ([settings valueForKey:@"mediaControlsSecondaryLabel"] != nil) {
-      self.secondaryLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
-      self.secondaryLabel.layer.filters = nil;
-    }
+    self.secondaryLabel.textColor = [settings valueForKey:@"mediaControlsSecondaryLabel"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]] : [UIColor whiteColor];
+    self.secondaryLabel.layer.filters = [settings valueForKey:@"mediaControlsSecondaryLabel"] ? nil : self.secondaryLabel.layer.filters;
   }
 %end
 

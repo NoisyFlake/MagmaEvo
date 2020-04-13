@@ -37,6 +37,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 		%orig;
 	}
+
 %end
 
 %hook CAShapeLayer
@@ -49,11 +50,11 @@ void forceLayerUpdate(NSArray *layers) {
 	for (CALayer *sublayer in layers) {
 		if ([sublayer isMemberOfClass:%c(CAShapeLayer)]) {
 			CAShapeLayer *shapelayer = (CAShapeLayer *)sublayer;
-			if (shapelayer.fillColor != nil) shapelayer.fillColor = shapelayer.fillColor;
+			shapelayer.fillColor = shapelayer.fillColor;
 		} else {
-			if (sublayer.backgroundColor != nil) sublayer.backgroundColor = sublayer.backgroundColor;
-			if (sublayer.borderColor != nil) sublayer.borderColor = sublayer.borderColor;
-			if (sublayer.contentsMultiplyColor != nil) sublayer.contentsMultiplyColor = sublayer.contentsMultiplyColor;
+			sublayer.backgroundColor = sublayer.backgroundColor;
+			sublayer.borderColor = sublayer.borderColor;
+			sublayer.contentsMultiplyColor = sublayer.contentsMultiplyColor;
 
 			// Fix dark mode toggle being always white
 			if (sublayer.filters != nil && [sublayer.name isEqual:@"outer"]) sublayer.filters = nil;
@@ -184,22 +185,16 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			}
 
 		} else if([controller isKindOfClass:%c(CCUIConnectivityButtonViewController)]) {
-
-			layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
-			return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
-
-		} else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
-
-			if ([((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsTimeControl)]) {
-				if ([settings valueForKey:@"mediaControlsSlider"] && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
-					return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]] CGColor];
-				}
+			if ([layer.delegate isKindOfClass:%c(UIImageView)] || layer.delegate == nil) {
+				layer.opacity = ([layer.name isEqual:@"disabled"] || [layer.name isEqual:@"bluetoothdisabled"]) ? 0 : 1;
+				return getConnectivityGlyphColor((CCUILabeledRoundButtonViewController*)controller);
 			}
+		} else if([controller isKindOfClass:%c(MRPlatterViewController)]) {
 
 			// On iOS 12 the delegate is the correct view, on iOS 13 we only receive the subview
 			if ([currentLayer.delegate isKindOfClass:%c(MediaControlsRoutingCornerView)] || [((UIView *)currentLayer.delegate).parentFocusEnvironment isKindOfClass:%c(MediaControlsRoutingCornerView)]) {
-				if ([settings valueForKey:@"mediaControlsRoutingButton"] && (!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
-					return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]] CGColor];
+				if ((!([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
+					return [settings valueForKey:@"mediaControlsRoutingButton"] ? [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]] CGColor] : UIColor.whiteColor.CGColor;
 				}
 			}
 

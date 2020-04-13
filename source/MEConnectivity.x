@@ -1,58 +1,54 @@
 #import "MagmaEvo.h"
 
-%hook CCUILabeledRoundButtonViewController
-	-(id)initWithGlyphImage:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
-		return %orig(arg1, [self evoGetToggleColor:arg2], arg3);
-	}
-	-(id)initWithGlyphPackageDescription:(id)arg1 highlightColor:(id)arg2 useLightStyle:(BOOL)arg3 {
-		return %orig(arg1, [self evoGetToggleColor:arg2], arg3);
-	}
-
-	%new
-	-(UIColor *)evoGetToggleColor:(UIColor *)color {
-		if (![self isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return color;
-
-		if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"]) {
-			color = [UIColor clearColor];
-		} else {
-			NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self class])];
-			if ([settings valueForKey:prefKey]) color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:prefKey]];
-		}
-
-		return color;
-	}
-%end
-
 %hook CCUIRoundButton
 	-(void)didMoveToWindow {
 		%orig;
 
-		if ([settings boolForKey:@"powerModuleHideBackground"] && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(SafemodeButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(UICacheButtonController)])) {
-				self.normalStateBackgroundView.alpha = 0;
-		}
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
 	}
 
 	-(void)_updateForStateChange {
 		%orig;
 
-		if ([settings boolForKey:@"powerModuleHideBackground"] && ([self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(SafemodeButtonController)]
-			|| [self._viewControllerForAncestor isKindOfClass:%c(UICacheButtonController)])) {
-				self.normalStateBackgroundView.alpha = 0;
+		[self magmaEvoColorize];
+	}
+
+	%new
+	-(void)magmaEvoColorize {
+		if (
+			[self._viewControllerForAncestor isKindOfClass:%c(LockButtonController)] ||
+			[self._viewControllerForAncestor isKindOfClass:%c(PowerDownButtonController)] ||
+			[self._viewControllerForAncestor isKindOfClass:%c(RebootButtonController)] ||
+			[self._viewControllerForAncestor isKindOfClass:%c(RespringButtonController)] ||
+			[self._viewControllerForAncestor isKindOfClass:%c(SafemodeButtonController)] ||
+			[self._viewControllerForAncestor isKindOfClass:%c(UICacheButtonController)]
+		) {
+			self.normalStateBackgroundView.alpha = [settings boolForKey:@"powerModuleHideBackground"] ? 0 : 1;
 		}
 
-		if (![self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) return;
 
-		if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"]) {
-			self.normalStateBackgroundView.alpha = 0;
+		if ([self._viewControllerForAncestor isKindOfClass:%c(CCUIConnectivityButtonViewController)]) {
+			self.normalStateBackgroundView.alpha = [[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] ? 0 : 1;
+
+			UIColor *selectedColor;
+
+			if ([[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"]) {
+				selectedColor = UIColor.clearColor;
+			} else {
+				NSString *prefKey = [NSString stringWithFormat:@"%@Enabled", NSStringFromClass([self._viewControllerForAncestor class])];
+				if ([settings valueForKey:prefKey]) {
+					selectedColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:prefKey]];
+				} else {
+					if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+					if ([prefKey isEqual:@"CCUIConnectivityAirplaneViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#FF9500"];
+					if ([prefKey isEqual:@"CCUIConnectivityBluetoothViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+					if ([prefKey isEqual:@"CCUIConnectivityCellularDataViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+					if ([prefKey isEqual:@"CCUIConnectivityHotspotViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+					if ([prefKey isEqual:@"CCUIConnectivityWifiViewControllerEnabled"]) selectedColor = [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+				}
+			}
+
+			self.selectedStateBackgroundView.backgroundColor = selectedColor;
 		}
 
 		if (self.glyphPackageView == nil) {
@@ -62,7 +58,6 @@
 			// WiFi & Bluetooth buttons
 			forceLayerUpdate(self.glyphPackageView.layer.sublayers);
 		}
-
 	}
 
 	-(BOOL)useAlternateBackground {

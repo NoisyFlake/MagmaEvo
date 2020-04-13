@@ -103,6 +103,8 @@
         }
 
         [settings writeToFile:kFilepath atomically:YES];
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
+
         [self._viewControllerForAncestor reloadSpecifiers];
     }
 }
