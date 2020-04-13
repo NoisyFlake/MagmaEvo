@@ -120,6 +120,20 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				return [toggleColor evoIsBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 
+			if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
+
+				if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)] && [currentLayer.delegate respondsToSelector:@selector(configuration)]) {
+					((MTMaterialView *)currentLayer.delegate).configuration = 3;
+					[((MTMaterialLayer *)currentLayer) _updateForChangeInRecipeAndConfiguration];
+					[((MTMaterialLayer *)currentLayer) _setNeedsConfiguring];
+
+					return nil;
+				} else if ([currentLayer.delegate isKindOfClass:%c(_MTBackdropView)]) {
+					// TODO
+					return nil;
+				}
+			}
+
 			if (toggleColor != nil) return [toggleColor CGColor];
 
 			// Reset to white for off state if no other color was chosen

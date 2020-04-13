@@ -10,6 +10,11 @@
 - (id)safeValueForKey:(id)arg1;
 @end
 
+@interface UILabel (MagmaEvo)
+-(void)magmaEvoColorize;
+-(UIColor *)magmaEvoGetLabelColor;
+@end
+
 @interface MagmaPrefs : NSObject
 @property (nonatomic, retain) NSDictionary *settings;
 @property (nonatomic, retain) NSDictionary *defaultSettings;
@@ -59,6 +64,7 @@
 
 @interface CCUIButtonModuleView : UIControl
 @property (nonatomic,retain) UIColor * selectedGlyphColor;
+-(void)magmaEvoColorize;
 @end
 
 @interface CCUICAPackageView : UIView
@@ -201,6 +207,10 @@
 -(NSArray*)evoGetToggleOrder:(NSArray *)originalOrder;
 @end
 
+@interface HUCCHomeButton : UIControl
+-(void)magmaEvoUpdateLayers;
+@end
+
 @interface CCUIMenuModuleViewController : CCUIButtonModuleViewController
 @end
 
@@ -262,6 +272,10 @@
 
 @interface CCUIHeaderPocketView : UIView
 @property (assign,nonatomic) double backgroundAlpha;
+@end
+
+@interface AXCCIconViewController : UIViewController
+-(void)magmaEvoUpdateLayers;
 @end
 
 @interface CCUIModularControlCenterOverlayViewController : CCUIModularControlCenterViewController

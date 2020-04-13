@@ -2,6 +2,8 @@
 
 NSMutableOrderedSet *toggles;
 
+// TODO implement respring button
+
 @implementation MEVOConnectivityOrderController
 
 - (NSArray *)specifiers {

@@ -75,7 +75,7 @@ BOOL mevoEnabledState = YES;
 		displayName = @"Orientation Lock";
 	} else if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.apple.donotdisturb.DoNotDisturbModule"]) {
 		displayName = @"Do Not Disturb";
-	} else if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.muirey03.powermodule"]) {
+	} else if ([[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.muirey03.powermodule"] || [[info objectForKey:@"CFBundleIdentifier"] isEqual:@"com.atwiiks.betterccxi.weathermodule"]) {
 		return nil;
 	}
 

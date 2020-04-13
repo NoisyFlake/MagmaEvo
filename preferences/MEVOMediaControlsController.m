@@ -1,5 +1,7 @@
 #include "MEVORootListController.h"
 
+// TODO add respring notification on lockscreen toggle
+
 @implementation MEVOMediaControlsController
 
 - (NSArray *)specifiers {

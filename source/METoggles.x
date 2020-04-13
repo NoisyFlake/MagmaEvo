@@ -4,6 +4,8 @@
 	-(void)didMoveToWindow {
 		%orig;
 
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+
 		// Update layers after a respring (because only now some modules will have an identifier)
 		forceLayerUpdate(self.layer.sublayers);
 
@@ -29,24 +31,54 @@
 	-(void)setSelected:(BOOL)arg1 {
 		%orig;
 
+		[self magmaEvoColorize];
+	}
+
+	%new
+	-(void)magmaEvoColorize {
 		forceLayerUpdate(self.layer.sublayers);
 
-		if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"regular"]) {
+		// iOS 13
+		UIView *backgroundView = [self safeValueForKey:@"_highlightedBackgroundView"];
 
-			// iOS 13
-			UIView *backgroundView = [self safeValueForKey:@"_highlightedBackgroundView"];
+		// iOS 12
+		if ([backgroundView safeValueForKey:@"_backdropView"]) backgroundView = [backgroundView safeValueForKey:@"_backdropView"];
 
-			// iOS 12
-			if ([backgroundView safeValueForKey:@"_backdropView"]) backgroundView = [backgroundView safeValueForKey:@"_backdropView"];
+		backgroundView.hidden = [[settings valueForKey:@"togglesOverlayMode"] isEqual:@"removeOverlay"];
 
-			if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"removeOverlay"]) {
-				backgroundView.hidden = YES;
-			} else if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
-				backgroundView.backgroundColor = [UIColor redColor]; // CALayer will handle the actual color
-			}
-
+		if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
+			backgroundView.backgroundColor = [UIColor redColor]; // CALayer will handle the actual color
 		}
 
+	}
+%end
+
+%hook HUCCHomeButton
+	-(void)didMoveToWindow {
+		%orig;
+
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoUpdateLayers) name:@"com.noisyflake.magmaevo/reload" object:nil];
+	}
+
+	%new
+	-(void)magmaEvoUpdateLayers {
+		forceLayerUpdate(self.layer.sublayers);
+	}
+
+%end
+
+%hook AXCCIconViewController
+	-(id)initWithImage:(id)image {
+		id orig = %orig;
+
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoUpdateLayers) name:@"com.noisyflake.magmaevo/reload" object:nil];
+
+		return orig;
+	}
+
+	%new
+	-(void)magmaEvoUpdateLayers {
+		forceLayerUpdate(@[self.view.layer]);
 	}
 %end
 
@@ -55,17 +87,27 @@
 
 		// Fix the stupid AirPlay label color
 		if ([self._viewControllerForAncestor isKindOfClass:%c(MPAVAirPlayMirroringMenuModuleViewController)]) {
-			UIColor *color = getToggleColor(self._viewControllerForAncestor);
-			if (color != nil) {
-				if ([self._viewControllerForAncestor isSelected] && [[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
-					arg1 = [color evoIsBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
-				} else {
-					arg1 = color;
-				}
-			}
+			[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+			arg1 = [self magmaEvoGetLabelColor];
 		}
 
 		%orig;
+	}
+
+	%new
+	-(void)magmaEvoColorize {
+		[self setTextColor:[UIColor redColor]];
+	}
+
+	%new
+	-(UIColor *)magmaEvoGetLabelColor {
+		UIColor *color = getToggleColor(self._viewControllerForAncestor);
+
+		if ([self._viewControllerForAncestor isSelected] && [[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"]) {
+			return [color evoIsBrightColor] ? [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] : [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+		} else {
+			return color ?: [UIColor whiteColor];
+		}
 	}
 %end
 
@@ -137,6 +179,8 @@ UIColor *getColorForPrefKey(NSString *prefKey) {
 	settings = [MagmaPrefs sharedInstance];
 
 	if ([settings boolForKey:@"enabled"]) {
+		[[NSBundle bundleWithPath:@"/System/Library/ControlCenter/Bundles/HomeControlCenterModule.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/System/Library/ControlCenter/Bundles/AccessibilityTextSizeModule.bundle"] load];
 		%init;
 	}
 }

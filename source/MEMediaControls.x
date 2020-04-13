@@ -56,7 +56,6 @@
   -(void)setStyle:(long long)arg1 {
     %orig;
 
-    NSLog(@"Setting style");
     [self magmaEvoColorize];
     [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
   }
