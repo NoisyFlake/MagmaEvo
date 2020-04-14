@@ -26,6 +26,7 @@
 
 @interface MagmaHelper : NSObject
 + (void)colorizeMaterialView:(UIView *)view forSetting:(NSString *)key;
++ (UIColor *)colorForKey:(NSString *)key withFallback:(UIColor *)fallback;
 @end
 
 @interface UIView (MagmaEvo)
@@ -78,6 +79,7 @@
 @property(readonly, nonatomic) UIImageView *imageView;
 @property(nonatomic, strong, readwrite) UIViewController *ccButton;
 @property(nonatomic, strong, readwrite) UIViewController *moduleController;
+-(void)magmaEvoForceUpdate;
 @end
 
 @interface PrysmConnectivityModuleViewController : UIViewController
@@ -86,6 +88,7 @@
 @property (nonatomic,readonly) PrysmButtonView *bluetoothButton;
 @property (nonatomic,readonly) PrysmButtonView *cellularButton;
 @property (nonatomic,readonly) PrysmButtonView *wifiButton;
+-(void)magmaEvoColorize;
 @end
 
 @interface PrysmSliderViewController : UIViewController
@@ -102,6 +105,7 @@
 @property (nonatomic,strong,readwrite) UILabel *locationSubtitleLabel;
 @property (nonatomic,strong,readwrite) UILabel *locationTitleLabel;
 @property (nonatomic,strong,readwrite) UILabel *temperatureRangeLabel;
+-(void)magmaEvoColorize;
 @end
 
 @interface PrysmPowerModuleViewController : UIViewController
@@ -110,6 +114,7 @@
 @property (nonatomic,readonly) PrysmButtonView *lockButton;
 @property (nonatomic,readonly) PrysmButtonView *rebootButton;
 @property (nonatomic,readonly) PrysmButtonView *shutdownButton;
+-(void)magmaEvoColorize;
 @end
 
 @interface _UIBatteryView : UIView
@@ -134,6 +139,7 @@
 @interface PrysmSliderModuleViewController : UIViewController
 @property (nonatomic,retain) PrysmSliderViewController * audioSlider;
 @property (nonatomic,retain) PrysmSliderViewController * brightnessSlider;
+-(void)magmaEvoColorize;
 @end
 
 @interface PrysmMediaModuleViewController : UIViewController
@@ -147,10 +153,12 @@
 @property (nonatomic,strong,readwrite) UIView * applicationContainer;
 @property (nonatomic,strong,readwrite) UIImageView * applicationView;
 @property (nonatomic,strong,readwrite) UIImageView * applicationOverlayView;
+-(void)magmaEvoColorize;
 @end
 
 @interface PrysmCardBackgroundViewController : UIViewController
 @property (nonatomic,retain) UIView * overlayView;
+-(void)magmaEvoColorize;
 @end
 
 @interface NextUpViewController : UIViewController

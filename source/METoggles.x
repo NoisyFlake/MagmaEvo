@@ -140,6 +140,8 @@ UIColor *getToggleColor(UIViewController *controller) {
 		identifier = ((PrysmButtonView *)controller.parentFocusEnvironment).identifier;
 	} else if ([controller isKindOfClass:%c(HACCIconViewController)]) {
 		identifier = @"com.apple.accessibility.controlcenter.hearingdevices";
+	} else if ([controller isKindOfClass:%c(AXCCIconViewController)]) {
+		identifier = @"com.apple.accessibility.controlcenter.text.size";
 	} else if(!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
 		// TV Remote on iOS 12 has no unique way to identify it, so let's assume this is it
 		identifier = @"com.apple.control-center.AppleTVRemoteModule";
@@ -172,7 +174,12 @@ UIColor *getColorForPrefKey(NSString *prefKey) {
 		if ([prefKey isEqual:@"com.apple.control-center.MuteModuleEnabled"]) value = @"#FF0000";
 	}
 
-	return value ? [UIColor evoRGBAColorFromHexString:value] : nil;
+	if (value) {
+		UIColor *selectedColor = [UIColor evoRGBAColorFromHexString:value];
+		return (CGColorGetComponents(selectedColor.CGColor)[3] == 0) ? UIColor.clearColor : selectedColor;
+	}
+
+	return nil;
 }
 
 %ctor {

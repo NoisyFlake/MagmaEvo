@@ -1,11 +1,20 @@
 #import "MagmaEvo.h"
 
+#define kDefaultContainerBackground [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.09]
+
 %hook PrysmConnectivityModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
+
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
+
+%new
+-(void)magmaEvoColorize {
 	forceLayerUpdate(self.view.layer.sublayers);
 
-	if ([settings valueForKey:@"connectivityContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"connectivityContainerBackground"]];
+	self.view.backgroundColor = [MagmaHelper colorForKey:@"connectivityContainerBackground" withFallback:kDefaultContainerBackground];
 }
 %end
 
@@ -13,26 +22,32 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if ([settings valueForKey:@"slidersVolumeBackground"]) self.audioSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeBackground"]];
-	if ([settings valueForKey:@"slidersVolumeLabel"]) self.audioSlider.percentOverlayLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeLabel"]];
-	if ([settings valueForKey:@"slidersVolumeGlyph"]) {
-		self.audioSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]];
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
 
-		self.audioSlider.packageView.layer.compositingFilter = nil;
-		forceLayerUpdate(@[self.audioSlider.packageView.layer]);
-	}
+%new
+-(void)magmaEvoColorize {
+	self.audioSlider.overlayView.backgroundColor =              [MagmaHelper colorForKey:@"slidersVolumeBackground" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.91]];
+	self.audioSlider.percentOverlayLabel.textColor =            [MagmaHelper colorForKey:@"slidersVolumeLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
+
+	// Static Glyph
+	self.audioSlider.overlayImageView.tintColor =               [MagmaHelper colorForKey:@"slidersVolumeGlyph" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
+	// Animated Glyph
+	self.audioSlider.packageView.layer.compositingFilter =      [settings valueForKey:@"slidersVolumeGlyph"] ? nil : @"destOut";
+	forceLayerUpdate(@[self.audioSlider.packageView.layer]);
 
 
-	if ([settings valueForKey:@"slidersBrightnessBackground"]) self.brightnessSlider.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessBackground"]];
-	if ([settings valueForKey:@"slidersBrightnessLabel"]) self.brightnessSlider.percentOverlayLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessLabel"]];
-	if ([settings valueForKey:@"slidersBrightnessGlyph"]) {
-		self.brightnessSlider.overlayImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]];
+	self.brightnessSlider.overlayView.backgroundColor =         [MagmaHelper colorForKey:@"slidersBrightnessBackground" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.91]];
+	self.brightnessSlider.percentOverlayLabel.textColor =       [MagmaHelper colorForKey:@"slidersBrightnessLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
 
-		self.brightnessSlider.packageView.layer.compositingFilter = nil;
-		forceLayerUpdate(@[self.brightnessSlider.packageView.layer]);
-	}
+	// Static Glyph
+	self.brightnessSlider.overlayImageView.tintColor =          [MagmaHelper colorForKey:@"slidersBrightnessGlyph" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
+	// Animated Glyph
+	self.brightnessSlider.packageView.layer.compositingFilter = [settings valueForKey:@"slidersBrightnessGlyph"] ? nil : @"destOut";
+	forceLayerUpdate(@[self.brightnessSlider.packageView.layer]);
 
-	if ([settings valueForKey:@"slidersContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersContainerBackground"]];
+	self.view.backgroundColor =                                 [MagmaHelper colorForKey:@"slidersContainerBackground" withFallback:kDefaultContainerBackground];
 }
 %end
 
@@ -40,17 +55,21 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if ([settings valueForKey:@"prysmWeatherCurrentTemperature"]) self.currentTemperatureLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherCurrentTemperature"]];
-	if ([settings valueForKey:@"prysmWeatherLocationTitle"]) self.locationTitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherLocationTitle"]];
-	if ([settings valueForKey:@"prysmWeatherLocationSubtitle"]) self.locationSubtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherLocationSubtitle"]];
-	if ([settings valueForKey:@"prysmWeatherTemperatureRange"]) self.temperatureRangeLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherTemperatureRange"]];
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
 
-	if ([settings valueForKey:@"prysmWeatherContainerBackground"]) self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherContainerBackground"]];
+%new
+-(void)magmaEvoColorize {
+	self.currentTemperatureLabel.textColor = [MagmaHelper colorForKey:@"prysmWeatherCurrentTemperature" withFallback:UIColor.whiteColor];
+	self.locationTitleLabel.textColor =      [MagmaHelper colorForKey:@"prysmWeatherLocationTitle" withFallback:UIColor.whiteColor];
+	self.locationSubtitleLabel.textColor =   [MagmaHelper colorForKey:@"prysmWeatherLocationSubtitle" withFallback:UIColor.whiteColor];
+	self.temperatureRangeLabel.textColor =   [MagmaHelper colorForKey:@"prysmWeatherTemperatureRange" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmWeatherIcon"]) {
-		self.conditionImageView.image = [self.conditionImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.conditionImageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmWeatherIcon"]];
-	}
+	self.conditionImageView.image =          [settings valueForKey:@"prysmWeatherIcon"] ? [self.conditionImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.conditionImageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.conditionImageView.tintColor =      [MagmaHelper colorForKey:@"prysmWeatherIcon" withFallback:UIColor.whiteColor];
+
+	self.view.backgroundColor =              [MagmaHelper colorForKey:@"prysmWeatherContainerBackground" withFallback:kDefaultContainerBackground];
 }
 %end
 
@@ -58,33 +77,35 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if ([settings valueForKey:@"mediaControlsLeftButton"]) self.rewindButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]];
-	if ([settings valueForKey:@"mediaControlsMiddleButton"]) self.playPauseButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
+
+%new
+-(void)magmaEvoColorize {
+	self.rewindButton.tintColor                 = [MagmaHelper colorForKey:@"mediaControlsLeftButton" withFallback:UIColor.whiteColor];
+	self.playPauseButton.tintColor              = [MagmaHelper colorForKey:@"mediaControlsMiddleButton" withFallback:UIColor.whiteColor];
+
 	if (self.playPauseButton.hidden) {
-		if ([settings valueForKey:@"mediaControlsMiddleButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsMiddleButton"]];
+		self.skipButton.tintColor               = [MagmaHelper colorForKey:@"mediaControlsMiddleButton" withFallback:UIColor.whiteColor];
 	} else {
-		if ([settings valueForKey:@"mediaControlsRightButton"]) self.skipButton.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRightButton"]];
+		self.skipButton.tintColor               = [MagmaHelper colorForKey:@"mediaControlsRightButton" withFallback:UIColor.whiteColor];
 	}
 
-	if ([settings valueForKey:@"mediaControlsPrimaryLabel"]) self.titleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsPrimaryLabel"]];
-	if ([settings valueForKey:@"mediaControlsSecondaryLabel"]) self.subtitleLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSecondaryLabel"]];
+	self.titleLabel.textColor                   = [MagmaHelper colorForKey:@"mediaControlsPrimaryLabel" withFallback:UIColor.whiteColor];
+	self.subtitleLabel.textColor                = [MagmaHelper colorForKey:@"mediaControlsSecondaryLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.5]];
 
-	if ([settings valueForKey:@"mediaControlsSlider"]) self.progressView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsSlider"]];
+	self.progressView.backgroundColor           = [MagmaHelper colorForKey:@"mediaControlsSlider" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.1]];
 
-	if ([settings valueForKey:@"prysmMediaControlsArtworkPreview"]) self.artworkView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsArtworkPreview"]];
-	if ([settings valueForKey:@"prysmMediaControlsArtworkPreviewBackground"]) self.artworkView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsArtworkPreviewBackground"]];
-	if ([settings valueForKey:@"prysmMediaControlsAirplayBackground"]) self.applicationContainer.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmMediaControlsAirplayBackground"]];
+	self.artworkView.tintColor                  = [MagmaHelper colorForKey:@"prysmMediaControlsArtworkPreview" withFallback:UIColor.whiteColor];
+	self.artworkView.backgroundColor            = [MagmaHelper colorForKey:@"prysmMediaControlsArtworkPreviewBackground" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
 
-	if ([settings valueForKey:@"mediaControlsRoutingButton"]) {
-		self.applicationOverlayView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]];
-		self.applicationOverlayView.alpha = 1;
-		self.applicationView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]];
-		self.applicationView.alpha = 1;
-	}
+	self.applicationContainer.backgroundColor   = [MagmaHelper colorForKey:@"prysmMediaControlsAirplayBackground" withFallback:[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.4]];
+	self.applicationOverlayView.tintColor       = [MagmaHelper colorForKey:@"mediaControlsRoutingButton" withFallback:UIColor.whiteColor];
+	self.applicationView.tintColor              = [MagmaHelper colorForKey:@"mediaControlsRoutingButton" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"mediaControlsContainerBackground"]) {
-		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsContainerBackground"]];
-	}
+	self.view.backgroundColor                   = [MagmaHelper colorForKey:@"mediaControlsContainerBackground" withFallback:kDefaultContainerBackground];
+
 }
 %end
 
@@ -92,9 +113,12 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if ([settings valueForKey:@"prysmPowerContainerBackground"]) {
-		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerContainerBackground"]];
-	}
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
+
+%new
+-(void)magmaEvoColorize {
 
 	// We have to call the setter again because only now the PrysmButtonView will have a viewcontroller we can check. Pass it the default color as fallback
 	UIColor *defaultColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.15];
@@ -104,31 +128,23 @@
 	self.rebootButton.backgroundColor = defaultColor;
 	self.shutdownButton.backgroundColor = defaultColor;
 
-	if ([settings valueForKey:@"prysmPowerRespring"]) {
-		self.respringButton.imageView.image = [self.respringButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.respringButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerRespring"]];
-	}
 
-	if ([settings valueForKey:@"prysmPowerSafemode"]) {
-		self.safemodeButton.imageView.image = [self.safemodeButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.safemodeButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerSafemode"]];
-	}
+	self.respringButton.imageView.image =     [settings valueForKey:@"prysmPowerRespring"] ? [self.respringButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.respringButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.respringButton.imageView.tintColor = [MagmaHelper colorForKey:@"prysmPowerRespring" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmPowerLock"]) {
-		self.lockButton.imageView.image = [self.lockButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.lockButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerLock"]];
-	}
+	self.safemodeButton.imageView.image =     [settings valueForKey:@"prysmPowerSafemode"] ? [self.safemodeButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.safemodeButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.safemodeButton.imageView.tintColor = [MagmaHelper colorForKey:@"prysmPowerSafemode" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmPowerReboot"]) {
-		self.rebootButton.imageView.image = [self.rebootButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.rebootButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerReboot"]];
-	}
+	self.lockButton.imageView.image =         [settings valueForKey:@"prysmPowerLock"] ? [self.lockButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.lockButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.lockButton.imageView.tintColor =     [MagmaHelper colorForKey:@"prysmPowerLock" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmPowerShutdown"]) {
-		self.shutdownButton.imageView.image = [self.shutdownButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.shutdownButton.imageView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerShutdown"]];
-	}
+	self.rebootButton.imageView.image =       [settings valueForKey:@"prysmPowerReboot"] ? [self.rebootButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.rebootButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.rebootButton.imageView.tintColor =   [MagmaHelper colorForKey:@"prysmPowerReboot" withFallback:UIColor.whiteColor];
 
+	self.shutdownButton.imageView.image =     [settings valueForKey:@"prysmPowerShutdown"] ? [self.shutdownButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.shutdownButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.shutdownButton.imageView.tintColor = [MagmaHelper colorForKey:@"prysmPowerShutdown" withFallback:UIColor.whiteColor];
+
+	self.view.backgroundColor =               [MagmaHelper colorForKey:@"prysmPowerContainerBackground" withFallback:kDefaultContainerBackground];
 }
 %end
 
@@ -136,69 +152,40 @@
 -(void)reloadBatteryInfo {
 	%orig;
 
-	if ([settings valueForKey:@"prysmBatteryContainerBackground"]) {
-		self.view.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryContainerBackground"]];
-	}
-
 	// First device
-	if ([settings valueForKey:@"prysmBatteryFirstBatteryPercentage"]) {
-		self.firstDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryPercentage"]];
-	}
+	self.firstDevice.batteryPercentLabel.textColor =  [MagmaHelper colorForKey:@"prysmBatteryFirstBatteryPercentage" withFallback:UIColor.whiteColor];
+	self.firstDevice.deviceNameLabel.textColor =      [MagmaHelper colorForKey:@"prysmBatteryFirstDeviceName" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.firstDevice.deviceIconView.image =           [settings valueForKey:@"prysmBatteryFirstDeviceIcon"] ? [self.firstDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.firstDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.firstDevice.deviceIconView.tintColor =       [MagmaHelper colorForKey:@"prysmBatteryFirstDeviceIcon" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmBatteryFirstDeviceName"]) {
-		self.firstDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstDeviceName"]];
-	}
+	self.firstDevice.batteryView.fillColor =          [MagmaHelper colorForKey:@"prysmBatteryFirstBatteryIcon" withFallback:UIColor.whiteColor];
+	self.firstDevice.batteryView.bodyColor =          [MagmaHelper colorForKey:@"prysmBatteryFirstBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.4]];
+	self.firstDevice.batteryView.pinColor =           [MagmaHelper colorForKey:@"prysmBatteryFirstBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.5]];
 
-	if ([settings valueForKey:@"prysmBatteryFirstDeviceIcon"]) {
-		self.firstDevice.deviceIconView.image = [self.firstDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.firstDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstDeviceIcon"]];
-	}
-
-	if ([settings valueForKey:@"prysmBatteryFirstBatteryIcon"]) {
-		self.firstDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
-		self.firstDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
-		self.firstDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryFirstBatteryIcon"]];
-	}
 
 	// Second device
-	if ([settings valueForKey:@"prysmBatterySecondBatteryPercentage"]) {
-		self.secondDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryPercentage"]];
-	}
+	self.secondDevice.batteryPercentLabel.textColor = [MagmaHelper colorForKey:@"prysmBatterySecondBatteryPercentage" withFallback:UIColor.whiteColor];
+	self.secondDevice.deviceNameLabel.textColor =     [MagmaHelper colorForKey:@"prysmBatterySecondDeviceName" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.secondDevice.deviceIconView.image =          [settings valueForKey:@"prysmBatterySecondDeviceIcon"] ? [self.secondDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.secondDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.secondDevice.deviceIconView.tintColor =      [MagmaHelper colorForKey:@"prysmBatterySecondDeviceIcon" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmBatterySecondDeviceName"]) {
-		self.secondDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondDeviceName"]];
-	}
+	self.secondDevice.batteryView.fillColor =         [MagmaHelper colorForKey:@"prysmBatterySecondBatteryIcon" withFallback:UIColor.whiteColor];
+	self.secondDevice.batteryView.bodyColor =         [MagmaHelper colorForKey:@"prysmBatterySecondBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.4]];
+	self.secondDevice.batteryView.pinColor =          [MagmaHelper colorForKey:@"prysmBatterySecondBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.5]];
 
-	if ([settings valueForKey:@"prysmBatterySecondDeviceIcon"]) {
-		self.secondDevice.deviceIconView.image = [self.secondDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.secondDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondDeviceIcon"]];
-	}
-
-	if ([settings valueForKey:@"prysmBatterySecondBatteryIcon"]) {
-		self.secondDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
-		self.secondDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
-		self.secondDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatterySecondBatteryIcon"]];
-	}
 
 	// Third device
-	if ([settings valueForKey:@"prysmBatteryThirdBatteryPercentage"]) {
-		self.thirdDevice.batteryPercentLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryPercentage"]];
-	}
+	self.thirdDevice.batteryPercentLabel.textColor =  [MagmaHelper colorForKey:@"prysmBatteryThirdBatteryPercentage" withFallback:UIColor.whiteColor];
+	self.thirdDevice.deviceNameLabel.textColor =      [MagmaHelper colorForKey:@"prysmBatteryThirdDeviceName" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.thirdDevice.deviceIconView.image =           [settings valueForKey:@"prysmBatteryThirdDeviceIcon"] ? [self.thirdDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : [self.thirdDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAutomatic];
+	self.thirdDevice.deviceIconView.tintColor =       [MagmaHelper colorForKey:@"prysmBatteryThirdDeviceIcon" withFallback:UIColor.whiteColor];
 
-	if ([settings valueForKey:@"prysmBatteryThirdDeviceName"]) {
-		self.thirdDevice.deviceNameLabel.textColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdDeviceName"]];
-	}
+	self.thirdDevice.batteryView.fillColor =          [MagmaHelper colorForKey:@"prysmBatteryThirdBatteryIcon" withFallback:UIColor.whiteColor];
+	self.thirdDevice.batteryView.bodyColor =          [MagmaHelper colorForKey:@"prysmBatteryThirdBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.4]];
+	self.thirdDevice.batteryView.pinColor =           [MagmaHelper colorForKey:@"prysmBatteryThirdBatteryIcon" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.5]];
 
-	if ([settings valueForKey:@"prysmBatteryThirdDeviceIcon"]) {
-		self.thirdDevice.deviceIconView.image = [self.thirdDevice.deviceIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-		self.thirdDevice.deviceIconView.tintColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdDeviceIcon"]];
-	}
 
-	if ([settings valueForKey:@"prysmBatteryThirdBatteryIcon"]) {
-		self.thirdDevice.batteryView.fillColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
-		self.thirdDevice.batteryView.bodyColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
-		self.thirdDevice.batteryView.pinColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmBatteryThirdBatteryIcon"]];
-	}
+	self.view.backgroundColor =                       [MagmaHelper colorForKey:@"prysmBatteryContainerBackground" withFallback:kDefaultContainerBackground];
 }
 %end
 
@@ -206,23 +193,34 @@
 -(void)viewDidLayoutSubviews {
 	%orig;
 
-	if ([settings valueForKey:@"miscMainBackground"]) self.overlayView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"miscMainBackground"]];
+	[self magmaEvoColorize];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+}
+
+%new
+-(void)magmaEvoColorize {
+	self.overlayView.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.3]];
 }
 %end
 
 %hook PrysmButtonView
 -(void)setBackgroundColor:(UIColor *)color {
-	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] &&
-		![self._viewControllerForAncestor isKindOfClass:%c(PrysmPowerModuleViewController)] &&
-		[settings valueForKey:@"togglesContainerBackground"]) {
-		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"togglesContainerBackground"]];
+	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoForceUpdate) name:@"com.noisyflake.magmaevo/reload" object:nil];
+
+	if (![self._viewControllerForAncestor isKindOfClass:%c(PrysmConnectivityModuleViewController)] && ![self._viewControllerForAncestor isKindOfClass:%c(PrysmPowerModuleViewController)]) {
+		color = [MagmaHelper colorForKey:@"togglesContainerBackground" withFallback:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.15]];
 	}
 
 	if ([self._viewControllerForAncestor isKindOfClass:%c(PrysmPowerModuleViewController)] && [settings valueForKey:@"prysmPowerToggleBackground"]) {
-		color = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"prysmPowerToggleBackground"]];
+		color = [MagmaHelper colorForKey:@"prysmPowerToggleBackground" withFallback:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.15]];
 	}
 
 	%orig(color);
+}
+
+%new
+-(void)magmaEvoForceUpdate {
+	self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.15];
 }
 %end
 
@@ -277,7 +275,7 @@ UIColor *getPrysmConnectivityGlyphColor(UIImageView *view) {
 			if ([prefKey isEqual:@"CCUIConnectivityWifiViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
 		}
 
-		return color;
+		return color ?: UIColor.whiteColor;
 	}
 
 	if (![[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] && [prefKey containsString:@"Enabled"]) {

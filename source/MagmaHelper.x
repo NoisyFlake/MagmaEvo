@@ -27,4 +27,8 @@
     view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
 }
 
++ (UIColor *)colorForKey:(NSString *)key withFallback:(UIColor *)fallback {
+    return [settings valueForKey:key] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:key]] : fallback;
+}
+
 @end

@@ -118,9 +118,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 				}
 
 				return [toggleColor evoIsBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
-			}
-
-			if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
+			} else if (![[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && [controller respondsToSelector:@selector(isSelected)] && [((CCUIButtonModuleViewController*)controller) isSelected]) {
 
 				if ([currentLayer.delegate isKindOfClass:%c(MTMaterialView)] && [currentLayer.delegate respondsToSelector:@selector(configuration)]) {
 					((MTMaterialView *)currentLayer.delegate).configuration = 3;
@@ -140,31 +138,6 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			if (![controller respondsToSelector:@selector(isSelected)] || ![((CCUIButtonModuleViewController*)controller) isSelected]) {
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
-
-		} else if([controller isKindOfClass:%c(PrysmTogglesModuleViewController)]) {
-
-			UIColor *toggleColor = getPrysmToggleColor((UIView *)currentLayer.delegate);
-
-			if ([[settings valueForKey:@"togglesOverlayMode"] isEqual:@"colorOverlay"] && isPrysmButtonSelected(getPrysmButtonView((UIView *)currentLayer.delegate))) {
-
-				if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(MTMaterialView)]) {
-					((MTMaterialView*)currentLayer.delegate).configuration = 1;
-					return [toggleColor CGColor];
-				}
-
-				if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [currentLayer.delegate isKindOfClass:%c(_MTBackdropView)]) {
-					((_MTBackdropView*)currentLayer.delegate).colorAddColor = nil;
-					((_MTBackdropView*)currentLayer.delegate).brightness = 0;
-					return [toggleColor CGColor];
-				}
-
-				return [toggleColor evoIsBrightColor] ? [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0] CGColor] : [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
-
-			}
-
-			if (toggleColor != nil) return [toggleColor CGColor];
-
-			return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 
 		} else if([controller isKindOfClass:%c(PrysmConnectivityModuleViewController)]) {
 
@@ -188,11 +161,13 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 				if (((PrysmSliderViewController *)controller).style == 1) {
 					if ([settings valueForKey:@"slidersBrightnessGlyph"]) {
-						return [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]].CGColor;
+						UIColor *selectedColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersBrightnessGlyph"]];
+						return CGColorGetComponents(selectedColor.CGColor)[3] == 0 ? UIColor.clearColor.CGColor : selectedColor.CGColor;
 					}
 				} else if (((PrysmSliderViewController *)controller).style == 2) {
 					if ([settings valueForKey:@"slidersVolumeGlyph"]) {
-						return [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]].CGColor;
+						UIColor *selectedColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"slidersVolumeGlyph"]];
+						return CGColorGetComponents(selectedColor.CGColor)[3] == 0 ? UIColor.clearColor.CGColor : selectedColor.CGColor;
 					}
 				}
 

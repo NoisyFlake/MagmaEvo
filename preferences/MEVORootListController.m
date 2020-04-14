@@ -52,6 +52,8 @@
 		UIAlertController *success = [UIAlertController alertControllerWithTitle: @"Success" message: @"All settings resetted." preferredStyle:UIAlertControllerStyleAlert];
 		[success addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
 
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
+
 		[self presentViewController:success animated:YES completion:nil];
 	}]];
 
