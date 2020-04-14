@@ -54,6 +54,11 @@
 
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
+		NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+		NSMutableDictionary *persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+		[persistentSettings removeObjectForKey:@"currentPreset"];
+		[persistentSettings writeToFile:persistentFile atomically:YES];
+
 		[self presentViewController:success animated:YES completion:nil];
 	}]];
 

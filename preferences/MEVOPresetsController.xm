@@ -2,6 +2,9 @@
 
 NSString *presetPath = @"/User/Library/Preferences/com.noisyflake.magmaevo.presets/";
 NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
+NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+
+NSMutableDictionary *persistentSettings;
 
 @implementation MEVOPresetsController
 
@@ -16,18 +19,45 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 		NSMutableArray *mutableSpecifiers = [[self loadSpecifiersFromPlistName:@"Presets" target:self] mutableCopy];
 
 		NSArray *presets = [fileManager contentsOfDirectoryAtPath:presetPath error:NULL];
+		NSArray *sortedPresets = [presets sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 
-		for (NSString *fileName in presets) {
+		persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+
+		for (NSString *fileName in sortedPresets) {
+			if (![fileName hasSuffix:@".plist"]) continue;
+
 			NSString *presetName = [fileName substringToIndex:[fileName length]-6];
 
 			PSSpecifier* preset = [PSSpecifier preferenceSpecifierNamed:presetName target:self set:nil get:nil detail:Nil cell:PSButtonCell edit:Nil];
-			[preset setProperty:NSClassFromString(@"MEVOButton") forKey:@"cellClass"];
+			[preset setProperty:NSClassFromString(@"MEVOPreset") forKey:@"cellClass"];
 			[preset setProperty:@"regular" forKey:@"textColor"];
 			[preset setProperty:presetName forKey:@"fileName"];
 			preset.buttonAction = @selector(selectPreset:);
 
+			if ([presetName isEqual:persistentSettings[@"currentPreset"]]) {
+				[preset setProperty:@YES forKey:@"isActive"];
+
+				if([persistentSettings[@"unsaved"] boolValue]) {
+					[preset setProperty:@YES forKey:@"isUnsaved"];
+				}
+			}
+
+			if ([presetName isEqual:persistentSettings[@"darkDefault"]]) {
+				[preset setProperty:@YES forKey:@"isDarkDefault"];
+			} else if ([presetName isEqual:persistentSettings[@"lightDefault"]]) {
+				[preset setProperty:@YES forKey:@"isLightDefault"];
+			}
+
+
 			[mutableSpecifiers addObject:preset];
 		}
+
+		[[NSDistributedNotificationCenter defaultCenter] removeObserver:self name:@"com.noisyflake.magmaevo/presetChanged" object:nil];
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadSpecifiers) name:@"com.noisyflake.magmaevo/presetChanged" object:nil];
+
+		UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePreset)];
+		self.navigationItem.rightBarButtonItem = applyButton;
+		self.navigationItem.rightBarButtonItem.enabled = [persistentSettings[@"unsaved"] boolValue];
 
 		_specifiers = mutableSpecifiers;
 	}
@@ -46,13 +76,33 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
         [self loadPreset:presetName];
     }]];
 
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self savePreset:presetName];
-    }]];
-
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Export" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self exportPreset:presetName];
     }]];
+
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
+
+		if (![[specifier propertyForKey:@"isDarkDefault"] boolValue]) {
+			[actionSheet addAction:[UIAlertAction actionWithTitle:@"Use for Dark Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+				[self setAsDefault:presetName forMode:@"dark"];
+			}]];
+		} else {
+			[actionSheet addAction:[UIAlertAction actionWithTitle:@"Stop using for Dark Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+				[self removeDefaultForMode:@"dark"];
+			}]];
+		}
+
+		if (![[specifier propertyForKey:@"isLightDefault"] boolValue]) {
+			[actionSheet addAction:[UIAlertAction actionWithTitle:@"Use for Light Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+				[self setAsDefault:presetName forMode:@"light"];
+			}]];
+		} else {
+			[actionSheet addAction:[UIAlertAction actionWithTitle:@"Stop using for Light Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+				[self removeDefaultForMode:@"light"];
+			}]];
+		}
+
+	}
 
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [self deletePreset:specifier];
@@ -72,7 +122,7 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 }
 
 - (void)newPreset {
-	UIAlertController * alert = [UIAlertController alertControllerWithTitle: @"New Preset" message: @"This will create a new preset with your current settings. Enter a name for the new preset" preferredStyle:UIAlertControllerStyleAlert];
+	UIAlertController * alert = [UIAlertController alertControllerWithTitle: @"New Preset" message: @"This will create a new preset with your current settings. Please enter a name:" preferredStyle:UIAlertControllerStyleAlert];
 
 	[alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
 		textField.placeholder = @"Name";
@@ -84,13 +134,13 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 		NSFileManager *fileManager= [NSFileManager defaultManager];
 		NSString *presetFile = [NSString stringWithFormat:@"%@%@.plist", presetPath, name];
 		if([fileManager fileExistsAtPath:presetFile]) {
-			UIAlertController *failure = [UIAlertController alertControllerWithTitle: @"Error" message: @"A preset with this name already exists." preferredStyle:UIAlertControllerStyleAlert];
+			UIAlertController *failure = [UIAlertController alertControllerWithTitle: @"Error" message: @"A preset with this name already exists. If you want to overwrite it, use the Save button instead." preferredStyle:UIAlertControllerStyleAlert];
 			[failure addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
 
 			[self presentViewController:failure animated:YES completion:nil];
 		} else {
 			[fileManager copyItemAtPath:settingsFile toPath:presetFile error:nil];
-			[self reloadSpecifiers];
+			[self setPresetActive:name];
 		}
 	}]];
 
@@ -150,48 +200,46 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 
 - (void)loadPreset:(NSString *)presetName {
 	NSString *presetFile = [NSString stringWithFormat:@"%@%@.plist", presetPath, presetName];
+	NSFileManager *fileManager= [NSFileManager defaultManager];
 
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle: presetName
-									message: @"Are you sure you want to load this preset? All your settings will be overwritten."
-									preferredStyle:UIAlertControllerStyleAlert];
+	if ([persistentSettings[@"unsaved"] boolValue]) {
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle: presetName
+									message: @"You have unsaved changes. If you load this preset, all your changes will be lost!"
+	 								preferredStyle:UIAlertControllerStyleAlert];
 
-	[alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-		NSFileManager *fileManager= [NSFileManager defaultManager];
+		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+			NSFileManager *fileManager= [NSFileManager defaultManager];
+			[fileManager removeItemAtPath:settingsFile error:nil];
+			[fileManager copyItemAtPath:presetFile toPath:settingsFile error:nil];
+
+			CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
+
+			[self setPresetActive:presetName];
+		}]];
+
+		[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+		[self presentViewController:alert animated:YES completion:nil];
+
+	} else {
 		[fileManager removeItemAtPath:settingsFile error:nil];
 		[fileManager copyItemAtPath:presetFile toPath:settingsFile error:nil];
 
-		UIAlertController *success = [UIAlertController alertControllerWithTitle: @"Success" message: @"Preset successfully loaded." preferredStyle:UIAlertControllerStyleAlert];
-		[success addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
-		[self presentViewController:success animated:YES completion:nil];
-	}]];
-
-	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-
-	[self presentViewController:alert animated:YES completion:nil];
+		[self setPresetActive:presetName];
+	}
 }
 
-- (void)savePreset:(NSString *)presetName {
+- (void)savePreset {
+	NSString *presetName = persistentSettings[@"currentPreset"];
+
 	NSString *presetFile = [NSString stringWithFormat:@"%@%@.plist", presetPath, presetName];
 
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle: presetName
-									message: @"Are you sure you want to overwrite this preset with your current settings?"
-									preferredStyle:UIAlertControllerStyleAlert];
+	NSFileManager *fileManager= [NSFileManager defaultManager];
+	[fileManager removeItemAtPath:presetFile error:nil];
+	[fileManager copyItemAtPath:settingsFile toPath:presetFile error:nil];
 
-	[alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-		NSFileManager *fileManager= [NSFileManager defaultManager];
-		[fileManager removeItemAtPath:presetFile error:nil];
-		[fileManager copyItemAtPath:settingsFile toPath:presetFile error:nil];
-
-		UIAlertController *success = [UIAlertController alertControllerWithTitle:presetName message: @"Preset successfully saved." preferredStyle:UIAlertControllerStyleAlert];
-		[success addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-
-		[self presentViewController:success animated:YES completion:nil];
-	}]];
-
-	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-
-	[self presentViewController:alert animated:YES completion:nil];
+	[self setPresetActive:presetName];
 }
 
 -(void)exportPreset:(NSString *)presetName {
@@ -222,10 +270,55 @@ NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.pli
 		NSFileManager *fileManager= [NSFileManager defaultManager];
 		[fileManager removeItemAtPath:presetFile error:nil];
 		[self removeSpecifier:specifier animated:YES];
+
+		if ([presetName isEqual:persistentSettings[@"currentPreset"]]) [persistentSettings removeObjectForKey:@"currentPreset"];
+		if ([presetName isEqual:persistentSettings[@"lightDefault"]]) [persistentSettings removeObjectForKey:@"lightDefault"];
+		if ([presetName isEqual:persistentSettings[@"darkDefault"]]) [persistentSettings removeObjectForKey:@"darkDefault"];
+		[persistentSettings writeToFile:persistentFile atomically:YES];
 	}]];
 
 	[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
 
 	[self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)setPresetActive:(NSString *)presetName {
+	[persistentSettings setObject:presetName forKey:@"currentPreset"];
+	[persistentSettings setObject:@NO forKey:@"unsaved"];
+	[persistentSettings writeToFile:persistentFile atomically:YES];
+
+	[self reloadSpecifiers];
+}
+
+-(void)setAsDefault:(NSString *)presetName forMode:(NSString *)mode {
+	if ([mode isEqual:@"dark"]) {
+		[persistentSettings setObject:presetName forKey:@"darkDefault"];
+
+		if ([presetName isEqual:persistentSettings[@"lightDefault"]]) {
+			[persistentSettings removeObjectForKey:@"lightDefault"];
+		}
+	} else {
+		[persistentSettings setObject:presetName forKey:@"lightDefault"];
+
+		if ([presetName isEqual:persistentSettings[@"darkDefault"]]) {
+			[persistentSettings removeObjectForKey:@"darkDefault"];
+		}
+	}
+
+	[persistentSettings writeToFile:persistentFile atomically:YES];
+
+	[self reloadSpecifiers];
+}
+
+-(void)removeDefaultForMode:(NSString *)mode {
+	if ([mode isEqual:@"dark"]) {
+		[persistentSettings removeObjectForKey:@"darkDefault"];
+	} else {
+		[persistentSettings removeObjectForKey:@"lightDefault"];
+	}
+
+	[persistentSettings writeToFile:persistentFile atomically:YES];
+
+	[self reloadSpecifiers];
 }
 @end

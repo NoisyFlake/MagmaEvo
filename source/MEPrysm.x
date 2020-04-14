@@ -242,6 +242,15 @@ UIColor *getPrysmConnectivityColor(PrysmButtonView *view) {
 		color = [[settings valueForKey:@"connectivityModeEnabled"] isEqual:@"glyphOnly"] ? [UIColor clearColor] : nil;
 	}
 
+	if (color == nil) {
+		if ([prefKey isEqual:@"CCUIConnectivityAirDropViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+		if ([prefKey isEqual:@"CCUIConnectivityAirplaneViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#FF9500"];
+		if ([prefKey isEqual:@"CCUIConnectivityBluetoothViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+		if ([prefKey isEqual:@"CCUIConnectivityCellularDataViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+		if ([prefKey isEqual:@"CCUIConnectivityHotspotViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#4CD964"];
+		if ([prefKey isEqual:@"CCUIConnectivityWifiViewControllerEnabled"]) return [UIColor evoRGBAColorFromHexString:@"#007AFF"];
+	}
+
 	return color;
 }
 

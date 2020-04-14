@@ -128,6 +128,17 @@
 	}
 %end
 
+%hook UIRootSceneWindow
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+	%orig;
+
+	if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+		[settings loadPresetForStyle:self.traitCollection.userInterfaceStyle];
+	}
+
+}
+%end
+
 %ctor {
 	settings = [MagmaPrefs sharedInstance];
 

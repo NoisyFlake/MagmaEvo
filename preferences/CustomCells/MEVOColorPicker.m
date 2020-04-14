@@ -68,6 +68,12 @@
             }
 
             [settings writeToFile:kFilepath atomically:YES];
+
+            NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+            NSMutableDictionary *persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+            [persistentSettings setObject:@YES forKey:@"unsaved"];
+            [persistentSettings writeToFile:persistentFile atomically:YES];
+
             CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
             [self._viewControllerForAncestor reloadSpecifiers];
@@ -78,6 +84,12 @@
     } else {
         [settings removeObjectForKey:self.specifier.properties[@"key"]];
         [settings writeToFile:kFilepath atomically:YES];
+
+        NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+        NSMutableDictionary *persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+        [persistentSettings setObject:@YES forKey:@"unsaved"];
+        [persistentSettings writeToFile:persistentFile atomically:YES];
+
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
         _currentColor = nil;
@@ -103,6 +115,11 @@
         }
 
         [settings writeToFile:kFilepath atomically:YES];
+        NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+        NSMutableDictionary *persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+        [persistentSettings setObject:@YES forKey:@"unsaved"];
+        [persistentSettings writeToFile:persistentFile atomically:YES];
+
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
         [self._viewControllerForAncestor reloadSpecifiers];

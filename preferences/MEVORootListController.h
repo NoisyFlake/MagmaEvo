@@ -2,6 +2,7 @@
 #import <Preferences/PSSpecifier.h>
 
 #define kEVOCOLOR [UIColor colorWithRed:0.81 green:0.06 blue:0.13 alpha:1.0]
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface NSTask : NSObject
 - (instancetype)init;
@@ -15,6 +16,9 @@
 @interface UIView (MagmaEvo)
 @property (copy,readonly) NSArray * allSubviews;
 -(id)_viewControllerForAncestor;
+@end
+
+@interface NSDistributedNotificationCenter : NSNotificationCenter
 @end
 
 @interface UINavigationItem (MagmaEvo)

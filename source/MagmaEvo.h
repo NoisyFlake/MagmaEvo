@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSDictionary *defaultSettings;
 + (id)sharedInstance;
 - (id)init;
+-(void)loadPresetForStyle:(UIUserInterfaceStyle)style;
 -(BOOL)boolForKey:(NSString *)key;
 -(NSString *)valueForKey:(NSString *)key;
 @end
@@ -29,11 +30,22 @@
 + (UIColor *)colorForKey:(NSString *)key withFallback:(UIColor *)fallback;
 @end
 
+@interface NSDistributedNotificationCenter : NSNotificationCenter
+@end
+
+@interface UITraitCollection (MagmaEvo)
+@property(nonatomic, readonly) UIUserInterfaceStyle userInterfaceStyle API_AVAILABLE(ios(12.0));
+@end
+
 @interface UIView (MagmaEvo)
 @property (nonatomic,readonly) UIView * _ui_superview;
 @property (assign,nonatomic) long long compositingMode;
 @property (nonatomic,readonly) id parentFocusEnvironment;
 -(id)_viewControllerForAncestor;
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+@end
+
+@interface UIRootSceneWindow : UIView
 @end
 
 @interface UIViewController (MagmaEvo)

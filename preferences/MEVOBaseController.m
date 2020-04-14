@@ -8,9 +8,6 @@
 
     self.navigationItem.navigationBar.tintColor = kEVOCOLOR;
 
-    UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStylePlain target:self action:@selector(respring)];
-	self.navigationItem.rightBarButtonItem = applyButton;
-
 	UITableView *table = self.view.subviews[0];
 	table.separatorStyle = 0;
 }
@@ -30,6 +27,11 @@
 	NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
 	[settings setObject:value forKey:specifier.properties[@"key"]];
 	[settings writeToFile:path atomically:YES];
+
+	NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+	NSMutableDictionary *persistentSettings = [NSMutableDictionary dictionaryWithContentsOfFile:persistentFile];
+	[persistentSettings setObject:@YES forKey:@"unsaved"];
+	[persistentSettings writeToFile:persistentFile atomically:YES];
 
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 }

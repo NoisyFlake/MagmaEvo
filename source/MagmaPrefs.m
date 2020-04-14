@@ -16,6 +16,9 @@ static MagmaPrefs *sharedInstance = nil;
 static NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
 static NSString *defaultFile = @"/Library/PreferenceBundles/MagmaEvo.bundle/defaults.plist";
 
+static NSString *persistentFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.persistent.plist";
+static NSString *persistentDefaultFile = @"/Library/PreferenceBundles/MagmaEvo.bundle/persistent.plist";
+
 static void updatePreferences() {
 	[[MagmaPrefs sharedInstance] load];
 }
@@ -41,6 +44,10 @@ static void updatePreferences() {
 			[fileManager copyItemAtPath:defaultFile toPath:settingsFile error:nil];
 		}
 
+		if (![fileManager fileExistsAtPath:persistentFile]) {
+			[fileManager copyItemAtPath:persistentDefaultFile toPath:persistentFile error:nil];
+		}
+
 		_defaultSettings = [[NSMutableDictionary alloc] initWithContentsOfFile:defaultFile];
 		[self load];
 
@@ -54,6 +61,37 @@ static void updatePreferences() {
 	_settings = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFile];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"com.noisyflake.magmaevo/reload" object:nil];
+}
+
+-(void)loadPresetForStyle:(UIUserInterfaceStyle)style {
+	NSMutableDictionary *persistentSettings = [[NSMutableDictionary alloc] initWithContentsOfFile:persistentFile];
+
+
+	NSString *presetName;
+	if (style == 1) {
+		presetName = persistentSettings[@"lightDefault"];
+	} else if (style == 2) {
+		presetName = persistentSettings[@"darkDefault"];
+	}
+
+	if (presetName == nil) return;
+
+	NSString *presetFile = [NSString stringWithFormat:@"/User/Library/Preferences/com.noisyflake.magmaevo.presets/%@.plist", presetName];
+	NSString *settingsFile = @"/User/Library/Preferences/com.noisyflake.magmaevo.plist";
+
+	NSFileManager *fileManager= [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:presetFile]) return;
+
+	[fileManager removeItemAtPath:settingsFile error:nil];
+	[fileManager copyItemAtPath:presetFile toPath:settingsFile error:nil];
+
+	[persistentSettings setObject:presetName forKey:@"currentPreset"];
+	[persistentSettings setObject:@NO forKey:@"unsaved"];
+	[persistentSettings writeToFile:persistentFile atomically:YES];
+
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"com.noisyflake.magmaevo/presetChanged" object:nil];
+
+	[self load];
 }
 
 -(BOOL)boolForKey:(NSString *)key {
