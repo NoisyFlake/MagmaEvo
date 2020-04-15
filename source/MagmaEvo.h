@@ -173,6 +173,14 @@
 -(void)magmaEvoColorize;
 @end
 
+@interface PrysmCardViewController : UIViewController
+@property (nonatomic, strong, readwrite) PrysmCardBackgroundViewController *backdropViewController;
+@end
+
+@interface PrysmMainPageViewController : UIViewController
+@property (nonatomic, strong, readwrite) PrysmCardViewController *cardViewController;
+@end
+
 @interface NextUpViewController : UIViewController
 @property (nonatomic, assign, readwrite) BOOL controlCenter;
 @end

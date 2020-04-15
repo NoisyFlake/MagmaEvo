@@ -189,17 +189,14 @@
 }
 %end
 
-%hook PrysmCardBackgroundViewController
--(void)viewDidLayoutSubviews {
+%hook PrysmMainPageViewController
+-(void)setDarkModeEnabled:(BOOL)arg1 {
 	%orig;
 
-	[self magmaEvoColorize];
-	[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
-}
-
-%new
--(void)magmaEvoColorize {
-	self.overlayView.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.3]];
+	// This method gets called everytime the CC is opened. %orig then sets the backgroundColor and style according to arg1, so we only have to overwrite it
+	if ([settings valueForKey:@"miscMainBackground"]) {
+		self.cardViewController.backdropViewController.overlayView.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:nil];
+	}
 }
 %end
 
