@@ -89,7 +89,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			|| [controller isKindOfClass:%c(HACCIconViewController)]
 			|| [controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
 
-			// Ugly fix to restore the default colors for expanded modules (TODO improve this?)
+			// Ugly fix to restore the default colors for expanded modules
 			if ([layer.compositingFilter isEqual:@"plusD"]) return [settings boolForKey:@"togglesHideContainer"] ? [[UIColor clearColor] CGColor] : [[UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.05] CGColor];
 			if ([((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(CCUIMenuModuleItemView)] || [((UIView*)currentLayer.delegate)._ui_superview isKindOfClass:%c(BSUIEmojiLabelView)]) return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.00] CGColor];
 			if ([currentLayer.delegate isKindOfClass:%c(MPAVHighlightedControl)]) return originalColor;

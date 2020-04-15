@@ -24,11 +24,10 @@
 		CGRect frame = self.contentView.bounds;
 
 		frame.origin.x -= 15;
+		frame.origin.y += 5;
 
-		// Necessary for when using the grouped tableViewStyle
-		if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
-			frame.origin.y += 5;
-		}
+		// Ugly workaround for devices where it whould overlap the selector
+		self.layer.zPosition = -1;
 
         _bigImageView.frame = frame;
 		_bigImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

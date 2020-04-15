@@ -19,6 +19,7 @@
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>enabled</string>
 			<key>label</key>                         <string>Enabled</string>
+			<key>set</key>                           <string>setWithRespring:specifier:</string>
 		</dict>
 
 		<dict>
@@ -26,7 +27,6 @@
 				<key>label</key>                    <string>Modules</string>
 		</dict>
 
-		<!-- https://github.com/srolfe/fancier/blob/master/fanciersettings/HeaderCell.mm -->
 		<dict>
 				<key>cell</key>                     <string>PSLinkCell</string>
 				<key>isController</key>             <true/>
