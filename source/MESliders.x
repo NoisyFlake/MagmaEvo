@@ -42,25 +42,28 @@
 		}
 
 		backgroundView.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
+
+		if ([self respondsToSelector:@selector(magmaEvoColorizeContainer)]) {
+			[self magmaEvoColorizeContainer];
+		}
 	}
 %end
 
 %hook MediaControlsVolumeSliderView
-  -(id)initWithFrame:(CGRect)arg1 {
-    MediaControlsVolumeSliderView *orig = %orig;
+	-(id)initWithFrame:(CGRect)arg1 {
+		MediaControlsVolumeSliderView *orig = %orig;
 
-    [self magmaEvoColorizeContainer];
-    [[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorizeContainer) name:@"com.noisyflake.magmaevo/reload" object:nil];
+		[self magmaEvoColorizeContainer];
 
-    return orig;
-  }
+		return orig;
+	}
 
-  %new
-  -(void)magmaEvoColorizeContainer {
-	  if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
+	%new
+	-(void)magmaEvoColorizeContainer {
+		if ([self isKindOfClass:%c(SBElasticSliderView)] && ![settings boolForKey:@"slidersVolumeSystem"]) return;
 
-	  [MagmaHelper colorizeMaterialView:[self valueForKey:@"_materialView"] forSetting:@"slidersContainerBackground"];
-  }
+		[MagmaHelper colorizeMaterialView:[self valueForKey:@"_materialView"] forSetting:@"slidersContainerBackground"];
+	}
 %end
 
 CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
@@ -76,6 +79,9 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 	NSString *glyphValue = [settings valueForKey:glyphKey];
 
 	if ([view isKindOfClass:%c(MTMaterialView)] && [view respondsToSelector:@selector(configuration)]) {
+
+		// Ignore the container background of the iOS 13 volume slider (which also happens to be a MTMaterialView)
+		if ([controller isKindOfClass:%c(MediaControlsVolumeViewController)] && view == [view.superview safeValueForKey:@"_materialView"]) return nil;
 
 		if (backgroundValue) {
 			((MTMaterialView *)view).configuration = 1;
@@ -94,7 +100,8 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 			((_MTBackdropView*)view).brightness = 0;
 			return [[UIColor evoRGBAColorFromHexString:backgroundValue] CGColor];
 		} else {
-			// TODO
+			((_MTBackdropView *)view).colorAddColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+			((_MTBackdropView *)view).brightness = 0.52;
 			return nil;
 		}
 

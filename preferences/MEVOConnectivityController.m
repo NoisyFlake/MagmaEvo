@@ -13,6 +13,11 @@ BOOL mevoEnabledConnectivityState = YES;
 
 		for (PSSpecifier *spec in [mutableSpecifiers reverseObjectEnumerator]) {
 			if ([fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"] && [spec.properties[@"key"] isEqual:@"rearrangeToggles"]) {
+				[spec setProperty:@"NO" forKey:@"enabled"];
+				continue;
+			}
+
+			if (![fileManager fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Prysm.dylib"] && [spec.properties[@"key"] isEqual:@"rearrangeTogglesHint"]) {
 				[mutableSpecifiers removeObject:spec];
 				continue;
 			}

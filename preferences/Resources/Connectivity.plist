@@ -5,6 +5,11 @@
 	<key>items</key>
 	<array>
 		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>footerText</key>               <string>This feature is not available for Prysm.</string>
+			<key>key</key>                      <string>rearrangeTogglesHint</string>
+		</dict>
+		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>isController</key>             <true/>
 			<key>detail</key>                   <string>MEVOConnectivityOrderController</string>

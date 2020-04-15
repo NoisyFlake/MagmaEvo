@@ -57,7 +57,7 @@ NSMutableDictionary *persistentSettings;
 
 		UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePreset)];
 		self.navigationItem.rightBarButtonItem = applyButton;
-		self.navigationItem.rightBarButtonItem.enabled = [persistentSettings[@"unsaved"] boolValue];
+		self.navigationItem.rightBarButtonItem.enabled = persistentSettings[@"currentPreset"] && [persistentSettings[@"unsaved"] boolValue];
 
 		_specifiers = mutableSpecifiers;
 	}

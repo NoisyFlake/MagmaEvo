@@ -11,7 +11,7 @@
 - (id)initWithSpecifier:(PSSpecifier *)specifier {
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil specifier:specifier];
 	if (self) {
-		CGFloat x = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? -5 : -15;
+		CGFloat x = -15;
 
 		UILabel *tweakName = [[UILabel alloc] initWithFrame:CGRectMake(x, 28, self.frame.size.width, 10)];
 		[tweakName layoutIfNeeded];

@@ -23,9 +23,12 @@
 
 		CGRect frame = self.contentView.bounds;
 
-		// Necessary for when using the grouped tableViewStyle
 		frame.origin.x -= 15;
-		frame.origin.y += 5;
+
+		// Necessary for when using the grouped tableViewStyle
+		if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+			frame.origin.y += 5;
+		}
 
         _bigImageView.frame = frame;
 		_bigImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

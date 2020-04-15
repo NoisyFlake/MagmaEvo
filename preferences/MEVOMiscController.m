@@ -14,7 +14,7 @@
 		for (PSSpecifier *spec in [mutableSpecifiers reverseObjectEnumerator]) {
 			NSString *feature = spec.properties[@"feature"];
 			if (
-				([feature isEqual:@"PowerModule"] && !powerModuleInstalled) ||
+				([feature isEqual:@"powerModule"] && !powerModuleInstalled) ||
 				([feature isEqual:@"prysm"] && !prysmInstalled) ||
 				([feature isEqual:@"notPrysm"] && prysmInstalled) ||
 				([feature isEqual:@"bcxiWeather"] && (!bcxiWeatherInstalled || prysmInstalled)) ||

@@ -2,13 +2,23 @@
 
 NSMutableOrderedSet *toggles;
 
-// TODO implement respring button
-
 @implementation MEVOConnectivityOrderController
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
 		NSMutableArray *mutableSpecifiers = [NSMutableArray array];
+
+		PSSpecifier* hint = [PSSpecifier preferenceSpecifierNamed:@""
+											target:self
+											set:@selector(setPreferenceValue:specifier:)
+											get:@selector(readPreferenceValue:)
+											detail:Nil
+											cell:PSGroupCell
+											edit:Nil];
+
+		[hint setProperty:@"Changes require a respring." forKey:@"footerText"];
+		[hint setProperty:@"1" forKey:@"footerAlignment"];
+		[mutableSpecifiers addObject:hint];
 
 		toggles = [NSMutableOrderedSet orderedSetWithCapacity:6];
 
@@ -17,13 +27,16 @@ NSMutableOrderedSet *toggles;
 			if (val != nil) [toggles addObject:val];
 		}
 
-    for (NSString *key in toggles) {
-			PSSpecifier *specifier = [self generateSpecifier:key];
-			if (specifier) [mutableSpecifiers addObject:specifier];
-    }
+		for (NSString *key in toggles) {
+				PSSpecifier *specifier = [self generateSpecifier:key];
+				if (specifier) [mutableSpecifiers addObject:specifier];
+		}
 
 		_specifiers = mutableSpecifiers;
 	}
+
+	UIBarButtonItem *applyButton = [[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStylePlain target:self action:@selector(respring)];
+	self.navigationItem.rightBarButtonItem = applyButton;
 
 	return _specifiers;
 }

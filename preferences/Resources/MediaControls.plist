@@ -11,6 +11,7 @@
 			<key>defaults</key>                      <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                           <string>mediaControlsColorLockscreen</string>
 			<key>label</key>                         <string>Color on Lockscreen</string>
+			<key>set</key>                           <string>setWithRespring:specifier:</string>
 		</dict>
 
 		<dict>

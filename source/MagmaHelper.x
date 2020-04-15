@@ -20,7 +20,8 @@
             ((_MTBackdropView *)view).colorAddColor = nil;
 			((_MTBackdropView *)view).brightness = 0;
         } else {
-            // TODO
+            ((_MTBackdropView *)view).colorAddColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+            ((_MTBackdropView *)view).brightness = 0.52;
         }
     }
 

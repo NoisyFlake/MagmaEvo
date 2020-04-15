@@ -127,7 +127,9 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 
 					return nil;
 				} else if ([currentLayer.delegate isKindOfClass:%c(_MTBackdropView)]) {
-					// TODO
+					((_MTBackdropView *)currentLayer.delegate).colorAddColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+					((_MTBackdropView *)currentLayer.delegate).brightness = 0.52;
+
 					return nil;
 				}
 			}
