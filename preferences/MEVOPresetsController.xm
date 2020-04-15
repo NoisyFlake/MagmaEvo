@@ -80,7 +80,8 @@ NSMutableDictionary *persistentSettings;
         [self exportPreset:presetName];
     }]];
 
-	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {
+	NSFileManager *fileManager= [NSFileManager defaultManager];
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") || [fileManager fileExistsAtPath:@"/Library/ControlCenter/Bundles/NoctisToggle.bundle/"]) {
 
 		if (![[specifier propertyForKey:@"isDarkDefault"] boolValue]) {
 			[actionSheet addAction:[UIAlertAction actionWithTitle:@"Use for Dark Mode" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

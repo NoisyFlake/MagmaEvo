@@ -3,6 +3,8 @@
 %hook _UIStatusBar
 	-(void)setForegroundColor:(UIColor*)color {
 
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorize) name:@"com.noisyflake.magmaevo/reload" object:nil];
+
 		if ([settings valueForKey:@"miscStatusBarColor"] != nil) {
 			UIView *parent = ((UIView* )self.parentFocusEnvironment).parentFocusEnvironment;
 
@@ -13,30 +15,19 @@
 
 		%orig;
 	}
+
+	%new
+	-(void)magmaEvoColorize {
+		[self setForegroundColor:UIColor.whiteColor];
+	}
 %end
 
 %hook CCUIModularControlCenterOverlayViewController
 	-(void)presentAnimated:(BOOL)arg1 withCompletionHandler:(id)arg2 {
 		%orig;
 
-		if ([settings valueForKey:@"miscMainBackground"]) {
-			self.overlayBackgroundView.backgroundColor = [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"miscMainBackground"]];
-
-			NSArray *filters = self.overlayBackgroundView.layer.sublayers != nil ? self.overlayBackgroundView.layer.sublayers[0].filters : self.overlayBackgroundView.layer.filters;
-
-			NSMutableArray *mutableFilters = [filters mutableCopy];
-			for (CAFilter *filter in [mutableFilters reverseObjectEnumerator]) {
-				if (![filter.name isEqual:@"gaussianBlur"]) {
-					[mutableFilters removeObject:filter];
-				}
-			}
-
-			if (self.overlayBackgroundView.layer.sublayers != nil) {
-				self.overlayBackgroundView.layer.sublayers[0].filters = mutableFilters;
-			} else {
-				self.overlayBackgroundView.layer.filters = mutableFilters;
-			}
-		}
+		[self magmaEvoColorizeMain];
+		[[NSNotificationCenter defaultCenter] addUniqueObserver:self selector:@selector(magmaEvoColorizeMain) name:@"com.noisyflake.magmaevo/reload" object:nil];
 
 		// Move the current scroll position to the bottom of the CC
 		if ([[settings valueForKey:@"miscMainAlignment"] isEqual:@"bottom"] && self.overlayInterfaceOrientation == 1) {
@@ -76,6 +67,26 @@
     	if ([settings boolForKey:@"miscStatusBarHide"]) return nil;
     	return %orig;
     }
+
+	%new
+	-(void)magmaEvoColorizeMain {
+		self.overlayBackgroundView.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:nil];
+
+		NSArray *filters = self.overlayBackgroundView.layer.sublayers != nil ? self.overlayBackgroundView.layer.sublayers[0].filters : self.overlayBackgroundView.layer.filters;
+
+		NSMutableArray *mutableFilters = [filters mutableCopy];
+		for (CAFilter *filter in [mutableFilters reverseObjectEnumerator]) {
+			if (![filter.name isEqual:@"gaussianBlur"]) {
+				[mutableFilters removeObject:filter];
+			}
+		}
+
+		if (self.overlayBackgroundView.layer.sublayers != nil) {
+			self.overlayBackgroundView.layer.sublayers[0].filters = mutableFilters;
+		} else {
+			self.overlayBackgroundView.layer.filters = mutableFilters;
+		}
+	}
 
 %end
 
@@ -152,10 +163,25 @@
 }
 %end
 
+%hook NCTToggleModule
+-(void)setSelected:(BOOL)arg1 {
+	%orig;
+
+	[settings loadPresetForStyle:arg1 ? 2 : 1];
+}
+%end
+
 %ctor {
 	settings = [MagmaPrefs sharedInstance];
 
 	if ([settings boolForKey:@"enabled"]) {
+
+		// Load Noctis12 so we can use the hook for it
+		NSFileManager *fileManager= [NSFileManager defaultManager];
+		if ([fileManager fileExistsAtPath:@"/Library/ControlCenter/Bundles/NoctisToggle.bundle/"]) {
+			[[NSBundle bundleWithPath:@"/Library/ControlCenter/Bundles/NoctisToggle.bundle/"] load];
+		}
+
 		%init;
 	}
 }

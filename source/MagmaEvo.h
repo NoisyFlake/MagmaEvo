@@ -289,6 +289,8 @@
 
 @interface _UIStatusBar : UIView
 @property (nonatomic,readonly) UIView * containerView;
+-(void)setForegroundColor:(UIColor *)arg1;
+-(void)magmaEvoColorize;
 @end
 
 @interface CCUIStatusBar : UIView
@@ -316,6 +318,7 @@
 @property(readonly, nonatomic) UIScrollView *overlayScrollView;
 @property(readonly, nonatomic) long long overlayInterfaceOrientation;
 @property (nonatomic,readonly) CCUIHeaderPocketView * overlayHeaderView;
+-(void)magmaEvoColorizeMain;
 @end
 
 @interface CAFilter : NSObject
