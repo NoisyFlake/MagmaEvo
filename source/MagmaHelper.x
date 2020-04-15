@@ -13,17 +13,9 @@
             [((MTMaterialLayer *)view.layer) _updateForChangeInRecipeAndConfiguration];
             [((MTMaterialLayer *)view.layer) _setNeedsConfiguring];
         }
-    } else if ([view isKindOfClass:%c(_MTBackdropView)]) {
-        view = [view safeValueForKey:@"_backdropView"];
-
-        if (value) {
-            ((_MTBackdropView *)view).colorAddColor = nil;
-			((_MTBackdropView *)view).brightness = 0;
-        } else {
-            ((_MTBackdropView *)view).colorAddColor = [UIColor colorWithWhite:1.0 alpha:0.25];
-            ((_MTBackdropView *)view).brightness = 0.52;
-        }
     }
+
+    // For iOS 12 we don't need to do anything except set the backgroundColor as the BackdropView is already correctly configured
 
     view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
 }
