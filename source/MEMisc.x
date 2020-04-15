@@ -94,6 +94,8 @@
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
 
+		MTMaterialView *matView = self.moduleMaterialView;
+
 		if ([module isEqual:@"com.apple.control-center.ConnectivityModule"]) {
 
 			preferenceKey = @"connectivityContainerBackground";
@@ -102,11 +104,22 @@
 
 			preferenceKey = @"powerModuleContainerBackground";
 
+		} else if ([controller isKindOfClass:%c(HACCModuleViewController)]) {
+
+			preferenceKey = @"togglesContainerBackground";
+			if (!matView) matView = controller.view.subviews[1]; // iOS 12
+
+		} else if ([controller isKindOfClass:%c(TVRMContentViewController)]) {
+
+			preferenceKey = @"togglesContainerBackground";
+			if (!matView) matView = ((TVRMContentViewController *)controller).buttonModuleViewController.buttonView.subviews[0]; // iOS 12
+
 		} else 	if ([controller isKindOfClass:%c(CCUIButtonModuleViewController)] ||
 			[controller isKindOfClass:%c(HUCCModuleContentViewController)] ||
 			[controller isKindOfClass:%c(AXCCTextSizeModuleViewController)] ||
-			[controller isKindOfClass:%c(HACCModuleViewController)] ||
-			[controller isKindOfClass:%c(WSUIModuleContentViewController)]) {
+			[controller isKindOfClass:%c(WSUIModuleContentViewController)] ||
+			[module isEqual:@"com.apple.accessibility.controlcenter.hearingdevices"]
+		) {
 
 			preferenceKey = @"togglesContainerBackground";
 
@@ -119,11 +132,11 @@
 			[controller isKindOfClass:%c(CCRingerModuleContentViewController)]) {
 
 			preferenceKey = @"slidersContainerBackground";
-
 		}
 
+
 		if (preferenceKey) {
-			[MagmaHelper colorizeMaterialView:self.moduleMaterialView forSetting:preferenceKey];
+			[MagmaHelper colorizeMaterialView:matView forSetting:preferenceKey];
 		}
 	}
 %end

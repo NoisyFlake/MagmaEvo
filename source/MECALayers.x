@@ -137,7 +137,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			if (toggleColor != nil) return [toggleColor CGColor];
 
 			// Reset to white for off state if no other color was chosen
-			if (![controller respondsToSelector:@selector(isSelected)] || ![((CCUIButtonModuleViewController*)controller) isSelected]) {
+			if (![currentLayer.delegate isKindOfClass:%c(_MTBackdropView)] && (![controller respondsToSelector:@selector(isSelected)] || ![((CCUIButtonModuleViewController*)controller) isSelected])) {
 				return [[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0] CGColor];
 			}
 

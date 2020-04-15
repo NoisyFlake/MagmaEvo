@@ -13,11 +13,26 @@
             [((MTMaterialLayer *)view.layer) _updateForChangeInRecipeAndConfiguration];
             [((MTMaterialLayer *)view.layer) _setNeedsConfiguring];
         }
+
+        view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
+
+    } else if ([view isKindOfClass:%c(MTMaterialView)]) {
+        view = [view safeValueForKey:@"_backdropView"];
+
+        if (view == nil) return;
+
+        // Remove all filters except for the gaussianBlur one
+        NSMutableArray *filters = [NSMutableArray new];
+        for (CAFilter *filter in view.layer.filters) {
+            if ([filter.name isEqual:@"gaussianBlur"]) [filters addObject:filter];
+        }
+
+        // Seriously, fuck everything about how iOS 12 handles this
+        view.layer.filters = filters;
+        view.alpha = value ? ((CGColorGetComponents([UIColor evoRGBAColorFromHexString:value].CGColor)[3] == 0) ? 0 : 1) : 1;
+        view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : [UIColor colorWithWhite:0 alpha:0.5]; // here we fake the missing filters with a dark fallback color
     }
 
-    // For iOS 12 we don't need to do anything except set the backgroundColor as the BackdropView is already correctly configured
-
-    view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
 }
 
 + (UIColor *)colorForKey:(NSString *)key withFallback:(UIColor *)fallback {

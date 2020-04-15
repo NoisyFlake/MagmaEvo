@@ -8,24 +8,6 @@
 
 		// Update layers after a respring (because only now some modules will have an identifier)
 		forceLayerUpdate(self.layer.sublayers);
-
-		// Fix for the Apple TV Remote and Hearing overlay on iOS 12
-		if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0") && [settings boolForKey:@"togglesHideContainer"]) {
-				for (UIView *subview in self.subviews) {
-					if ([subview isKindOfClass:%c(MTMaterialView)]) {
-						subview.alpha = 0;
-						break;
-					}
-				}
-
-				if ([self._viewControllerForAncestor isKindOfClass:%c(HACCIconViewController)]) {
-					UIView *parent = self.superview;
-					_MTBackdropView *backdropView = [parent safeValueForKey:@"_backdropView"];
-
-					if (backdropView) backdropView.alpha = 0;
-				}
-		}
-
 	}
 
 	-(void)setSelected:(BOOL)arg1 {

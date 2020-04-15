@@ -295,6 +295,10 @@
 @property (assign,nonatomic) double leadingAlpha;
 @end
 
+@interface TVRMContentViewController : UIViewController
+@property (nonatomic, strong, readwrite) CCUIButtonModuleViewController *buttonModuleViewController;
+@end
+
 @interface CCUIModularControlCenterViewController : UIViewController
 @end
 

@@ -6,8 +6,12 @@
 #define kIsGlobal [self.specifier.properties[@"global"] boolValue]
 #define kFilepath @"/var/mobile/Library/Preferences/com.noisyflake.magmaevo.plist"
 
+@interface SparkColourPickerView : UIView
+@end
+
 @interface SparkColourPickerCell : PSTableCell
 @property (nonatomic, strong, readwrite) NSMutableDictionary *options;
+@property (nonatomic, strong, readwrite) SparkColourPickerView *colourPickerView;
 -(void)colourPicker:(id)picker didUpdateColour:(UIColor*) colour;
 -(void)openColourPicker;
 -(void)dismissPicker;
@@ -31,6 +35,8 @@
         _lpgr.delegate = self;
         _lpgr.minimumPressDuration = 1;
         [super.contentView addGestureRecognizer:_lpgr];
+
+        [specifier setButtonAction:@selector(dismissPicker)];
     }
 
     return self;
@@ -99,7 +105,8 @@
 
 -(void)colourPicker:(id)picker didUpdateColour:(UIColor*) colour {
     _currentColor = colour;
-    if (!kIsGlobal) [super colourPicker:picker didUpdateColour:colour];
+
+    // Don't call super because we only want to update the color on close to reduce load
 }
 
 -(void)dismissPicker {
@@ -123,6 +130,9 @@
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (__bridge CFStringRef)@"com.noisyflake.magmaevo/update", NULL, NULL, YES);
 
         [self._viewControllerForAncestor reloadSpecifiers];
+    } else if (_currentColor) {
+        // Now call the super method that actually writes to preferences manually
+        [super colourPicker:self.colourPickerView didUpdateColour:_currentColor];
     }
 }
 
@@ -165,6 +175,8 @@
         self.accessoryView.hidden = YES;
         [self.specifier setButtonAction:@selector(showOverwriteAlert)];
         return;
+    } else {
+        [self.specifier setButtonAction:@selector(openColourPicker)];
     }
 
     if (_colorPreview == nil) {
