@@ -14,7 +14,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmBatteryContainerBackground</string>
-			<key>label</key>                    <string>Container Background</string>
+			<key>label</key>                    <string>Background Color</string>
 		</dict>
         <dict>
 			<key>cell</key>                     <string>PSGroupCell</string>

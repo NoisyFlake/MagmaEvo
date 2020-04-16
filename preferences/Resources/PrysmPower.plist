@@ -14,7 +14,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerContainerBackground</string>
-			<key>label</key>                    <string>Container Background</string>
+			<key>label</key>                    <string>Background Color</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     	<string>PSGroupCell</string>
@@ -26,7 +26,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>prysmPowerToggleBackground</string>
-			<key>label</key>                    <string>Toggle Background</string>
+			<key>label</key>                    <string>Toggle Background Color</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSGroupCell</string>

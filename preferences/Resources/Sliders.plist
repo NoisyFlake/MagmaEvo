@@ -15,7 +15,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersContainerBackground</string>
-			<key>label</key>                    <string>Container Background</string>
+			<key>label</key>                    <string>Background Color</string>
 		</dict>
 
 		<dict>
@@ -34,7 +34,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersBrightnessBackground</string>
-			<key>label</key>                    <string>Background</string>
+			<key>label</key>                    <string>Slider</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
@@ -61,7 +61,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>slidersVolumeBackground</string>
-			<key>label</key>                    <string>Background</string>
+			<key>label</key>                    <string>Slider</string>
 		</dict>
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>

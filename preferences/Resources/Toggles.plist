@@ -15,7 +15,7 @@
 				<key>cellClass</key>                <string>MEVOColorPicker</string>
 				<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 				<key>key</key>                      <string>togglesContainerBackground</string>
-				<key>label</key>                    <string>Container Background</string>
+				<key>label</key>                    <string>Background Color</string>
 		</dict>
 
 		<dict>
@@ -33,8 +33,8 @@
 			<key>validTitles</key>
 				<array>
 					<string>Default</string>
-					<string>Remove Overlay</string>
-					<string>Color Overlay</string>
+					<string>Icon Only</string>
+					<string>Overlay Only</string>
 				</array>
 			<key>validValues</key>
 				<array>

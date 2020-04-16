@@ -15,7 +15,7 @@
 			<key>cellClass</key>                <string>MEVOColorPicker</string>
 			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
 			<key>key</key>                      <string>miscMainBackground</string>
-			<key>label</key>                    <string>Main Background</string>
+			<key>label</key>                    <string>Background Color</string>
 		</dict>
 
 		<dict>
