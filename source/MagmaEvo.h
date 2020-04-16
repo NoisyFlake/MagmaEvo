@@ -62,6 +62,8 @@
 
 @interface _MTBackdropView : UIView
 @property (nonatomic,copy) UIColor * colorAddColor;
+@property (nonatomic, copy) UIColor *colorMatrixColor;
+@property (nonatomic) double saturation;
 @property (assign,nonatomic) double brightness;
 @end
 

@@ -21,16 +21,11 @@
 
         if (view == nil) return;
 
-        // Remove all filters except for the gaussianBlur one
-        NSMutableArray *filters = [NSMutableArray new];
-        for (CAFilter *filter in view.layer.filters) {
-            if ([filter.name isEqual:@"gaussianBlur"]) [filters addObject:filter];
-        }
-
-        // Seriously, fuck everything about how iOS 12 handles this
-        view.layer.filters = filters;
+        ((_MTBackdropView *)view).colorMatrixColor = value ? (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? UIColor.clearColor : nil) : [UIColor colorWithWhite:0.196 alpha:0.5];
+        ((_MTBackdropView *)view).brightness = value ? 0 : -0.12;
+        ((_MTBackdropView *)view).saturation = value ? 0 : 1.7;
         view.alpha = value ? ((CGColorGetComponents([UIColor evoRGBAColorFromHexString:value].CGColor)[3] == 0) ? 0 : 1) : 1;
-        view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : [UIColor colorWithWhite:0 alpha:0.5]; // here we fake the missing filters with a dark fallback color
+        view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
     }
 
 }

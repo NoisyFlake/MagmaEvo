@@ -13,7 +13,7 @@
 }
 
 -(long long)tableViewStyle {
-	return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? [super tableViewStyle] : 2;
+	return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) ? 2 : [super tableViewStyle];
 }
 
 - (id)readPreferenceValue:(PSSpecifier*)specifier {
