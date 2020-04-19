@@ -70,22 +70,16 @@
 
 	%new
 	-(void)magmaEvoColorizeMain {
-		self.overlayBackgroundView.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:nil];
+		UIView *view = self.overlayBackgroundView;
+		if ([view safeValueForKey:@"_backdropView"]) view = [view safeValueForKey:@"_backdropView"];
 
-		NSArray *filters = self.overlayBackgroundView.layer.sublayers != nil ? self.overlayBackgroundView.layer.sublayers[0].filters : self.overlayBackgroundView.layer.filters;
-
-		NSMutableArray *mutableFilters = [filters mutableCopy];
-		for (CAFilter *filter in [mutableFilters reverseObjectEnumerator]) {
+		for (CAFilter *filter in view.layer.filters) {
 			if (![filter.name isEqual:@"gaussianBlur"]) {
-				[mutableFilters removeObject:filter];
+				filter.enabled = [settings valueForKey:@"miscMainBackground"] ? NO : YES;
 			}
 		}
 
-		if (self.overlayBackgroundView.layer.sublayers != nil) {
-			self.overlayBackgroundView.layer.sublayers[0].filters = mutableFilters;
-		} else {
-			self.overlayBackgroundView.layer.filters = mutableFilters;
-		}
+		view.backgroundColor = [MagmaHelper colorForKey:@"miscMainBackground" withFallback:nil];
 	}
 
 %end
