@@ -156,6 +156,10 @@
 -(void)magmaEvoColorize;
 @end
 
+@interface PrysmProgressIndicator : UILabel
+@property (nonatomic, copy, readwrite) UIColor *progressColor;
+@end
+
 @interface PrysmMediaModuleViewController : UIViewController
 @property (nonatomic,retain) UIButton * skipButton;
 @property (nonatomic,retain) UIButton * rewindButton;
@@ -163,6 +167,7 @@
 @property (nonatomic,retain) UILabel * titleLabel;
 @property (nonatomic,retain) UILabel * subtitleLabel;
 @property (nonatomic,strong,readwrite) UIView * progressView;
+@property (nonatomic,strong,readwrite) PrysmProgressIndicator * roundProgressView;
 @property (nonatomic,strong,readwrite) UIView * artworkView;
 @property (nonatomic,strong,readwrite) UIView * applicationContainer;
 @property (nonatomic,strong,readwrite) UIImageView * applicationView;

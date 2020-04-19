@@ -96,6 +96,7 @@
 	self.subtitleLabel.textColor                = [MagmaHelper colorForKey:@"mediaControlsSecondaryLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.5]];
 
 	self.progressView.backgroundColor           = [MagmaHelper colorForKey:@"mediaControlsSlider" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.1]];
+	self.roundProgressView.progressColor        = [MagmaHelper colorForKey:@"mediaControlsSlider" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0]];
 
 	self.artworkView.tintColor                  = [MagmaHelper colorForKey:@"prysmMediaControlsArtworkPreview" withFallback:UIColor.whiteColor];
 	self.artworkView.backgroundColor            = [MagmaHelper colorForKey:@"prysmMediaControlsArtworkPreviewBackground" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.15]];
