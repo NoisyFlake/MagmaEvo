@@ -169,34 +169,63 @@ NSMutableDictionary *persistentSettings;
 		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
 		[self presentViewController:alert animated:YES completion:nil];
 	} else {
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle: @"Import Preset" message: @"Enter a name for the imported preset" preferredStyle:UIAlertControllerStyleAlert];
+		// Add a fake import spinner so that stupid users hopefully won't try to paste the import string as the name because they don't fucking read.
 
-		[alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-			textField.placeholder = @"Name";
-		}];
+		UIView *_hudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
+		_hudView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.95];
+		_hudView.clipsToBounds = YES;
+		_hudView.layer.cornerRadius = 10.0;
+		_hudView.center = self.view.center;
 
-		[alert addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-			NSString *name = alert.textFields[0].text;
+		UIActivityIndicatorView *_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		_activityIndicatorView.frame = CGRectMake(55, 30, _activityIndicatorView.bounds.size.width, _activityIndicatorView.bounds.size.height);
+		[_hudView addSubview:_activityIndicatorView];
+		[_activityIndicatorView startAnimating];
 
-			NSFileManager *fileManager= [NSFileManager defaultManager];
-			NSString *presetFile = [NSString stringWithFormat:@"%@%@.plist", presetPath, name];
+		UILabel *_captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 105, 130, 22)];
+		_captionLabel.backgroundColor = [UIColor clearColor];
+		_captionLabel.textColor = [UIColor whiteColor];
+		_captionLabel.adjustsFontSizeToFitWidth = YES;
+		_captionLabel.textAlignment = NSTextAlignmentCenter;
+		_captionLabel.text = @"Importing...";
+		[_hudView addSubview:_captionLabel];
 
-			if([fileManager fileExistsAtPath:presetFile]) {
-				UIAlertController *failure = [UIAlertController alertControllerWithTitle: @"Error" message: @"A preset with this name already exists." preferredStyle:UIAlertControllerStyleAlert];
-				[failure addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+		[self.view addSubview:_hudView];
 
-				[self presentViewController:failure animated:YES completion:nil];
-			} else {
-				NSString *fileContent = [settings substringFromIndex:9];
-				[fileContent writeToFile:presetFile atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
-				[self reloadSpecifiers];
-			}
-		}]];
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){ // 2 
+			[_hudView removeFromSuperview];
 
-		[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle: @"Import successful" message: @"The preset was imported from your clipboard. Please enter a name for it:" preferredStyle:UIAlertControllerStyleAlert];
 
-		[self presentViewController:alert animated:YES completion:nil];
+			[alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+				textField.placeholder = @"Name";
+			}];
+
+			[alert addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+				NSString *name = alert.textFields[0].text;
+
+				NSFileManager *fileManager= [NSFileManager defaultManager];
+				NSString *presetFile = [NSString stringWithFormat:@"%@%@.plist", presetPath, name];
+
+				if([fileManager fileExistsAtPath:presetFile]) {
+					UIAlertController *failure = [UIAlertController alertControllerWithTitle: @"Error" message: @"A preset with this name already exists." preferredStyle:UIAlertControllerStyleAlert];
+					[failure addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+
+					[self presentViewController:failure animated:YES completion:nil];
+				} else {
+					NSString *fileContent = [settings substringFromIndex:9];
+					[fileContent writeToFile:presetFile atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+					[self reloadSpecifiers];
+				}
+			}]];
+
+			[alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+
+			[self presentViewController:alert animated:YES completion:nil];
+		});
 	}
+
+	
 }
 
 - (void)loadPreset:(NSString *)presetName {
