@@ -1,0 +1,7 @@
+#!/bin/sh
+
+DIR="/User/Library/Preferences/com.noisyflake.magmaevo.presets/"
+if [ -d "$DIR" ]; then
+    echo Making sure the preset folder has correct permissions ...
+    chown mobile:mobile $DIR
+fi

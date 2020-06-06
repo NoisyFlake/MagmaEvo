@@ -1,7 +1,7 @@
 #import "UIColor+MagmaEvo.h"
 
 #ifdef DEBUG
-#define NSLog(fmt, ...) HBLogWarn((@"[MagmaEvo] " fmt), ##__VA_ARGS__)
+#define NSLog(fmt, ...) NSLog((@"[MagmaEvo] " fmt), ##__VA_ARGS__)
 #else
 #define NSLog(fmt, ...)
 #endif
