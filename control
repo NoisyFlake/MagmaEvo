@@ -2,7 +2,7 @@ Package: com.noisyflake.magmaevo
 Name: Magma Evo
 Depends: mobilesubstrate, firmware (>= 12.0), preferenceloader, com.opa334.ccsupport, com.spark.libsparkcolourpicker
 Conflicts: com.noisyflake.magma, com.noisyflake.magmapro
-Version: 2.0.1
+Version: 2.0.2
 Architecture: iphoneos-arm
 Description: Redefine your Control Center
 Maintainer: NoisyFlake
