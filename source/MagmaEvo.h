@@ -131,6 +131,20 @@
 -(void)magmaEvoColorize;
 @end
 
+@interface PrysmCalendarView : UIView
+@property (nonatomic,readonly) UIView *colorIndicatorView;
+@property (nonatomic,readonly) UILabel *eventTitleLabel;
+@property (nonatomic,readonly) UILabel *dateLabel;
+@property (nonatomic,readonly) UILabel *timeLabel;
+@end
+
+@interface PrysmCalendarModuleViewController : UIViewController
+@property (nonatomic,readonly) PrysmCalendarView *firstEvent;
+@property (nonatomic,readonly) PrysmCalendarView *secondEvent;
+@property (nonatomic,readonly) PrysmCalendarView *thirdEvent;
+-(void)magmaEvoColorize;
+@end
+
 @interface _UIBatteryView : UIView
 @property (nonatomic,copy) UIColor* fillColor;
 @property (nonatomic,copy) UIColor* bodyColor;

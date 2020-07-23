@@ -190,6 +190,41 @@
 }
 %end
 
+%hook PrysmCalendarModuleViewController
+-(void)reloadCalendarInfo {
+	%orig;
+
+	[self magmaEvoColorize];
+}
+
+%new
+-(void)magmaEvoColorize {
+	if ([settings valueForKey:@"prysmCalendarFirstColorIndicator"]) {
+		self.firstEvent.colorIndicatorView.backgroundColor = [MagmaHelper colorForKey:@"prysmCalendarFirstColorIndicator" withFallback:nil];
+	}
+	self.firstEvent.eventTitleLabel.textColor =          [MagmaHelper colorForKey:@"prysmCalendarFirstEventTitle" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.firstEvent.dateLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarFirstDateLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.firstEvent.timeLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarFirstTimeLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+
+	if ([settings valueForKey:@"prysmCalendarSecondColorIndicator"]) {
+		self.secondEvent.colorIndicatorView.backgroundColor = [MagmaHelper colorForKey:@"prysmCalendarSecondColorIndicator" withFallback:nil];
+	}
+	self.secondEvent.eventTitleLabel.textColor =          [MagmaHelper colorForKey:@"prysmCalendarSecondEventTitle" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.secondEvent.dateLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarSecondDateLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.secondEvent.timeLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarSecondTimeLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+
+	if ([settings valueForKey:@"prysmCalendarThirdColorIndicator"]) {
+		self.thirdEvent.colorIndicatorView.backgroundColor = [MagmaHelper colorForKey:@"prysmCalendarThirdColorIndicator" withFallback:nil];
+	}
+	self.thirdEvent.eventTitleLabel.textColor =          [MagmaHelper colorForKey:@"prysmCalendarThirdEventTitle" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.thirdEvent.dateLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarThirdDateLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.thirdEvent.timeLabel.textColor =                [MagmaHelper colorForKey:@"prysmCalendarThirdTimeLabel" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+
+	self.view.backgroundColor =                          [MagmaHelper colorForKey:@"prysmCalendarContainerBackground" withFallback:kDefaultContainerBackground];
+
+}
+%end
+
 %hook PrysmCardBackgroundViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
@@ -346,6 +381,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmWeather.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmPower.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmBattery.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmCalendar.bundle/"] load];
 		%init;
 	}
 }

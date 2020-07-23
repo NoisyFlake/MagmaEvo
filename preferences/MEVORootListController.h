@@ -77,6 +77,9 @@
 @interface MEVOPrysmBatteryController : MEVOBaseController
 @end
 
+@interface MEVOPrysmCalendarController : MEVOBaseController
+@end
+
 @interface MEVOMiscController : MEVOBaseController
 @end
 

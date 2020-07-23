@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>                     	<string>PSGroupCell</string>
+			<key>headerCellClass</key>              <string>MEVOImage</string>
+			<key>prysmIcon</key>                    <string>images/prysm_calendarContainer.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarContainerBackground</string>
+			<key>label</key>                    <string>Background Color</string>
+		</dict>
+
+        <dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Event 1</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarFirstColorIndicator</string>
+			<key>label</key>                    <string>Color Indicator</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarFirstEventTitle</string>
+			<key>label</key>                    <string>Event Title</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarFirstDateLabel</string>
+			<key>label</key>                    <string>Date Label</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarFirstTimeLabel</string>
+			<key>label</key>                    <string>Time Label</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Event 2</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarSecondColorIndicator</string>
+			<key>label</key>                    <string>Color Indicator</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarSecondEventTitle</string>
+			<key>label</key>                    <string>Event Title</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarSecondDateLabel</string>
+			<key>label</key>                    <string>Date Label</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarSecondTimeLabel</string>
+			<key>label</key>                    <string>Time Label</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>                     <string>PSGroupCell</string>
+			<key>label</key>                    <string>Event 3</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarThirdColorIndicator</string>
+			<key>label</key>                    <string>Color Indicator</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarThirdEventTitle</string>
+			<key>label</key>                    <string>Event Title</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarThirdDateLabel</string>
+			<key>label</key>                    <string>Date Label</string>
+		</dict>
+        <dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>cellClass</key>                <string>MEVOColorPicker</string>
+			<key>defaults</key>                 <string>com.noisyflake.magmaevo</string>
+			<key>key</key>                      <string>prysmCalendarThirdTimeLabel</string>
+			<key>label</key>                    <string>Time Label</string>
+		</dict>
+
+	</array>
+	<key>title</key>                            <string>Calendar Module</string>
+</dict>
+</plist>
