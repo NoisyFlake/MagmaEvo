@@ -35,7 +35,7 @@
     UIViewController *controller = self._viewControllerForAncestor;
 
     // Don't color controls on the lockscreen
-    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
+    if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)] || [controller isKindOfClass:%c(QRTMediaModuleViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
 
     self.leftButton.imageView.image = [self.leftButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.leftButton.imageView.tintColor = [settings valueForKey:@"mediaControlsLeftButton"] ? [UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsLeftButton"]] : [UIColor whiteColor];
