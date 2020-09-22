@@ -15,6 +15,7 @@
         }
 
         view.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
+        view.alpha = 1;
 
     } else if ([view isKindOfClass:%c(MTMaterialView)]) {
         view = [view safeValueForKey:@"_backdropView"];

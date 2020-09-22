@@ -99,7 +99,7 @@
 		UIViewController *controller = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).contentViewController;
 		NSString *module = ((CCUIContentModuleContainerViewController *)self._viewControllerForAncestor).moduleIdentifier;
 
-		MTMaterialView *matView = self.moduleMaterialView;
+		MTMaterialView *matView = [self safeValueForKey:@"_moduleMaterialView"];
 
 		if ([module isEqual:@"com.apple.control-center.ConnectivityModule"]) {
 

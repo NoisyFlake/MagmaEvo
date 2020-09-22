@@ -41,13 +41,13 @@
 			layer.reduceTransparencyEnabled = NO;
 		}
 
-		if ([backgroundView isKindOfClass:%c(_MTBackdropView)]) {
+		// if ([backgroundView isKindOfClass:%c(_MTBackdropView)]) {
 			// For absolutely no known reason, after the initial calling of this method, iOS 12 doesn't pass this calling of the setter to CALayer anymore, making our CALayer method useless.
 			// Thus we have to manually set the color here already. This is so weird.
-			backgroundView.backgroundColor = [UIColor colorWithCGColor:getSliderColor(((UIView *)self)._viewControllerForAncestor, backgroundView)];
-		} else {
+			// backgroundView.backgroundColor = [UIColor colorWithCGColor:getSliderColor(((UIView *)self)._viewControllerForAncestor, backgroundView)];
+		// } else {
 			backgroundView.backgroundColor = [UIColor clearColor]; // CALayer handles the actual color
-		}
+		// }
 
 		if ([self respondsToSelector:@selector(magmaEvoColorizeContainer)]) {
 			[self magmaEvoColorizeContainer];
@@ -91,11 +91,13 @@ CGColorRef getSliderColor(UIViewController *controller, UIView *view) {
 
 		if (backgroundValue) {
 			((MTMaterialView *)view).configuration = 1;
+			view.alpha = 1;
 			return [[UIColor evoRGBAColorFromHexString:backgroundValue] CGColor];
 		} else {
 			((MTMaterialView *)view).configuration = 3;
 			[((MTMaterialLayer *)view.layer) _updateForChangeInRecipeAndConfiguration];
 			[((MTMaterialLayer *)view.layer) _setNeedsConfiguring];
+			view.alpha = 1;
 			return nil;
 		}
 
