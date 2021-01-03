@@ -73,6 +73,44 @@
 }
 %end
 
+%hook PrysmRemindersModuleViewController
+-(void)reloadRemindersInfo {
+	%orig;
+
+	self.firstEvent.eventTitleLabel.textColor =		[MagmaHelper colorForKey:@"prysmReminderTitle" withFallback:UIColor.whiteColor];
+	self.secondEvent.eventTitleLabel.textColor =	[MagmaHelper colorForKey:@"prysmReminderTitle" withFallback:UIColor.whiteColor];
+	self.thirdEvent.eventTitleLabel.textColor =		[MagmaHelper colorForKey:@"prysmReminderTitle" withFallback:UIColor.whiteColor];
+	self.fourthEvent.eventTitleLabel.textColor =	[MagmaHelper colorForKey:@"prysmReminderTitle" withFallback:UIColor.whiteColor];
+
+	self.firstEvent.dateLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderDate" withFallback:UIColor.whiteColor];
+	self.secondEvent.dateLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderDate" withFallback:UIColor.whiteColor];
+	self.thirdEvent.dateLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderDate" withFallback:UIColor.whiteColor];
+	self.fourthEvent.dateLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderDate" withFallback:UIColor.whiteColor];
+
+	self.firstEvent.timeLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderTime" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.secondEvent.timeLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderTime" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.thirdEvent.timeLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderTime" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+	self.fourthEvent.timeLabel.textColor = 			[MagmaHelper colorForKey:@"prysmReminderTime" withFallback:[UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:0.7]];
+
+	// No idea why this is necessary, but it is. Without the delay, the ring doesn't get colored
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+		self.firstEvent.ringView.layer.borderColor = 	[MagmaHelper colorForKey:@"prysmReminderRing" withFallback:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]].CGColor;
+		self.secondEvent.ringView.layer.borderColor = 	[MagmaHelper colorForKey:@"prysmReminderRing" withFallback:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]].CGColor;
+		self.thirdEvent.ringView.layer.borderColor = 	[MagmaHelper colorForKey:@"prysmReminderRing" withFallback:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]].CGColor;
+		self.fourthEvent.ringView.layer.borderColor = 	[MagmaHelper colorForKey:@"prysmReminderRing" withFallback:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]].CGColor;
+	});
+
+	self.firstEvent.circleView.backgroundColor = 		[MagmaHelper colorForKey:@"prysmReminderCircle" withFallback:[UIColor colorWithRed:0.19 green:0.8 blue:0.07 alpha:1]];
+	self.secondEvent.circleView.backgroundColor = 		[MagmaHelper colorForKey:@"prysmReminderCircle" withFallback:[UIColor colorWithRed:0.19 green:0.8 blue:0.07 alpha:1]];
+	self.thirdEvent.circleView.backgroundColor = 		[MagmaHelper colorForKey:@"prysmReminderCircle" withFallback:[UIColor colorWithRed:0.19 green:0.8 blue:0.07 alpha:1]];
+	self.fourthEvent.circleView.backgroundColor = 		[MagmaHelper colorForKey:@"prysmReminderCircle" withFallback:[UIColor colorWithRed:0.19 green:0.8 blue:0.07 alpha:1]];
+
+	self.noRemindersLabel.textColor = 				[MagmaHelper colorForKey:@"prysmReminderNoReminders" withFallback:UIColor.whiteColor];
+	
+	self.view.backgroundColor =              [MagmaHelper colorForKey:@"prysmReminderContainerBackground" withFallback:kDefaultContainerBackground];
+}
+%end
+
 %hook PrysmMediaModuleViewController
 -(void)viewDidLayoutSubviews {
 	%orig;
@@ -382,6 +420,7 @@ PrysmButtonView *getPrysmButtonView(UIView *view) {
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmPower.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmBattery.bundle/"] load];
 		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmCalendar.bundle/"] load];
+		[[NSBundle bundleWithPath:@"/Library/Prysm/Bundles/com.laughingquoll.prysm.PrysmReminders.bundle/"] load];
 		%init;
 	}
 }

@@ -40,6 +40,13 @@
 		<dict>
 			<key>cell</key>                     <string>PSLinkCell</string>
 			<key>isController</key>             <true/>
+			<key>detail</key>                   <string>MEVOPrysmReminderController</string>
+			<key>label</key>                    <string>Reminders Module</string>
+			<key>feature</key>                  <string>prysm</string>
+		</dict>
+		<dict>
+			<key>cell</key>                     <string>PSLinkCell</string>
+			<key>isController</key>             <true/>
 			<key>detail</key>                   <string>MEVOPrysmPowerController</string>
 			<key>label</key>                    <string>Power Module</string>
 			<key>feature</key>                  <string>prysm</string>

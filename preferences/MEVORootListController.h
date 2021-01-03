@@ -74,6 +74,9 @@
 @interface MEVOPrysmWeatherController : MEVOBaseController
 @end
 
+@interface MEVOPrysmReminderController : MEVOBaseController
+@end
+
 @interface MEVOPrysmBatteryController : MEVOBaseController
 @end
 

@@ -122,6 +122,23 @@
 -(void)magmaEvoColorize;
 @end
 
+@interface PrysmReminderView : UIView
+@property (nonatomic, retain) UILabel *eventTitleLabel;
+@property (nonatomic, retain) UILabel *dateLabel;
+@property (nonatomic, retain) UILabel *timeLabel;
+@property (nonatomic, retain) UIView *ringView;
+@property (nonatomic, retain) UIView *circleView;
+@end
+
+@interface PrysmRemindersModuleViewController : UIViewController
+@property (nonatomic,readonly) PrysmReminderView *firstEvent;
+@property (nonatomic,readonly) PrysmReminderView *secondEvent;
+@property (nonatomic,readonly) PrysmReminderView *thirdEvent;
+@property (nonatomic,readonly) PrysmReminderView *fourthEvent;
+@property (nonatomic, retain) UILabel *noRemindersLabel;
+-(void)magmaEvoColorize;
+@end
+
 @interface PrysmPowerModuleViewController : UIViewController
 @property (nonatomic,readonly) PrysmButtonView *respringButton;
 @property (nonatomic,readonly) PrysmButtonView *safemodeButton;
