@@ -302,6 +302,37 @@
 -(void)magmaEvoColorize;
 @end
 
+@interface MRUNowPlayingView : UIView
+-(void)magmaEvoColorize;
+@end
+
+@interface MRUNowPlayingTimeControlsView : UIControl
+@property (nonatomic,retain) UIView * elapsedTrack;
+-(void)magmaEvoColorize;
+@end
+
+@interface MRUNowPlayingRoutingButton : MPButton
+@property (nonatomic,retain) CCUICAPackageView * packageView;
+-(void)magmaEvoColorize;
+@end
+
+@interface MRUTransportButton : MPButton
+@end
+
+@interface MRUNowPlayingTransportControlsView : UIView
+@property (nonatomic,retain) MRUTransportButton * leftButton;
+@property (nonatomic,retain) MRUTransportButton * middleButton;
+@property (nonatomic,retain) MRUTransportButton * rightButton;
+-(void)magmaEvoColorize;
+@end
+
+@interface MRUNowPlayingLabelView : UIView
+@property (nonatomic,retain) UILabel * titleLabel;
+@property (nonatomic,retain) UILabel * subtitleLabel;
+@property (nonatomic,retain) UILabel * placeholderLabel;
+-(void)magmaEvoColorize;
+@end
+
 @interface NextUpMediaHeaderView : MediaControlsHeaderView
 @end
 
