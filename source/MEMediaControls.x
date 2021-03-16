@@ -33,8 +33,7 @@
     // Don't color controls on the lockscreen
     if (([controller.parentViewController isKindOfClass:%c(CSMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(SBDashBoardMediaControlsViewController)] || [controller.parentViewController isKindOfClass:%c(MRUCoverSheetViewController)] || [controller isKindOfClass:%c(QRTMediaModuleViewController)]) && ![settings boolForKey:@"mediaControlsColorLockscreen"]) return;
 
-    NSString *value = [settings valueForKey:@"mediaControlsContainerBackground"];
-    self.backgroundColor = value ? [UIColor evoRGBAColorFromHexString:value] : nil;
+    [MagmaHelper colorizeMaterialView:self.superview.subviews[0] forSetting:@"mediaControlsContainerBackground"];
   }
 %end
 
