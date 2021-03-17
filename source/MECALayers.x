@@ -197,7 +197,7 @@ static CGColorRef getColorForLayer(CALayer *layer, CGColorRef originalColor, BOO
 			if ([relevantView isKindOfClass:%c(MRUNowPlayingRoutingButton)] && ![layer.name isEqual:@"platter"]) {
 				
 				if ((![controller.parentViewController isKindOfClass:%c(MRUCoverSheetViewController)] || [settings boolForKey:@"mediaControlsColorLockscreen"])) {
-					return [settings valueForKey:@"mediaControlsRoutingButton"] ? [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]] CGColor] : UIColor.whiteColor.CGColor;
+					if ([settings valueForKey:@"mediaControlsRoutingButton"]) return [[UIColor evoRGBAColorFromHexString:[settings valueForKey:@"mediaControlsRoutingButton"]] CGColor];
 				}
 			}
 
