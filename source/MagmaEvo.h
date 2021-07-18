@@ -1,4 +1,5 @@
 #import "UIColor+MagmaEvo.h"
+#include <dlfcn.h>
 
 #ifdef DEBUG
 #define NSLog(fmt, ...) NSLog((@"[MagmaEvo] " fmt), ##__VA_ARGS__)

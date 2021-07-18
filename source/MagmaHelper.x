@@ -22,7 +22,7 @@
 
         if (view == nil) return;
 
-        ((_MTBackdropView *)view).colorMatrixColor = value ? (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? UIColor.clearColor : nil) : [UIColor colorWithWhite:0.196 alpha:0.5];
+        ((_MTBackdropView *)view).colorMatrixColor = value ? (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? UIColor.clearColor : nil) : [UIColor colorWithWhite:0.196 alpha:0.5];
         ((_MTBackdropView *)view).brightness = value ? 0 : -0.12;
         ((_MTBackdropView *)view).saturation = value ? 0 : 1.7;
         view.alpha = value ? ((CGColorGetComponents([UIColor evoRGBAColorFromHexString:value].CGColor)[3] == 0) ? 0 : 1) : 1;

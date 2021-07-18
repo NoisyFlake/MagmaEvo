@@ -177,7 +177,11 @@ NSMutableDictionary *persistentSettings;
 		_hudView.layer.cornerRadius = 10.0;
 		_hudView.center = self.view.center;
 
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		UIActivityIndicatorView *_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		#pragma clang diagnostic pop
+
 		_activityIndicatorView.frame = CGRectMake(55, 30, _activityIndicatorView.bounds.size.width, _activityIndicatorView.bounds.size.height);
 		[_hudView addSubview:_activityIndicatorView];
 		[_activityIndicatorView startAnimating];
