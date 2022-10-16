@@ -1,10 +1,4 @@
-#import <Preferences/PSTableCell.h>
-#import <Preferences/PSSpecifier.h>
 #include "../MEVORootListController.h"
-
-@interface PSControlTableCell : PSTableCell
-@property (nonatomic, retain) UIControl *control;
-@end
 
 @interface PSSegmentTableCell : PSControlTableCell
 @end

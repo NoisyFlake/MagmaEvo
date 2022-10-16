@@ -1,3 +1,5 @@
+#import <UIKit/UIKit.h>
+
 @interface UIColor (MagmaEvo)
 
 + (UIColor *)evoRGBAColorFromHexString:(NSString *)string;

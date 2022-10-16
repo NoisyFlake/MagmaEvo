@@ -1,4 +1,3 @@
-#import <Preferences/PSTableCell.h>
 #include "../MEVORootListController.h"
 
 @interface MEVOImage : PSTableCell

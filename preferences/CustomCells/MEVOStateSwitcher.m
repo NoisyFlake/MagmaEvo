@@ -1,5 +1,3 @@
-#import <Preferences/PSTableCell.h>
-#import <Preferences/PSSpecifier.h>
 #include "../MEVORootListController.h"
 
 @interface MEVOStateSwitcher : PSTableCell

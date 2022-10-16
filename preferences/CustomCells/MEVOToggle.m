@@ -1,14 +1,4 @@
-#import <Preferences/PSTableCell.h>
-#import <Preferences/PSSpecifier.h>
 #include "../MEVORootListController.h"
-
-@interface PSControlTableCell : PSTableCell
-@property (nonatomic, retain) UIControl *control;
-@end
-
-@interface PSSwitchTableCell : PSControlTableCell
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(id)identifier specifier:(id)specifier;
-@end
 
 @interface MEVOToggle : PSSwitchTableCell
 @end
